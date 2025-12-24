@@ -39,51 +39,7 @@
                                     <th>
                                         {{ trans('cruds.auction.fields.lot') }}
                                     </th>
-                                    <th>
-                                        {{ trans('cruds.auction.fields.memo_no') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.auction.fields.announcement_no') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.auction.fields.auction_start_time') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.auction.fields.auction_end_time') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.auction.fields.tender_visible_start_date') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.auction.fields.tender_visible_end_date') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.auction.fields.tender_sale_start_date') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.auction.fields.tender_sale_end_date') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.auction.fields.deadline_for_tree_removal') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.auction.fields.estimate_value_percentage') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.auction.fields.base_value_amount') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.auction.fields.min_bid_amount') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.auction.fields.vat') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.auction.fields.tax') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.auction.fields.employees') }}
-                                    </th>
+                                    
                                     <th>
                                         &nbsp;
                                     </th>

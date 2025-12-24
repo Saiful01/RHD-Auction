@@ -33,9 +33,9 @@
                                     <th>
                                         {{ trans('cruds.road.fields.name') }}
                                     </th>
-                                    <th>
+                                    {{-- <th>
                                         {{ trans('cruds.road.fields.details') }}
-                                    </th>
+                                    </th> --}}
                                     <th>
                                         {{ trans('cruds.road.fields.address') }}
                                     </th>
@@ -45,12 +45,12 @@
                                     <th>
                                         {{ trans('cruds.road.fields.phone') }}
                                     </th>
-                                    <th>
+                                    {{-- <th>
                                         {{ trans('cruds.road.fields.image') }}
                                     </th>
                                     <th>
                                         {{ trans('cruds.road.fields.files') }}
-                                    </th>
+                                    </th> --}}
                                     <th>
                                         &nbsp;
                                     </th>
@@ -71,9 +71,9 @@
                                         <td>
                                             {{ $road->name ?? '' }}
                                         </td>
-                                        <td>
+                                        {{-- <td>
                                             {{ $road->details ?? '' }}
-                                        </td>
+                                        </td> --}}
                                         <td>
                                             {{ $road->address ?? '' }}
                                         </td>

@@ -57,6 +57,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('lot-items/ckmedia', 'LotItemController@storeCKEditorImages')->name('lot-items.storeCKEditorImages');
     Route::resource('lot-items', 'LotItemController');
 
+    // Lot Item create/store under Lot without touching existing resource routes
+    Route::prefix('lots')->name('lots.')->group(function () {
+        Route::get('lot-items/new-create/{lot?}', 'LotItemController@newCreate')->name('lot-items.newCreate');
+        Route::post('lot-items/new-store', 'LotItemController@newStore')->name('lot-items.newStore');
+    });
+
+
+
     // Office Type
     Route::delete('office-types/destroy', 'OfficeTypeController@massDestroy')->name('office-types.massDestroy');
     Route::resource('office-types', 'OfficeTypeController');

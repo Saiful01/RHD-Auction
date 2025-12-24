@@ -105,4 +105,30 @@ class LotItemController extends Controller
 
         return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }
+
+    public function newCreate($lotId = null)
+    {
+        abort_if(Gate::denies('lot_item_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $lots = $lotId
+            ? Lot::where('id', $lotId)->pluck('name', 'id')
+            : Lot::pluck('name', 'id');
+
+        $lots = $lots->prepend(trans('global.pleaseSelect'), '');
+
+        return view('admin.lotItems.newCreate', compact('lots', 'lotId'));
+    }
+
+    public function newStore(StoreLotItemRequest $request)
+    {
+        $lotItem = LotItem::create($request->all());
+
+        if ($media = $request->input('ck-media', false)) {
+            Media::whereIn('id', $media)->update(['model_id' => $lotItem->id]);
+        }
+
+        // redirect back to same Lot create page
+        return redirect()->route('lots.lot-items.newCreate', ['lot' => $request->lot_id])
+            ->with('success', 'Lot Item created successfully');
+    }
 }
