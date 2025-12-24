@@ -38,7 +38,7 @@
                                         <td>{{$i}}</td>
 
                                         <td>{{ $employee->name_en ?? '' }}</td>
-                                        <td>{{ $employee->personnel_id ?? '' }}</td>
+                                        <td>{{ $employee->personnel ?? '' }}</td>
                                         <td>{{ $employee->designation->designation_en ?? '' }}</td>
                                         <td>{{ $employee->office->office_name_en ?? '' }}</td>
                                         <td>{{ $employee->phone_office ?? '' }}</td>
