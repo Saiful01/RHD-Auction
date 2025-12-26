@@ -168,13 +168,4 @@ class LotItemController extends Controller
             ->route('admin.lots.lot-items.newCreate', ['lot_id' => $lotItem->lot_id])
             ->with('success', 'Lot item updated successfully');
     }
-
-    // public function destroy(LotItem $lotItem)
-    // {
-    //     abort_if(Gate::denies('lot_item_delete'), 403);
-
-    //     $lotItem->delete();
-
-    //     return redirect()->back()->with('success', 'Lot item deleted successfully');
-    // }
 }
