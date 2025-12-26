@@ -106,29 +106,75 @@ class LotItemController extends Controller
         return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }
 
-    public function newCreate($lotId = null)
+    public function newCreate(Request $request)
     {
         abort_if(Gate::denies('lot_item_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $lots = $lotId
-            ? Lot::where('id', $lotId)->pluck('name', 'id')
-            : Lot::pluck('name', 'id');
+        $lots = Lot::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $lots = $lots->prepend(trans('global.pleaseSelect'), '');
+        $lotId = $request->get('lot_id'); // optional
 
         return view('admin.lotItems.newCreate', compact('lots', 'lotId'));
     }
 
-    public function newStore(StoreLotItemRequest $request)
+    public function newStore(Request $request)
     {
-        $lotItem = LotItem::create($request->all());
+        abort_if(Gate::denies('lot_item_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        if ($media = $request->input('ck-media', false)) {
-            Media::whereIn('id', $media)->update(['model_id' => $lotItem->id]);
+        $request->validate([
+            'lot_id' => 'required|exists:lots,id',
+            'name.*' => 'required|string',
+            'unit.*' => 'required',
+        ]);
+
+        foreach ($request->name as $index => $name) {
+            LotItem::create([
+                'lot_id'          => $request->lot_id,
+                'name'            => $name,
+                'tree_no'         => $request->tree_no[$index] ?? null,
+                'dia'             => $request->dia[$index] ?? null,
+                'quantity'        => $request->quantity[$index] ?? null,
+                'unit'            => $request->unit[$index],
+                'unit_price'      => $request->unit_price[$index] ?? null,
+                'estimated_price' => $request->estimated_price[$index] ?? null,
+            ]);
         }
 
-        // redirect back to same Lot create page
-        return redirect()->route('lots.lot-items.newCreate', ['lot' => $request->lot_id])
-            ->with('success', 'Lot Item created successfully');
+        return redirect()
+            ->route('admin.lots.lot-items.newCreate', ['lot_id' => $request->lot_id])
+            ->with('success', 'Lot items added successfully');
     }
+
+    public function newUpdate(Request $request, LotItem $lotItem)
+    {
+        abort_if(Gate::denies('lot_item_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $request->validate([
+            'name' => 'required|string',
+            'unit' => 'required',
+        ]);
+
+        $lotItem->update([
+            'name'            => $request->name,
+            'tree_no'         => $request->tree_no,
+            'dia'             => $request->dia,
+            'quantity'        => $request->quantity,
+            'unit'            => $request->unit,
+            'unit_price'      => $request->unit_price,
+            'estimated_price' => $request->estimated_price,
+        ]);
+
+        return redirect()
+            ->route('admin.lots.lot-items.newCreate', ['lot_id' => $lotItem->lot_id])
+            ->with('success', 'Lot item updated successfully');
+    }
+
+    // public function destroy(LotItem $lotItem)
+    // {
+    //     abort_if(Gate::denies('lot_item_delete'), 403);
+
+    //     $lotItem->delete();
+
+    //     return redirect()->back()->with('success', 'Lot item deleted successfully');
+    // }
 }

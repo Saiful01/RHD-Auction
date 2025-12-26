@@ -4,7 +4,7 @@
 
 use App\Http\Controllers\Controller;
 
-Route::get('/',[Controller::class, 'home'])->name('home');
+Route::get('/', [Controller::class, 'home'])->name('home');
 Route::get('/home', function () {
     if (session('status')) {
         return redirect()->route('admin.home')->with('status', session('status'));
@@ -63,8 +63,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Lot Item create/store under Lot without touching existing resource routes
     Route::prefix('lots')->name('lots.')->group(function () {
-        Route::get('lot-items/new-create/{lot?}', 'LotItemController@newCreate')->name('lot-items.newCreate');
+        Route::get('lot-items/create/{lot?}', 'LotItemController@newCreate')->name('lot-items.newCreate');
         Route::post('lot-items/new-store', 'LotItemController@newStore')->name('lot-items.newStore');
+        Route::put('lot-items/new-update/{lotItem}', 'LotItemController@newUpdate')
+            ->name('lot-items.newUpdate');
+        Route::delete('lot-items/delete/{lotItem}', 'LotItemController@destroy')->name('lot-items.destroy');
     });
 
 

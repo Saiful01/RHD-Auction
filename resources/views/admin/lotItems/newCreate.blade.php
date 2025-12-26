@@ -1,184 +1,267 @@
 @extends('layouts.admin')
+
 @section('content')
-<div class="content">
-    <div class="row">
+    <div class="content">
+        <div class="row">
 
-        {{-- Left Column: Create Lot Item Form --}}
-        <div class="col-lg-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    {{ trans('global.create') }} {{ trans('cruds.lotItem.title_singular') }}
-                </div>
-                <div class="panel-body">
-                    <form method="POST" action="{{ route('admin.lots.lot-items.newStore') }}" enctype="multipart/form-data">
-                        @csrf
-                        <input type="hidden" name="lot_id" value="{{ $lotId ?? old('lot_id') }}">
+            {{-- LEFT: CREATE LOT ITEM --}}
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Create Lot Item
+                    </div>
 
-                        <div id="lotItemsContainer">
+                    <div class="panel-body">
+                        <form method="POST" action="{{ route('admin.lots.lot-items.newStore') }}"
+                            enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="lot_id" value="{{ $lotId }}">
 
-                            <div class="lot-item-row border p-3 mb-2 d-flex">
-                                {{-- Left Column: Form Fields --}}
-                                <div class="flex-grow-1">
-                                    <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-                                        <label class="required" for="name">{{ trans('cruds.lotItem.fields.name') }}</label>
-                                        <input class="form-control" type="text" name="name[]" value="{{ old('name.0', '') }}" required>
+                            <div id="lotItemsContainer">
+
+                                <div class="lot-item-row border p-3 mb-2 d-flex">
+                                    <div class="flex-grow-1">
+                                        {{-- NAME --}}
+                                        <div class="form-group">
+                                            <label class="required">Name</label>
+                                            <input type="text" name="name[]" class="form-control name" required>
+                                        </div>
+
+                                        {{-- TREE NO --}}
+                                        <div class="form-group">
+                                            <label>Tree No</label>
+                                            <textarea name="tree_no[]" class="form-control ckeditor"></textarea>
+                                        </div>
+
+                                        {{-- DIA --}}
+                                        <div class="form-group">
+                                            <label>Dia</label>
+                                            <input type="text" name="dia[]" class="form-control">
+                                        </div>
+
+                                        {{-- QUANTITY --}}
+                                        <div class="form-group">
+                                            <label>Quantity</label>
+                                            <input type="number" step="0.0000001" name="quantity[]"
+                                                class="form-control quantity">
+                                        </div>
+
+                                        {{-- UNIT --}}
+                                        <div class="form-group">
+                                            <label class="required">Unit</label>
+                                            <select name="unit[]" class="form-control" required>
+                                                @foreach (App\Models\LotItem::UNIT_SELECT as $k => $v)
+                                                    <option value="{{ $k }}">{{ $v }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        {{-- UNIT PRICE --}}
+                                        <div class="form-group">
+                                            <label>Unit Price</label>
+                                            <input type="number" step="0.0000001" name="unit_price[]"
+                                                class="form-control unit_price">
+                                        </div>
+
+                                        {{-- ESTIMATED --}}
+                                        <div class="form-group">
+                                            <label>Estimated Price</label>
+                                            <input type="number" step="0.0000001" name="estimated_price[]"
+                                                class="form-control estimated_price" readonly>
+                                        </div>
                                     </div>
 
-                                    <div class="form-group {{ $errors->has('tree_no') ? 'has-error' : '' }}">
-                                        <label for="tree_no">{{ trans('cruds.lotItem.fields.tree_no') }}</label>
-                                        <textarea class="form-control ckeditor" name="tree_no[]">{!! old('tree_no.0') !!}</textarea>
-                                    </div>
+                                    <div class="ms-3 d-flex flex-column">
+                                        <button type="button" id="addLotItem" class="btn btn-primary mb-2">+</button>
 
-                                    <div class="form-group {{ $errors->has('dia') ? 'has-error' : '' }}">
-                                        <label for="dia">{{ trans('cruds.lotItem.fields.dia') }}</label>
-                                        <input class="form-control" type="text" name="dia[]" value="{{ old('dia.0', '') }}">
-                                    </div>
+                                        <button type="button" class="btn btn-danger remove-lot-item mb-2">×</button>
 
-                                    <div class="form-group {{ $errors->has('quantity') ? 'has-error' : '' }}">
-                                        <label for="quantity">{{ trans('cruds.lotItem.fields.quantity') }}</label>
-                                        <input class="form-control" type="number" step="0.000000001" name="quantity[]" value="{{ old('quantity.0', '') }}">
-                                    </div>
-
-                                    <div class="form-group {{ $errors->has('unit') ? 'has-error' : '' }}">
-                                        <label class="required">{{ trans('cruds.lotItem.fields.unit') }}</label>
-                                        <select class="form-control" name="unit[]" required>
-                                            <option value disabled {{ old('unit.0', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                                            @foreach(App\Models\LotItem::UNIT_SELECT as $key => $label)
-                                                <option value="{{ $key }}" {{ old('unit.0', '') == (string)$key ? 'selected' : '' }}>{{ $label }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group {{ $errors->has('unit_price') ? 'has-error' : '' }}">
-                                        <label for="unit_price">{{ trans('cruds.lotItem.fields.unit_price') }}</label>
-                                        <input class="form-control" type="number" step="0.01" name="unit_price[]" value="{{ old('unit_price.0', '') }}">
-                                    </div>
-
-                                    <div class="form-group {{ $errors->has('estimated_price') ? 'has-error' : '' }}">
-                                        <label for="estimated_price">{{ trans('cruds.lotItem.fields.estimated_price') }}</label>
-                                        <input class="form-control" type="number" step="0.000000001" name="estimated_price[]" value="{{ old('estimated_price.0', '') }}">
+                                        <button type="submit" class="btn btn-success">Save</button>
                                     </div>
                                 </div>
 
-                                {{-- Right Column: Buttons --}}
-                                <div class="d-flex flex-column justify-content-start align-items-end ms-3">
-                                    <button type="button" class="btn btn-primary mb-2" id="addLotItem" title="Add"><i class="fas fa-plus"></i></button>
-                                    <button type="button" class="btn btn-danger mb-2 remove-lot-item" title="Remove"><i class="fas fa-trash"></i></button>
-                                    <button type="submit" class="btn btn-success" title="Save"><i class="fas fa-save"></i></button>
-                                </div>
                             </div>
-
-                        </div>
-
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        {{-- Right Column: List of Existing Lot Items --}}
-        <div class="col-lg-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    {{ trans('cruds.lotItem.title_singular') }} {{ trans('global.list') }}
-                </div>
-                <div class="panel-body">
-                    <table class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Tree No</th>
-                                <th>Dia</th>
-                                <th>Quantity</th>
-                                <th>Unit</th>
-                                <th>Unit Price</th>
-                                <th>Estimated Price</th>
-                                <th>&nbsp;</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($lotId ? \App\Models\LotItem::where('lot_id', $lotId)->get() : [] as $item)
+            {{-- RIGHT: LIST --}}
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Lot Items List
+                    </div>
+
+                    <div class="panel-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
                                 <tr>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{!! $item->tree_no !!}</td>
-                                    <td>{{ $item->dia }}</td>
-                                    <td>{{ $item->quantity }}</td>
-                                    <td>{{ \App\Models\LotItem::UNIT_SELECT[$item->unit] ?? '' }}</td>
-                                    <td>{{ $item->unit_price }}</td>
-                                    <td>{{ $item->estimated_price }}</td>
-                                    <td>
-                                        <a href="{{ route('lot-items.edit', $item->id) }}" class="btn btn-xs btn-info" title="Edit"><i class="fas fa-edit"></i></a>
-                                    </td>
+                                    <th>Name</th>
+                                    <th>Qty</th>
+                                    <th>Unit</th>
+                                    <th>Est.</th>
+                                    <th>Action</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+
+                            <tbody>
+                                @foreach (\App\Models\LotItem::where('lot_id', $lotId)->get() as $item)
+                                    <tr>
+                                        <td>{{ $item->name }}</td>
+                                        <td>{{ $item->quantity }}</td>
+                                        <td>{{ \App\Models\LotItem::UNIT_SELECT[$item->unit] ?? '' }}</td>
+                                        <td>{{ $item->estimated_price }}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-info btn-xs editBtn"
+                                                data-id="{{ $item->id }}" data-name="{{ $item->name }}"
+                                                data-tree_no="{{ $item->tree_no }}" data-dia="{{ $item->dia }}"
+                                                data-quantity="{{ $item->quantity }}" data-unit="{{ $item->unit }}"
+                                                data-unit_price="{{ $item->unit_price }}"
+                                                data-estimated_price="{{ $item->estimated_price }}">
+                                                Edit
+                                            </button>
+
+                                            <form method="POST"
+                                                action="{{ route('admin.lots.lot-items.destroy', $item->id) }}"
+                                                style="display:inline-block" onsubmit="return confirm('Are you sure?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
-</div>
+
+    {{-- EDIT MODAL --}}
+    <div class="modal fade" id="editModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <form method="POST" id="editForm">
+                @csrf
+                @method('PUT')
+                <input type="hidden" name="lotItem_id" id="editLotItemId">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Lot Item</h5>
+
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" name="name" id="editName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tree No</label>
+                            <textarea name="tree_no" id="editTreeNo" class="form-control ckeditor"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Dia</label>
+                            <input type="text" name="dia" id="editDia" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Quantity</label>
+                            <input type="number" step="0.0000001" name="quantity" id="editQuantity"
+                                class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Unit</label>
+                            <select name="unit" id="editUnit" class="form-control">
+                                @foreach (App\Models\LotItem::UNIT_SELECT as $k => $v)
+                                    <option value="{{ $k }}">{{ $v }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Unit Price</label>
+                            <input type="number" step="0.0000001" name="unit_price" id="editUnitPrice"
+                                class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Estimated Price</label>
+                            <input type="number" step="0.0000001" name="estimated_price" id="editEstimatedPrice"
+                                class="form-control" readonly>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Update</button>
+                        <button type="button" class="btn btn-secondary" id="cancelEditBtn">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')
-<script>
-$(document).ready(function() {
-    function SimpleUploadAdapter(editor) {
-        editor.plugins.get('FileRepository').createUploadAdapter = function(loader) {
-            return {
-                upload: function() {
-                    return loader.file.then(function(file) {
-                        return new Promise(function(resolve, reject) {
-                            var xhr = new XMLHttpRequest();
-                            xhr.open('POST', '{{ route('admin.lot-items.storeCKEditorImages') }}', true);
-                            xhr.setRequestHeader('x-csrf-token', window._token);
-                            xhr.setRequestHeader('Accept', 'application/json');
-                            xhr.responseType = 'json';
+    <script>
+        $(document).ready(function() {
 
-                            xhr.addEventListener('error', function() { reject("Upload failed"); });
-                            xhr.addEventListener('abort', function() { reject(); });
-                            xhr.addEventListener('load', function() {
-                                var response = xhr.response;
-                                if(!response || xhr.status !== 201) {
-                                    return reject("Upload failed: "+xhr.status);
-                                }
-                                $('form').append('<input type="hidden" name="ck-media[]" value="' + response.id + '">');
-                                resolve({ default: response.url });
-                            });
+            // AUTO CALCULATE ESTIMATED PRICE
+            $(document).on('input', '.quantity,.unit_price', function() {
+                let row = $(this).closest('.lot-item-row');
+                let q = parseFloat(row.find('.quantity').val()) || 0;
+                let p = parseFloat(row.find('.unit_price').val()) || 0;
+                row.find('.estimated_price').val((q * p).toFixed(7));
+            });
 
-                            var data = new FormData();
-                            data.append('upload', file);
-                            data.append('crud_id', '{{ $lotId ?? 0 }}');
-                            xhr.send(data);
-                        });
-                    });
+            // ADD NEW LOT ITEM ROW
+            $('#addLotItem').click(function() {
+                let clone = $('.lot-item-row:first').clone();
+                clone.find('input,textarea,select').val('');
+                $('#lotItemsContainer').append(clone);
+            });
+
+            // REMOVE LOT ITEM ROW
+            $(document).on('click', '.remove-lot-item', function() {
+                if ($('.lot-item-row').length > 1) {
+                    $(this).closest('.lot-item-row').remove();
                 }
-            };
-        }
-    }
+            });
 
-    var allEditors = document.querySelectorAll('.ckeditor');
-    for (var i = 0; i < allEditors.length; ++i) {
-        ClassicEditor.create(allEditors[i], { extraPlugins: [SimpleUploadAdapter] });
-    }
+            // EDIT BUTTON CLICK
+            $('.editBtn').click(function() {
+                let btn = $(this);
+                $('#editLotItemId').val(btn.data('id'));
+                $('#editName').val(btn.data('name'));
+                $('#editTreeNo').val(btn.data('tree_no'));
+                $('#editDia').val(btn.data('dia'));
+                $('#editQuantity').val(btn.data('quantity'));
+                $('#editUnit').val(btn.data('unit'));
+                $('#editUnitPrice').val(btn.data('unit_price'));
+                $('#editEstimatedPrice').val(btn.data('estimated_price'));
 
-    // Add/Remove multiple lot item rows
-    $('#addLotItem').click(function() {
-        var newRow = $('.lot-item-row:first').clone();
-        newRow.find('input, textarea, select').val('');
-        $('#lotItemsContainer').append(newRow);
+                // SET FORM ACTION
+                let id = btn.data('id');
+                $('#editForm').attr('action', '{{ url('admin/lots/lot-items/new-update') }}/' + id);
 
-        // Re-init CKEditor for new row
-        newRow.find('.ckeditor').each(function(){
-            ClassicEditor.create(this, { extraPlugins: [SimpleUploadAdapter] });
+                // SHOW MODAL (Bootstrap 3)
+                $('#editModal').modal('show');
+            });
+
+            // EDIT MODAL AUTO CALC ESTIMATED PRICE
+            $('#editQuantity, #editUnitPrice').on('input', function() {
+                let q = parseFloat($('#editQuantity').val()) || 0;
+                let p = parseFloat($('#editUnitPrice').val()) || 0;
+                $('#editEstimatedPrice').val((q * p).toFixed(7));
+            });
+
+            // CANCEL BUTTON CLICK
+            $('#cancelEditBtn').click(function() {
+                $('#editModal').modal('hide');
+            });
+
         });
-    });
-
-    $(document).on('click', '.remove-lot-item', function() {
-        if($('.lot-item-row').length > 1){
-            $(this).closest('.lot-item-row').remove();
-        }
-    });
-});
-</script>
+    </script>
 @endsection
