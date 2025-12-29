@@ -40,6 +40,7 @@ class LotItem extends Model implements HasMedia
         'unit',
         'unit_price',
         'estimated_price',
+        'item_image',
         'created_at',
         'updated_at',
         'deleted_at',

@@ -11,6 +11,7 @@ use App\Models\Lot;
 use App\Models\LotItem;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -125,9 +126,15 @@ class LotItemController extends Controller
             'lot_id' => 'required|exists:lots,id',
             'name.*' => 'required|string',
             'unit.*' => 'required',
+            'item_image.*' => 'nullable|image|mimes:jpg,jpeg,png,webp,gif|max:4096',
         ]);
 
         foreach ($request->name as $index => $name) {
+            $imagePath = null;
+            // Handle image upload like your other store method
+            if ($request->hasFile("item_image.$index")) {
+                $imagePath = $request->file("item_image.$index")->store('lot-items', 'public');
+            }
             LotItem::create([
                 'lot_id'          => $request->lot_id,
                 'name'            => $name,
@@ -137,6 +144,7 @@ class LotItemController extends Controller
                 'unit'            => $request->unit[$index],
                 'unit_price'      => $request->unit_price[$index] ?? null,
                 'estimated_price' => $request->estimated_price[$index] ?? null,
+                'item_image'      => $imagePath,
             ]);
         }
 
@@ -152,7 +160,18 @@ class LotItemController extends Controller
         $request->validate([
             'name' => 'required|string',
             'unit' => 'required',
+            'item_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,gif|max:4096',
         ]);
+        $imagePath = $lotItem->item_image;
+
+
+        if ($request->hasFile('item_image')) {
+
+            if ($imagePath && Storage::disk('public')->exists($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
+            }
+            $imagePath = $request->file('item_image')->store('lot-items', 'public');
+        }
 
         $lotItem->update([
             'name'            => $request->name,
@@ -162,6 +181,7 @@ class LotItemController extends Controller
             'unit'            => $request->unit,
             'unit_price'      => $request->unit_price,
             'estimated_price' => $request->estimated_price,
+            'item_image'      => $imagePath,
         ]);
 
         return redirect()

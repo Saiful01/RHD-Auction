@@ -3,8 +3,10 @@
 /*Route::redirect('/', '/login');*/
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Frontend\AuthController;
 
 Route::get('/', [Controller::class, 'home'])->name('home');
+Route::get('/auction-details/{auction}', [Controller::class, 'auction_details'])->name('auction.details');
 Route::get('/home', function () {
     if (session('status')) {
         return redirect()->route('admin.home')->with('status', session('status'));
@@ -104,4 +106,11 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
         Route::post('profile', 'ChangePasswordController@updateProfile')->name('password.updateProfile');
         Route::post('profile/destroy', 'ChangePasswordController@destroy')->name('password.destroyProfile');
     }
+});
+
+
+//bidder info route (authenticated)
+Route::prefix('bidder')->name('bidder.')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::get('/signup', [AuthController::class, 'showSignup'])->name('signup');
 });

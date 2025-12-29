@@ -69,6 +69,14 @@
                                             <input type="number" step="0.0000001" name="estimated_price[]"
                                                 class="form-control estimated_price" readonly>
                                         </div>
+
+                                        {{-- IMAGE UPLOAD --}}
+                                        <div class="form-group">
+                                            <label>Image Upload</label>
+                                            <input type="file" name="item_image[]" class="form-control item_image"
+                                                accept="image/*">
+                                        </div>
+
                                     </div>
 
                                     <div class="ms-3 d-flex flex-column">
@@ -100,7 +108,9 @@
                                     <th>Name</th>
                                     <th>Qty</th>
                                     <th>Unit</th>
-                                    <th>Est.</th>
+                                    <th>Unit Price</th>
+                                    <th>Est Total</th>
+                                    <th>Image Upload</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -111,14 +121,24 @@
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->quantity }}</td>
                                         <td>{{ \App\Models\LotItem::UNIT_SELECT[$item->unit] ?? '' }}</td>
+                                        <td>{{ $item->unit_price }}</td>
                                         <td>{{ $item->estimated_price }}</td>
+                                        <td>
+                                            @if ($item->item_image)
+                                                <img src="{{ asset('storage/' . $item->item_image) }}" width="70"
+                                                    class="rounded border" alt="Item Image">
+                                            @else
+                                                <span class="text-muted">No image</span>
+                                            @endif
+                                        </td>
                                         <td>
                                             <button type="button" class="btn btn-info btn-xs editBtn"
                                                 data-id="{{ $item->id }}" data-name="{{ $item->name }}"
                                                 data-tree_no="{{ $item->tree_no }}" data-dia="{{ $item->dia }}"
                                                 data-quantity="{{ $item->quantity }}" data-unit="{{ $item->unit }}"
                                                 data-unit_price="{{ $item->unit_price }}"
-                                                data-estimated_price="{{ $item->estimated_price }}">
+                                                data-estimated_price="{{ $item->estimated_price }}"
+                                                data-image="{{ $item->item_image ? asset('storage/' . $item->item_image) : '' }}">
                                                 Edit
                                             </button>
 
@@ -145,7 +165,7 @@
     {{-- EDIT MODAL --}}
     <div class="modal fade" id="editModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
-            <form method="POST" id="editForm">
+            <form method="POST" id="editForm" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="lotItem_id" id="editLotItemId">
@@ -192,6 +212,16 @@
                             <input type="number" step="0.0000001" name="estimated_price" id="editEstimatedPrice"
                                 class="form-control" readonly>
                         </div>
+
+                        <div class="form-group">
+                            <label>Image Upload</label>
+                            <input type="file" name="item_image" id="editItemImage" class="form-control"
+                                accept="image/*">
+                            <div class="mt-2">
+                                <img id="editImagePreview" src="" alt="Current Image" style="height:70px;">
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="modal-footer">
@@ -220,6 +250,7 @@
             $('#addLotItem').click(function() {
                 let clone = $('.lot-item-row:first').clone();
                 clone.find('input,textarea,select').val('');
+                clone.find('.item_image').val('');
                 $('#lotItemsContainer').append(clone);
             });
 
@@ -246,6 +277,14 @@
                 let id = btn.data('id');
                 $('#editForm').attr('action', '{{ url('admin/lots/lot-items/new-update') }}/' + id);
 
+                // SHOW IMAGE PREVIEW
+                let imageUrl = btn.data('image') ?? '';
+                if (imageUrl) {
+                    $('#editImagePreview').attr('src', imageUrl).show();
+                } else {
+                    $('#editImagePreview').hide();
+                }
+
                 // SHOW MODAL (Bootstrap 3)
                 $('#editModal').modal('show');
             });
@@ -260,6 +299,15 @@
             // CANCEL BUTTON CLICK
             $('#cancelEditBtn').click(function() {
                 $('#editModal').modal('hide');
+            });
+
+            // EDIT IMAGE PREVIEW ON SELECT
+            $('#editItemImage').on('change', function(e) {
+                const file = e.target.files[0];
+                const preview = $('#editImagePreview');
+                if (file) {
+                    preview.attr('src', URL.createObjectURL(file)).show();
+                }
             });
 
         });
