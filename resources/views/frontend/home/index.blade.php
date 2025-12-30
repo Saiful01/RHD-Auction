@@ -171,7 +171,7 @@
                                             </div>
                                             <div class="auction-card-content">
                                                 <h6><a
-                                                        href="{{ route('auction.details', $auction->id) }}">{!! $auction->name !!}</a>
+                                                        href="{{ route('auction.details', $auction->id) }}">{{ strip_tags($auction->name) }}</a>
                                                 </h6>
                                                 <div class="price-and-code-area">
                                                     <div class="price">
@@ -201,7 +201,7 @@
                                                         </div>
                                                     </a> --}}
                                                     <a href="{{route('auction.details', $auction->id)}}" class="bid-btn">
-                                                        Bid Now
+                                                        View Details
                                                     </a>
                                                 </div>
                                             </div>

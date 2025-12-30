@@ -93,7 +93,7 @@
                         </h1>
                         <p>
                             @foreach ($auction->lots as $lot)
-                                {{ $lot->location }}
+                                {{ strip_tags($lot->location) }}
                             @endforeach
                         </p>
                         <div class="price-area">
@@ -170,7 +170,7 @@
 
                                                     <tr>
                                                         <th width="35%">Auction Name</th>
-                                                        <td>{{ $auction->name }}</td>
+                                                        <td>{{ strip_tags($auction->name) }}</td>
                                                     </tr>
 
                                                     <tr>
@@ -185,7 +185,7 @@
 
                                                     <tr>
                                                         <th>Auction Details</th>
-                                                        <td>{{ $auction->details }}</td>
+                                                        <td>{{ strip_tags($auction->details) }}</td>
                                                     </tr>
 
                                                     <tr>
@@ -229,12 +229,12 @@
 
                                                     <tr>
                                                         <th>Bidder Criteria</th>
-                                                        <td>{{ $auction->bidder_criteria }}</td>
+                                                        <td>{{ strip_tags($auction->bidder_criteria) }}</td>
                                                     </tr>
 
                                                     <tr>
                                                         <th>Required Documents</th>
-                                                        <td>{{ $auction->required_document }}</td>
+                                                        <td>{{ strip_tags($auction->required_document) }}</td>
                                                     </tr>
 
                                                     <tr>
@@ -293,12 +293,12 @@
 
                                                     <tr>
                                                         <td><span>Tree Description</span></td>
-                                                        <td>{{ $lot->tree_description }}</td>
+                                                        <td>{{ strip_tags($lot->tree_description) }}</td>
                                                     </tr>
 
                                                     <tr>
                                                         <td><span>Comment</span></td>
-                                                        <td>{{ $lot->comment ?? 'N/A' }}</td>
+                                                        <td>{{ strip_tags($lot->comment ?? 'N/A') }}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
