@@ -171,7 +171,7 @@
                                             </div>
                                             <div class="auction-card-content">
                                                 <h6><a
-                                                        href="{{ route('auction.details', $auction->id) }}">{{ $auction->name }}</a>
+                                                        href="{{ route('auction.details', $auction->id) }}">{!! $auction->name !!}</a>
                                                 </h6>
                                                 <div class="price-and-code-area">
                                                     <div class="price">
@@ -187,7 +187,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="author-and-btn-area">
-                                                    <a class="author-area">
+                                                    {{-- <a class="author-area">
                                                         <div class="author-img">
                                                             <img src="assets/img/home1/auction-card-author-img1.png"
                                                                 alt="">
@@ -199,9 +199,8 @@
                                                                 @endforeach
                                                             </h6>
                                                         </div>
-                                                    </a>
-                                                    <a href="auction-details.html" class="bid-btn disabled" data-bid-btn
-                                                        style="pointer-events:none; opacity:0.6;">
+                                                    </a> --}}
+                                                    <a href="{{route('auction.details', $auction->id)}}" class="bid-btn">
                                                         Bid Now
                                                     </a>
                                                 </div>
@@ -387,29 +386,3 @@
     <!-- End Faq section -->
 @endsection
 
-@push('scripts')
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll('[data-countdown]').forEach(function(el) {
-                const endTime = new Date(el.getAttribute('data-countdown')).getTime();
-                const bidBtn = el.closest('.auction-card').querySelector('[data-bid-btn]');
-
-                function checkTime() {
-                    const now = new Date().getTime();
-
-                    if (now >= endTime) {
-                        // enable button
-                        bidBtn.style.pointerEvents = 'auto';
-                        bidBtn.style.opacity = '1';
-                        bidBtn.classList.remove('disabled');
-                        bidBtn.innerText = 'Bid Now';
-                        clearInterval(timer);
-                    }
-                }
-
-                checkTime();
-                const timer = setInterval(checkTime, 1000);
-            });
-        });
-    </script>
-@endpush
