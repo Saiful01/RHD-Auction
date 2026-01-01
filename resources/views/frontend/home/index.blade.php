@@ -21,7 +21,7 @@
 
 
                     <h1>সওজ <span>বৃক্ষপালনবিদ নিলামে </span> আপনাদের স্বাগতম </h1>
-                    <ul>
+                   {{-- <ul>
                         <li>
                             <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -49,7 +49,7 @@
                             </svg>
                             ২৪/৭ সাপোর্ট
                         </li>
-                    </ul>
+                    </ul>--}}
                     <div class="button-area">
                         <a class="primary-btn btn-hover" href="/">
                             বিড শুরু করুন

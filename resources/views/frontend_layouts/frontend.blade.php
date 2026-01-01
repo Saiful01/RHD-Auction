@@ -31,6 +31,10 @@
         .company-logo {
             width: 150px;
         }
+        .btn-success {
+            background-color: #01AA85;
+            border-color: #037c64;
+        }
     </style>
 </head>
 

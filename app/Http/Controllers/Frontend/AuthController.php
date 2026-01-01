@@ -85,7 +85,7 @@ class AuthController extends Controller
         // $tinFile = $request->file('tin_file')?->store('bidders/tin', 'public');
         // $binFile = $request->file('bin_file')?->store('bidders/bin', 'public');
 
-       
+
 
 
         // create bidder
@@ -102,28 +102,25 @@ class AuthController extends Controller
         ]);
 
         // file save
-
-        if ($request->hasFile('profile_image', false)) {
-           
-            $bidder->addMedia(storage_path('tmp/uploads/' . basename($request->file('profile_image'))))->toMediaCollection('profile_image');
+        if ($request->hasFile('profile_image')) {
+            $tmpPath = $request->file('profile_image')->store('tmp/uploads');
+            $bidder->addMedia(storage_path('app/' . $tmpPath))->toMediaCollection('profile_image');
         }
 
-        if ($request->hasFile('nid_file', false)) {
-            $bidder->addMedia(storage_path('tmp/uploads/' . basename($request->file('nid_file'))))->toMediaCollection('nid_file');
+        if ($request->hasFile('nid_file')) {
+            $tmpPath = $request->file('nid_file')->store('tmp/uploads');
+            $bidder->addMedia(storage_path('app/' . $tmpPath))->toMediaCollection('nid_file');
         }
 
-        if ($request->hasFile('tin_file', false)) {
-            $bidder->addMedia(storage_path('tmp/uploads/' . basename($request->file('tin_file'))))->toMediaCollection('tin_file');
+        if ($request->hasFile('tin_file')) {
+            $tmpPath = $request->file('tin_file')->store('tmp/uploads');
+            $bidder->addMedia(storage_path('app/' . $tmpPath))->toMediaCollection('tin_file');
         }
 
-        if ($request->hasFile('bin_file', false)) {
-            $bidder->addMedia(storage_path('tmp/uploads/' . basename($request->file('bin_file'))))->toMediaCollection('bin_file');
+        if ($request->hasFile('bin_file')) {
+            $tmpPath = $request->file('bin_file')->store('tmp/uploads');
+            $bidder->addMedia(storage_path('app/' . $tmpPath))->toMediaCollection('bin_file');
         }
-
-        if ($media = $request->hasFile('ck-media', false)) {
-            Media::whereIn('id', $media)->update(['model_id' => $bidder->id]);
-        }
-
         // return $request->all();
 
 
