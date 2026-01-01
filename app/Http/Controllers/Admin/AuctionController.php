@@ -51,7 +51,11 @@ class AuctionController extends Controller
 
     public function store(StoreAuctionRequest $request)
     {
-        $auction = Auction::create($request->all());
+        $data = $request->all();
+
+        $data = $request->all();
+        $data['status'] = auth()->user()->is_admin ? 'active' : 'under_review';
+        $auction = Auction::create($data);
         $auction->lots()->sync($request->input('lots', []));
         $auction->employees()->sync($request->input('employees', []));
         if ($media = $request->input('ck-media', false)) {
@@ -61,9 +65,14 @@ class AuctionController extends Controller
         return redirect()->route('admin.auctions.index');
     }
 
-    public function edit(Auction $auction)
+    public function edit(Auction $auction, Request $request)
     {
         abort_if(Gate::denies('auction_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        if (!$request->user()->is_admin && $auction->status !== 'under_review') {
+            return redirect()->route('admin.auctions.index')
+                ->with('error', 'You cannot edit this auction.');
+        }
 
         $financial_years = FinancialYear::pluck('year', 'id')->prepend(trans('global.pleaseSelect'), '');
 
@@ -82,6 +91,10 @@ class AuctionController extends Controller
 
     public function update(UpdateAuctionRequest $request, Auction $auction)
     {
+        if (!$request->user()->is_admin && $auction->status !== 'under_review') {
+            return redirect()->route('admin.auctions.index')
+                ->with('error', 'You cannot update this auction.');
+        }
         $auction->update($request->all());
         $auction->lots()->sync($request->input('lots', []));
         $auction->employees()->sync($request->input('employees', []));
@@ -128,5 +141,67 @@ class AuctionController extends Controller
         $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
 
         return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
+    }
+
+    /**
+     * Approve an auction (Admin only)
+     */
+    public function approve(Auction $auction)
+    {
+        if (Auth::user()->role !== 'admin') {
+            return redirect()->back()->with('error', 'Only admin can approve auctions.');
+        }
+
+        if ($auction->status !== 'under_review') {
+            return redirect()->back()->with('error', 'Only under review auctions can be approved.');
+        }
+
+        $auction->status = 'active';
+        $auction->update();
+
+        return redirect()->back()->with('success', 'Auction approved and is now active.');
+    }
+
+    /**
+     * Reject an auction (Admin only)
+     */
+    public function reject(Auction $auction)
+    {
+        if (Auth::user()->role !== 'admin') {
+            return redirect()->back()->with('error', 'Only admin can reject auctions.');
+        }
+
+        if ($auction->status !== 'under_review') {
+            return redirect()->back()->with('error', 'Only under review auctions can be rejected.');
+        }
+
+        $auction->status = 'rejected';
+        $auction->update();
+
+        return redirect()->back()->with('success', 'Auction has been rejected.');
+    }
+
+    public function toggleStatus(Auction $auction)
+    {
+
+        if (!auth()->user()->is_admin) {
+            return redirect()->back()->with('error', 'Only admin can change status.');
+        }
+
+        switch ($auction->status) {
+            case 'under_review':
+                $auction->status = 'active';
+                break;
+            case 'active':
+                $auction->status = 'rejected';
+                break;
+            case 'rejected':
+                $auction->status = 'under_review';
+                break;
+        }
+
+        $auction->save();
+
+        return redirect()->back()->with('success', 'Auction status updated.');
     }
 }

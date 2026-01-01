@@ -23,7 +23,7 @@
                     @endif
 
                     {{-- Form --}}
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('bidder.login.submit') }}">
                         @csrf
 
                         {{-- Email --}}

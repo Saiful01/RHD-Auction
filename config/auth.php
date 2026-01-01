@@ -18,6 +18,8 @@ return [
         'passwords' => 'users',
     ],
 
+
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Guards
@@ -39,6 +41,11 @@ return [
         'web' => [
             'driver'   => 'session',
             'provider' => 'users',
+        ],
+
+        'bidder' => [
+            'driver'   => 'session',
+            'provider' => 'bidders',
         ],
 
         'api' => [
@@ -75,6 +82,11 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
+
+        'bidders' => [
+            'driver' => 'eloquent',
+            'model'  => App\Models\Bidder::class,
+        ],
     ],
 
     /*

@@ -2,6 +2,8 @@
 
 /*Route::redirect('/', '/login');*/
 
+use App\Http\Controllers\Admin\AuctionController;
+use App\Http\Controllers\Admin\BidderController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Frontend\AuthController;
 
@@ -97,6 +99,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('auctions/media', 'AuctionController@storeMedia')->name('auctions.storeMedia');
     Route::post('auctions/ckmedia', 'AuctionController@storeCKEditorImages')->name('auctions.storeCKEditorImages');
     Route::resource('auctions', 'AuctionController');
+
+    // Add  this route for admin approved auction
+    Route::get('auctions/approve/{auction}', [AuctionController::class, 'approve'])->name('auctions.approve');
+    Route::get('auctions/reject/{auction}', [AuctionController::class, 'reject'])->name('auctions.reject');
+    Route::post('auctions/{auction}/toggle-status', [AuctionController::class, 'toggleStatus'])->name('auctions.toggleStatus');
+
+    // Bidder approve
+    Route::get('bidders/approve/{bidder}', [BidderController::class, 'approve'])->name('bidders.approve');
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
     // Change password
@@ -111,6 +121,17 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
 
 //bidder info route (authenticated)
 Route::prefix('bidder')->name('bidder.')->group(function () {
-    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::get('/signup', [AuthController::class, 'showSignup'])->name('signup');
+    Route::get('/login', [AuthController::class, 'showLogin'])->middleware('guest:bidder')->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->middleware('guest:bidder')->name('login.submit');
+    Route::get('/signup', [AuthController::class, 'showSignup'])->middleware('guest:bidder')->name('signup');
+    Route::post('/signup', [AuthController::class, 'signup'])->middleware('guest:bidder')->name('signup.store');
+    Route::get('/pending', [AuthController::class, 'pending'])->name('pending');
+});
+
+// bidder dashboard route (authenticated)
+Route::middleware(['auth:bidder', 'bidder.status'])->group(function () {
+    Route::get('bidder/dashboard', [AuthController::class, 'dashboard'])->name('bidder.dashboard');
+    Route::get('bidder/profile', [AuthController::class, 'profile'])->name('bidder.profile');
+    Route::post('bidder/update', [AuthController::class, 'update'])->name('bidder.update');
+    Route::post('bidder/logout', [AuthController::class, 'logout'])->name('bidder.logout');
 });

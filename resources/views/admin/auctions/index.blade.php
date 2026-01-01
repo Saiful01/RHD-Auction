@@ -1,5 +1,6 @@
 @extends('layouts.admin')
 @section('content')
+
 <div class="content">
     @can('auction_create')
         <div style="margin-bottom: 10px;" class="row">
@@ -10,195 +11,174 @@
             </div>
         </div>
     @endcan
+
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     {{ trans('cruds.auction.title_singular') }} {{ trans('global.list') }}
                 </div>
+
                 <div class="panel-body">
                     <div class="table-responsive">
                         <table class=" table table-bordered table-striped table-hover datatable datatable-Auction">
                             <thead>
                                 <tr>
-                                    <th width="10">
-
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.auction.fields.id') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.auction.fields.financial_year') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.auction.fields.road') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.auction.fields.package') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.auction.fields.lot') }}
-                                    </th>
-                                    
-                                    <th>
-                                        &nbsp;
-                                    </th>
+                                    <th width="10"></th>
+                                    <th>ID</th>
+                                    <th>Financial Year</th>
+                                    <th>Road</th>
+                                    <th>Package</th>
+                                    <th>Lot</th>
+                                    <th>Status</th>
+                                    <th>&nbsp;</th>
                                 </tr>
                             </thead>
+
                             <tbody>
-                                @foreach($auctions as $key => $auction)
+                                @foreach($auctions as $auction)
                                     <tr data-entry-id="{{ $auction->id }}">
-                                        <td>
+                                        <td></td>
 
-                                        </td>
+                                        <td>{{ $auction->id }}</td>
+
+                                        <td>{{ $auction->financial_year->year ?? '' }}</td>
+
+                                        <td>{{ $auction->road->name ?? '' }}</td>
+
+                                        <td>{{ $auction->package->name ?? '' }}</td>
+
                                         <td>
-                                            {{ $auction->id ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $auction->financial_year->year ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $auction->road->name ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $auction->package->name ?? '' }}
-                                        </td>
-                                        <td>
-                                            @foreach($auction->lots as $key => $item)
-                                                <span class="label label-info label-many">{{ $item->name }}</span>
+                                            @foreach($auction->lots as $item)
+                                                <span class="label label-info label-many">
+                                                    {{ $item->name }}
+                                                </span>
                                             @endforeach
                                         </td>
+
+                                        {{-- STATUS BADGE --}}
                                         <td>
-                                            {{ $auction->memo_no ?? '' }}
+                                            @if($auction->status === 'active')
+                                                <span class="label label-success">Active</span>
+                                            @elseif($auction->status === 'under_review')
+                                                <span class="label label-warning">Under Review</span>
+                                            @else
+                                                <span class="label label-danger">Rejected</span>
+                                            @endif
                                         </td>
+
+                                        {{-- ACTIONS --}}
                                         <td>
-                                            {{ $auction->announcement_no ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $auction->auction_start_time ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $auction->auction_end_time ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $auction->tender_visible_start_date ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $auction->tender_visible_end_date ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $auction->tender_sale_start_date ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $auction->tender_sale_end_date ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $auction->deadline_for_tree_removal ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $auction->estimate_value_percentage ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $auction->base_value_amount ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $auction->min_bid_amount ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $auction->vat ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $auction->tax ?? '' }}
-                                        </td>
-                                        <td>
-                                            @foreach($auction->employees as $key => $item)
-                                                <span class="label label-info label-many">{{ $item->personnel }}</span>
-                                            @endforeach
-                                        </td>
-                                        <td>
+                                            {{-- VIEW (admin + user) --}}
                                             @can('auction_show')
-                                                <a class="btn btn-xs btn-primary" href="{{ route('admin.auctions.show', $auction->id) }}">
-                                                    {{ trans('global.view') }}
+                                                <a class="btn btn-xs btn-primary"
+                                                   href="{{ route('admin.auctions.show', $auction->id) }}">
+                                                    View
                                                 </a>
                                             @endcan
 
-                                            @can('auction_edit')
-                                                <a class="btn btn-xs btn-info" href="{{ route('admin.auctions.edit', $auction->id) }}">
-                                                    {{ trans('global.edit') }}
-                                                </a>
-                                            @endcan
+                                            {{-- EDIT --}}
+                                            @if(auth()->user()->is_admin)
+                                                @can('auction_edit')
+                                                    <a class="btn btn-xs btn-info"
+                                                       href="{{ route('admin.auctions.edit', $auction->id) }}">
+                                                        Edit
+                                                    </a>
+                                                @endcan
+                                            @else
+                                                @if($auction->status === 'under_review')
+                                                    @can('auction_edit')
+                                                        <a class="btn btn-xs btn-info"
+                                                           href="{{ route('admin.auctions.edit', $auction->id) }}">
+                                                            Edit
+                                                        </a>
+                                                    @endcan
+                                                @endif
+                                            @endif
 
-                                            @can('auction_delete')
-                                                <form action="{{ route('admin.auctions.destroy', $auction->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                    <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                                            {{-- DELETE (admin only) --}}
+                                            @if(auth()->user()->is_admin)
+                                                @can('auction_delete')
+                                                    <form action="{{ route('admin.auctions.destroy', $auction->id) }}"
+                                                          method="POST"
+                                                          onsubmit="return confirm('Are you sure?');"
+                                                          style="display:inline-block;">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                        <input type="submit"
+                                                               class="btn btn-xs btn-danger"
+                                                               value="Delete">
+                                                    </form>
+                                                @endcan
+                                            @endif
+
+                                            {{-- STATUS TOGGLE (admin only) --}}
+                                            @if(auth()->user()->is_admin)
+                                                <form action="{{ route('admin.auctions.toggleStatus', $auction->id) }}"
+                                                      method="POST"
+                                                      style="display:inline-block;">
+                                                    @csrf
+                                                    <button class="btn btn-xs btn-warning">
+                                                        Change Status
+                                                    </button>
                                                 </form>
-                                            @endcan
-
+                                            @endif
                                         </td>
-
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
                 </div>
+
             </div>
-
-
-
         </div>
     </div>
 </div>
+
 @endsection
+
 @section('scripts')
 @parent
 <script>
-    $(function () {
-  let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('auction_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
-  let deleteButton = {
-    text: deleteButtonTrans,
-    url: "{{ route('admin.auctions.massDestroy') }}",
-    className: 'btn-danger',
-    action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
-      });
+$(function () {
+    let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 
-      if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
+    @can('auction_delete')
+        let deleteButton = {
+            text: '{{ trans('global.datatables.delete') }}',
+            url: "{{ route('admin.auctions.massDestroy') }}",
+            className: 'btn-danger',
+            action: function (e, dt) {
+                let ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
+                    return $(entry).data('entry-id')
+                })
 
-        return
-      }
+                if (ids.length === 0) {
+                    alert('{{ trans('global.datatables.zero_selected') }}')
+                    return
+                }
 
-      if (confirm('{{ trans('global.areYouSure') }}')) {
-        $.ajax({
-          headers: {'x-csrf-token': _token},
-          method: 'POST',
-          url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
-      }
-    }
-  }
-  dtButtons.push(deleteButton)
-@endcan
+                if (confirm('{{ trans('global.areYouSure') }}')) {
+                    $.ajax({
+                        headers: { 'x-csrf-token': _token },
+                        method: 'POST',
+                        url: "{{ route('admin.auctions.massDestroy') }}",
+                        data: { ids: ids, _method: 'DELETE' }
+                    }).done(function () {
+                        location.reload()
+                    })
+                }
+            }
+        }
+        dtButtons.push(deleteButton)
+    @endcan
 
-  $.extend(true, $.fn.dataTable.defaults, {
-    orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
-    pageLength: 100,
-  });
-  let table = $('.datatable-Auction:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-  $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
-      $($.fn.dataTable.tables(true)).DataTable()
-          .columns.adjust();
-  });
-  
+    $('.datatable-Auction').DataTable({
+        buttons: dtButtons,
+        order: [[1, 'desc']],
+        pageLength: 100
+    })
 })
-
 </script>
 @endsection
