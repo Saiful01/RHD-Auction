@@ -13,7 +13,7 @@ class CheckBidderStatus
         if (Auth::guard('bidder')->check()) {
             $bidder = Auth::guard('bidder')->user();
 
-            if ($bidder->status !== 'approved') {
+            if ($bidder->status !== 1) {
                 Auth::guard('bidder')->logout();
 
                 return redirect()

@@ -28,7 +28,7 @@
                         @endif
 
                         {{-- Registration Form --}}
-                        <form method="POST" action="" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('bidder.signup.store') }}" enctype="multipart/form-data">
                             @csrf
 
                             <div class="row">
@@ -69,22 +69,22 @@
 
                                 <div class="col-md-6 mb-3">
                                     <label class="fw-semibold small">NID Number</label>
-                                    <input type="text" name="nid_number" class="form-control" required>
+                                    <input type="text" name="nid_no" class="form-control" required>
                                 </div>
 
                                 <div class="col-md-6 mb-3">
                                     <label class="fw-semibold small">TIN Number (Optional)</label>
-                                    <input type="text" name="tin_number" class="form-control">
+                                    <input type="text" name="tin_no" class="form-control">
                                 </div>
 
                                 <div class="col-md-6 mb-3">
                                     <label class="fw-semibold small">BIN Number (Optional)</label>
-                                    <input type="text" name="bin_number" class="form-control">
+                                    <input type="text" name="bin_no" class="form-control">
                                 </div>
 
                                 <div class="col-md-6 mb-3">
                                     <label class="fw-semibold small">Profile Photo (Optional)</label>
-                                    <input type="file" name="photo" class="form-control">
+                                    <input type="file" name="profile_image" class="form-control">
                                 </div>
 
                                 <div class="col-md-6 mb-3">

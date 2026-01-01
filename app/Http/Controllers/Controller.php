@@ -22,4 +22,7 @@ class Controller extends BaseController
         $auction->load(['financial_year', 'road', 'package', 'lots.lotLotItems', 'employees']);
         return view('frontend.home.auction_details', compact('auction'));
     }
+
+    // bidder registration form
+    
 }

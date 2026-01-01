@@ -9,8 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Bidder extends Model implements HasMedia
+class Bidder extends Authenticatable  implements HasMedia
 {
     use SoftDeletes, InteractsWithMedia, HasFactory;
 
@@ -30,6 +31,12 @@ class Bidder extends Model implements HasMedia
         'updated_at',
         'deleted_at',
     ];
+
+    protected $casts = [
+        'status' => 'integer',
+    ];
+
+
 
     protected $appends = [
         'profile_image',

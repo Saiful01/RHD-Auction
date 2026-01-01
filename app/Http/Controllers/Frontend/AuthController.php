@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Mail\BidderApprovedMail;
 use App\Models\Bidder;
 use Illuminate\Http\Request;
@@ -10,9 +11,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+
+
 
 class AuthController extends Controller
 {
+    use MediaUploadingTrait;
     // bidder login page
     public function showLogin()
     {
@@ -27,28 +32,28 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        Auth::guard('web')->logout();
-        Auth::guard('bidder')->logout();
+        $bidder = Bidder::where('email', $request->email)->first();
 
-        // session regenerate
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-
-        if (Auth::guard('bidder')->attempt($credentials)) {
-
-            $bidder = Auth::guard('bidder')->user();
-            if ($bidder->status != 'approved') {
-                Auth::guard('bidder')->logout();
-                return redirect()->route('bidder.pending')
-                    ->withErrors(['email' => 'Your account is not approved yet. Please wait for approval.']);
-            }
-            $request->session()->regenerate();
-            return redirect()->route('bidder.dashboard');
+        if (!$bidder) {
+            return back()->withErrors([
+                'email' => 'Account not found. Please signup first.',
+            ]);
         }
-        return back()->withErrors([
-            'email' => 'Invalid bidder credentials',
-        ]);
+
+        if ($bidder->status != 1) {
+            // Auth::guard('bidder')->logout();
+            return redirect()->route('bidder.pending')
+                ->withErrors(['email' => 'Your account is not approved yet. Please wait for approval.']);
+        }
+
+        if (!Auth::guard('bidder')->attempt($credentials)) {
+            return back()->withErrors([
+                'email' => 'Invalid email or password.',
+            ]);
+        }
+
+
+        return redirect()->route('bidder.dashboard');
     }
 
     // bidder signup page
@@ -65,21 +70,22 @@ class AuthController extends Controller
             'email' => 'required|email|unique:bidders,email',
             'password' => 'required|min:6|confirmed',
             'phone' => 'required|string',
-            'nid_number' => 'required|string',
-            'tin_number' => 'nullable|string',
-            'bin_number' => 'nullable|string',
-            'photo' => 'nullable|file|mimes:jpg,jpeg,png',
+            'nid_no' => 'required|string',
+            'tin_no' => 'nullable|string',
+            'bin_no' => 'nullable|string',
+            'profile_image' => 'nullable|file|mimes:jpg,jpeg,png',
             'nid_file' => 'required|file|mimes:jpg,jpeg,png,pdf',
             'tin_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
             'bin_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
         ]);
 
-        // file upload
-        $photoFile = $request->file('photo')->store('bidders/photo', 'public');
-        $nidFile = $request->file('nid_file')->store('bidders/nid', 'public');
-        $tinFile = $request->file('tin_file')?->store('bidders/tin', 'public');
-        $binFile = $request->file('bin_file')?->store('bidders/bin', 'public');
+        // // file upload
+        // $photoFile = $request->file('profile_image')->store('bidders/photo', 'public');
+        // $nidFile = $request->file('nid_file')->store('bidders/nid', 'public');
+        // $tinFile = $request->file('tin_file')?->store('bidders/tin', 'public');
+        // $binFile = $request->file('bin_file')?->store('bidders/bin', 'public');
 
+       
 
 
         // create bidder
@@ -89,16 +95,38 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             'phone' => $request->phone,
 
-            'nid_number' => $request->nid_number,
-            'tin_number' => $request->tin_number,
-            'bin_number' => $request->bin_number,
-
-            'photo' => $photoFile,
-            'nid_file' => $nidFile,
-            'tin_file' => $tinFile,
-            'bin_file' => $binFile,
-            'status' => 'pending',
+            'nid_no' => $request->nid_no,
+            'tin_no' => $request->tin_no,
+            'bin_no' => $request->bin_no,
+            'status' => 0,
         ]);
+
+        // file save
+
+        if ($request->hasFile('profile_image', false)) {
+           
+            $bidder->addMedia(storage_path('tmp/uploads/' . basename($request->file('profile_image'))))->toMediaCollection('profile_image');
+        }
+
+        if ($request->hasFile('nid_file', false)) {
+            $bidder->addMedia(storage_path('tmp/uploads/' . basename($request->file('nid_file'))))->toMediaCollection('nid_file');
+        }
+
+        if ($request->hasFile('tin_file', false)) {
+            $bidder->addMedia(storage_path('tmp/uploads/' . basename($request->file('tin_file'))))->toMediaCollection('tin_file');
+        }
+
+        if ($request->hasFile('bin_file', false)) {
+            $bidder->addMedia(storage_path('tmp/uploads/' . basename($request->file('bin_file'))))->toMediaCollection('bin_file');
+        }
+
+        if ($media = $request->hasFile('ck-media', false)) {
+            Media::whereIn('id', $media)->update(['model_id' => $bidder->id]);
+        }
+
+        // return $request->all();
+
+
 
         return redirect()->route('bidder.pending');
     }
@@ -148,7 +176,7 @@ class AuthController extends Controller
             'photo'     => 'nullable|image|mimes:jpg,jpeg,png|max:4096',
         ]);
 
-        // যদি নতুন photo আসে, replace করো
+
         if ($request->hasFile('photo')) {
             if ($bidder->photo && Storage::disk('public')->exists($bidder->photo)) {
                 Storage::disk('public')->delete($bidder->photo);

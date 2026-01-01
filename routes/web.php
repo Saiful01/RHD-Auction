@@ -125,7 +125,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Bid
     Route::delete('bids/destroy', 'BidController@massDestroy')->name('bids.massDestroy');
     Route::resource('bids', 'BidController');
-
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
     // Change password
@@ -141,7 +140,7 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
 //bidder info route (authenticated)
 Route::prefix('bidder')->name('bidder.')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->middleware('guest:bidder')->name('login');
-    Route::post('/login', [AuthController::class, 'login'])->middleware('guest:bidder')->name('login.submit');
+    Route::post('/login-submit', [AuthController::class, 'login'])->middleware('guest:bidder')->name('login.submit');
     Route::get('/signup', [AuthController::class, 'showSignup'])->middleware('guest:bidder')->name('signup');
     Route::post('/signup', [AuthController::class, 'signup'])->middleware('guest:bidder')->name('signup.store');
     Route::get('/pending', [AuthController::class, 'pending'])->name('pending');

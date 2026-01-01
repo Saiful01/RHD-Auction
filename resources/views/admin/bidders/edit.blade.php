@@ -28,14 +28,14 @@
                             @endif
                             <span class="help-block">{{ trans('cruds.bidder.fields.email_helper') }}</span>
                         </div>
-                        <div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
+                        {{-- <div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
                             <label class="required" for="password">{{ trans('cruds.bidder.fields.password') }}</label>
                             <input class="form-control" type="password" name="password" id="password">
                             @if($errors->has('password'))
                                 <span class="help-block" role="alert">{{ $errors->first('password') }}</span>
                             @endif
                             <span class="help-block">{{ trans('cruds.bidder.fields.password_helper') }}</span>
-                        </div>
+                        </div> --}}
                         <div class="form-group {{ $errors->has('phone') ? 'has-error' : '' }}">
                             <label for="phone">{{ trans('cruds.bidder.fields.phone') }}</label>
                             <input class="form-control" type="text" name="phone" id="phone" value="{{ old('phone', $bidder->phone) }}">
