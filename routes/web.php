@@ -84,6 +84,23 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('auctions/media', 'AuctionController@storeMedia')->name('auctions.storeMedia');
     Route::post('auctions/ckmedia', 'AuctionController@storeCKEditorImages')->name('auctions.storeCKEditorImages');
     Route::resource('auctions', 'AuctionController');
+
+
+    // Bidder
+    Route::delete('bidders/destroy', 'BidderController@massDestroy')->name('bidders.massDestroy');
+    Route::post('bidders/media', 'BidderController@storeMedia')->name('bidders.storeMedia');
+    Route::post('bidders/ckmedia', 'BidderController@storeCKEditorImages')->name('bidders.storeCKEditorImages');
+    Route::resource('bidders', 'BidderController');
+
+    // Bidder Auction Request
+    Route::delete('bidder-auction-requests/destroy', 'BidderAuctionRequestController@massDestroy')->name('bidder-auction-requests.massDestroy');
+    Route::post('bidder-auction-requests/media', 'BidderAuctionRequestController@storeMedia')->name('bidder-auction-requests.storeMedia');
+    Route::post('bidder-auction-requests/ckmedia', 'BidderAuctionRequestController@storeCKEditorImages')->name('bidder-auction-requests.storeCKEditorImages');
+    Route::resource('bidder-auction-requests', 'BidderAuctionRequestController');
+
+    // Bid
+    Route::delete('bids/destroy', 'BidController@massDestroy')->name('bids.massDestroy');
+    Route::resource('bids', 'BidController');
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
     // Change password
