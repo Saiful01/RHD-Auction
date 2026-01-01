@@ -304,6 +304,66 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 74,
+                'title' => 'bidder_create',
+            ],
+            [
+                'id'    => 75,
+                'title' => 'bidder_edit',
+            ],
+            [
+                'id'    => 76,
+                'title' => 'bidder_show',
+            ],
+            [
+                'id'    => 77,
+                'title' => 'bidder_delete',
+            ],
+            [
+                'id'    => 78,
+                'title' => 'bidder_access',
+            ],
+            [
+                'id'    => 79,
+                'title' => 'bidder_auction_request_create',
+            ],
+            [
+                'id'    => 80,
+                'title' => 'bidder_auction_request_edit',
+            ],
+            [
+                'id'    => 81,
+                'title' => 'bidder_auction_request_show',
+            ],
+            [
+                'id'    => 82,
+                'title' => 'bidder_auction_request_delete',
+            ],
+            [
+                'id'    => 83,
+                'title' => 'bidder_auction_request_access',
+            ],
+            [
+                'id'    => 84,
+                'title' => 'bid_create',
+            ],
+            [
+                'id'    => 85,
+                'title' => 'bid_edit',
+            ],
+            [
+                'id'    => 86,
+                'title' => 'bid_show',
+            ],
+            [
+                'id'    => 87,
+                'title' => 'bid_delete',
+            ],
+            [
+                'id'    => 88,
+                'title' => 'bid_access',
+            ],
+            [
+                'id'    => 89,
                 'title' => 'profile_password_edit',
             ],
         ];

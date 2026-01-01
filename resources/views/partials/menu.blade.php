@@ -176,6 +176,40 @@
                     </ul>
                 </li>
             @endcan
+
+            @can('bidder_access')
+                <li class="{{ request()->is("admin/bidders") || request()->is("admin/bidders/*") ? "active" : "" }}">
+                    <a href="{{ route("admin.bidders.index") }}">
+                        <i class="fa-fw fas fa-user-check">
+
+                        </i>
+                        <span>{{ trans('cruds.bidder.title') }}</span>
+
+                    </a>
+                </li>
+            @endcan
+            @can('bidder_auction_request_access')
+                <li class="{{ request()->is("admin/bidder-auction-requests") || request()->is("admin/bidder-auction-requests/*") ? "active" : "" }}">
+                    <a href="{{ route("admin.bidder-auction-requests.index") }}">
+                        <i class="fa-fw fas fa-smoking">
+
+                        </i>
+                        <span>{{ trans('cruds.bidderAuctionRequest.title') }}</span>
+
+                    </a>
+                </li>
+            @endcan
+            @can('bid_access')
+                <li class="{{ request()->is("admin/bids") || request()->is("admin/bids/*") ? "active" : "" }}">
+                    <a href="{{ route("admin.bids.index") }}">
+                        <i class="fa-fw fas fa-signal">
+
+                        </i>
+                        <span>{{ trans('cruds.bid.title') }}</span>
+
+                    </a>
+                </li>
+            @endcan
             @can('road_access')
                 <li class="{{ request()->is('admin/roads') || request()->is('admin/roads/*') ? 'active' : '' }}">
                     <a href="{{ route('admin.roads.index') }}">
