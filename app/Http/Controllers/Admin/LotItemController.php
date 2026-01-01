@@ -11,6 +11,7 @@ use App\Models\Lot;
 use App\Models\LotItem;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -104,5 +105,87 @@ class LotItemController extends Controller
         $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
 
         return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
+    }
+
+    public function newCreate(Request $request)
+    {
+        abort_if(Gate::denies('lot_item_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $lots = Lot::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $lotId = $request->get('lot_id'); // optional
+
+        return view('admin.lotItems.newCreate', compact('lots', 'lotId'));
+    }
+
+    public function newStore(Request $request)
+    {
+        abort_if(Gate::denies('lot_item_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $request->validate([
+            'lot_id' => 'required|exists:lots,id',
+            'name.*' => 'required|string',
+            'unit.*' => 'required',
+            'item_image.*' => 'nullable|image|mimes:jpg,jpeg,png,webp,gif|max:4096',
+        ]);
+
+        foreach ($request->name as $index => $name) {
+            $imagePath = null;
+            // Handle image upload like your other store method
+            if ($request->hasFile("item_image.$index")) {
+                $imagePath = $request->file("item_image.$index")->store('lot-items', 'public');
+            }
+            LotItem::create([
+                'lot_id'          => $request->lot_id,
+                'name'            => $name,
+                'tree_no'         => $request->tree_no[$index] ?? null,
+                'dia'             => $request->dia[$index] ?? null,
+                'quantity'        => $request->quantity[$index] ?? null,
+                'unit'            => $request->unit[$index],
+                'unit_price'      => $request->unit_price[$index] ?? null,
+                'estimated_price' => $request->estimated_price[$index] ?? null,
+                'item_image'      => $imagePath,
+            ]);
+        }
+
+        return redirect()
+            ->route('admin.lots.lot-items.newCreate', ['lot_id' => $request->lot_id])
+            ->with('success', 'Lot items added successfully');
+    }
+
+    public function newUpdate(Request $request, LotItem $lotItem)
+    {
+        abort_if(Gate::denies('lot_item_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $request->validate([
+            'name' => 'required|string',
+            'unit' => 'required',
+            'item_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,gif|max:4096',
+        ]);
+        $imagePath = $lotItem->item_image;
+
+
+        if ($request->hasFile('item_image')) {
+
+            if ($imagePath && Storage::disk('public')->exists($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
+            }
+            $imagePath = $request->file('item_image')->store('lot-items', 'public');
+        }
+
+        $lotItem->update([
+            'name'            => $request->name,
+            'tree_no'         => $request->tree_no,
+            'dia'             => $request->dia,
+            'quantity'        => $request->quantity,
+            'unit'            => $request->unit,
+            'unit_price'      => $request->unit_price,
+            'estimated_price' => $request->estimated_price,
+            'item_image'      => $imagePath,
+        ]);
+
+        return redirect()
+            ->route('admin.lots.lot-items.newCreate', ['lot_id' => $lotItem->lot_id])
+            ->with('success', 'Lot item updated successfully');
     }
 }

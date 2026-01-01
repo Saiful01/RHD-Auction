@@ -2,7 +2,7 @@
     <section class="sidebar" style="height: auto;">
         <ul class="sidebar-menu tree" data-widget="tree">
             <li>
-                <a href="{{ route("admin.home") }}">
+                <a href="{{ route('admin.home') }}">
                     <i class="fas fa-fw fa-tachometer-alt">
 
                     </i>
@@ -20,8 +20,9 @@
                     </a>
                     <ul class="treeview-menu">
                         @can('permission_access')
-                            <li class="{{ request()->is("admin/permissions") || request()->is("admin/permissions/*") ? "active" : "" }}">
-                                <a href="{{ route("admin.permissions.index") }}">
+                            <li
+                                class="{{ request()->is('admin/permissions') || request()->is('admin/permissions/*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.permissions.index') }}">
                                     <i class="fa-fw fas fa-unlock-alt">
 
                                     </i>
@@ -31,8 +32,8 @@
                             </li>
                         @endcan
                         @can('role_access')
-                            <li class="{{ request()->is("admin/roles") || request()->is("admin/roles/*") ? "active" : "" }}">
-                                <a href="{{ route("admin.roles.index") }}">
+                            <li class="{{ request()->is('admin/roles') || request()->is('admin/roles/*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.roles.index') }}">
                                     <i class="fa-fw fas fa-briefcase">
 
                                     </i>
@@ -42,8 +43,8 @@
                             </li>
                         @endcan
                         @can('user_access')
-                            <li class="{{ request()->is("admin/users") || request()->is("admin/users/*") ? "active" : "" }}">
-                                <a href="{{ route("admin.users.index") }}">
+                            <li class="{{ request()->is('admin/users') || request()->is('admin/users/*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.users.index') }}">
                                     <i class="fa-fw fas fa-user">
 
                                     </i>
@@ -66,8 +67,9 @@
                     </a>
                     <ul class="treeview-menu">
                         @can('auction_access')
-                            <li class="{{ request()->is("admin/auctions") || request()->is("admin/auctions/*") ? "active" : "" }}">
-                                <a href="{{ route("admin.auctions.index") }}">
+                            <li
+                                class="{{ request()->is('admin/auctions') || request()->is('admin/auctions/*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.auctions.index') }}">
                                     <i class="fa-fw fas fa-gavel">
 
                                     </i>
@@ -77,10 +79,10 @@
                             </li>
                         @endcan
                         @can('lot_access')
-                            <li class="{{ request()->is("admin/lots") || request()->is("admin/lots/*") ? "active" : "" }}">
-                                <a href="{{ route("admin.lots.index") }}">
+                            <li
+                                class="{{ request()->is('admin/lots*') || request()->is('admin/lots/lot-items*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.lots.index') }}">
                                     <i class="fa-fw fas fa-file-archive">
-
                                     </i>
                                     <span>{{ trans('cruds.lot.title') }}</span>
 
@@ -88,7 +90,7 @@
                             </li>
                         @endcan
                         @can('lot_item_access')
-                            <li class="{{ request()->is("admin/lot-items") || request()->is("admin/lot-items/*") ? "active" : "" }}">
+                            {{-- <li class="{{ request()->is("admin/lot-items") || request()->is("admin/lot-items/*") ? "active" : "" }}">
                                 <a href="{{ route("admin.lot-items.index") }}">
                                     <i class="fa-fw fas fa-tree">
 
@@ -96,11 +98,12 @@
                                     <span>{{ trans('cruds.lotItem.title') }}</span>
 
                                 </a>
-                            </li>
+                            </li> --}}
                         @endcan
                         @can('package_access')
-                            <li class="{{ request()->is("admin/packages") || request()->is("admin/packages/*") ? "active" : "" }}">
-                                <a href="{{ route("admin.packages.index") }}">
+                            <li
+                                class="{{ request()->is('admin/packages') || request()->is('admin/packages/*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.packages.index') }}">
                                     <i class="fa-fw fas fa-box">
 
                                     </i>
@@ -123,8 +126,9 @@
                     </a>
                     <ul class="treeview-menu">
                         @can('employee_access')
-                            <li class="{{ request()->is("admin/employees") || request()->is("admin/employees/*") ? "active" : "" }}">
-                                <a href="{{ route("admin.employees.index") }}">
+                            <li
+                                class="{{ request()->is('admin/employees') || request()->is('admin/employees/*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.employees.index') }}">
                                     <i class="fa-fw fas fa-user-graduate">
 
                                     </i>
@@ -134,8 +138,9 @@
                             </li>
                         @endcan
                         @can('office_access')
-                            <li class="{{ request()->is("admin/offices") || request()->is("admin/offices/*") ? "active" : "" }}">
-                                <a href="{{ route("admin.offices.index") }}">
+                            <li
+                                class="{{ request()->is('admin/offices') || request()->is('admin/offices/*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.offices.index') }}">
                                     <i class="fa-fw fas fa-briefcase">
 
                                     </i>
@@ -145,8 +150,9 @@
                             </li>
                         @endcan
                         @can('designation_access')
-                            <li class="{{ request()->is("admin/designations") || request()->is("admin/designations/*") ? "active" : "" }}">
-                                <a href="{{ route("admin.designations.index") }}">
+                            <li
+                                class="{{ request()->is('admin/designations') || request()->is('admin/designations/*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.designations.index') }}">
                                     <i class="fa-fw fas fa-pen-nib">
 
                                     </i>
@@ -156,8 +162,9 @@
                             </li>
                         @endcan
                         @can('office_type_access')
-                            <li class="{{ request()->is("admin/office-types") || request()->is("admin/office-types/*") ? "active" : "" }}">
-                                <a href="{{ route("admin.office-types.index") }}">
+                            <li
+                                class="{{ request()->is('admin/office-types') || request()->is('admin/office-types/*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.office-types.index') }}">
                                     <i class="fa-fw fas fa-clipboard-list">
 
                                     </i>
@@ -204,8 +211,8 @@
                 </li>
             @endcan
             @can('road_access')
-                <li class="{{ request()->is("admin/roads") || request()->is("admin/roads/*") ? "active" : "" }}">
-                    <a href="{{ route("admin.roads.index") }}">
+                <li class="{{ request()->is('admin/roads') || request()->is('admin/roads/*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.roads.index') }}">
                         <i class="fa-fw fas fa-road">
 
                         </i>
@@ -215,8 +222,9 @@
                 </li>
             @endcan
             @can('financial_year_access')
-                <li class="{{ request()->is("admin/financial-years") || request()->is("admin/financial-years/*") ? "active" : "" }}">
-                    <a href="{{ route("admin.financial-years.index") }}">
+                <li
+                    class="{{ request()->is('admin/financial-years') || request()->is('admin/financial-years/*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.financial-years.index') }}">
                         <i class="fa-fw fas fa-calendar-alt">
 
                         </i>
@@ -226,8 +234,8 @@
                 </li>
             @endcan
             @can('division_access')
-                <li class="{{ request()->is("admin/divisions") || request()->is("admin/divisions/*") ? "active" : "" }}">
-                    <a href="{{ route("admin.divisions.index") }}">
+                <li class="{{ request()->is('admin/divisions') || request()->is('admin/divisions/*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.divisions.index') }}">
                         <i class="fa-fw fas fa-map-marker">
 
                         </i>
@@ -236,9 +244,10 @@
                     </a>
                 </li>
             @endcan
-            @if(file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))
+            @if (file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))
                 @can('profile_password_edit')
-                    <li class="{{ request()->is('profile/password') || request()->is('profile/password/*') ? 'active' : '' }}">
+                    <li
+                        class="{{ request()->is('profile/password') || request()->is('profile/password/*') ? 'active' : '' }}">
                         <a href="{{ route('profile.password.edit') }}">
                             <i class="fa-fw fas fa-key">
                             </i>

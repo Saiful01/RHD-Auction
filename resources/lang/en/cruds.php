@@ -191,6 +191,7 @@ return [
             'updated_at_helper'       => ' ',
             'deleted_at'              => 'Deleted at',
             'deleted_at_helper'       => ' ',
+            'add_lot_item'            => 'Add Lot Item',
         ],
     ],
     'lotItem' => [

@@ -39,12 +39,12 @@
                                     <th>
                                         {{ trans('cruds.package.fields.status') }}
                                     </th>
-                                    <th>
+                                    {{-- <th>
                                         {{ trans('cruds.package.fields.images') }}
                                     </th>
                                     <th>
                                         {{ trans('cruds.package.fields.files') }}
-                                    </th>
+                                    </th> --}}
                                     <th>
                                         &nbsp;
                                     </th>

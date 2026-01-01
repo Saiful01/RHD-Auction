@@ -11,6 +11,7 @@ use App\Models\Auction;
 use App\Models\Employee;
 use App\Models\FinancialYear;
 use App\Models\Lot;
+use App\Models\LotItem;
 use App\Models\Package;
 use App\Models\Road;
 use Gate;
@@ -41,7 +42,7 @@ class AuctionController extends Controller
 
         $packages = Package::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $lots = Lot::pluck('name', 'id');
+        $lots = Lot::with('lotLotItems')->get();
 
         $employees = Employee::pluck('personnel', 'id');
 
@@ -70,7 +71,7 @@ class AuctionController extends Controller
 
         $packages = Package::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $lots = Lot::pluck('name', 'id');
+        $lots = Lot::with('lotLotItems')->get();
 
         $employees = Employee::pluck('personnel', 'id');
 

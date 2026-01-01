@@ -17,6 +17,7 @@ class CreateLotItemsTable extends Migration
             $table->string('unit');
             $table->decimal('unit_price', 15, 2)->nullable();
             $table->float('estimated_price', 15, 9)->nullable();
+            $table->string('item_image')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
