@@ -3,9 +3,9 @@
     <div class="content">
         @can('employee_create')
             <div style="margin-bottom: 10px;" class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-12 text-right">
                     <a class="btn btn-success" href="{{ route('admin.employees.create') }}">
-                        {{ trans('global.add') }} {{ trans('cruds.employee.title_singular') }}
+                        Create {{ trans('cruds.employee.title_singular') }}
                     </a>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                                 @php($i=1)
                                 @foreach($employees as $employee)
                                     <tr data-entry-id="{{ $employee->id }}">
-                                        <td>{{$i}}</td>
+                                        <td>{{ $i }}</td>
 
                                         <td>{{ $employee->name_en ?? '' }}</td>
                                         <td>{{ $employee->personnel ?? '' }}</td>

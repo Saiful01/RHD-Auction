@@ -3,9 +3,9 @@
 <div class="content">
     @can('user_create')
         <div style="margin-bottom: 10px;" class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12 text-right">
                 <a class="btn btn-success" href="{{ route('admin.users.create') }}">
-                    {{ trans('global.add') }} {{ trans('cruds.user.title_singular') }}
+                    Create {{ trans('cruds.user.title_singular') }}
                 </a>
             </div>
         </div>
@@ -25,7 +25,7 @@
 
                                     </th>
                                     <th>
-                                        {{ trans('cruds.user.fields.id') }}
+                                        SL
                                     </th>
                                     <th>
                                         {{ trans('cruds.user.fields.name') }}
@@ -54,7 +54,7 @@
 
                                         </td>
                                         <td>
-                                            {{ $user->id ?? '' }}
+                                            {{ $key + 1 }}
                                         </td>
                                         <td>
                                             {{ $user->name ?? '' }}

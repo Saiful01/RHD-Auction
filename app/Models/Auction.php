@@ -88,6 +88,11 @@ class Auction extends Model implements HasMedia
         return $this->belongsToMany(Lot::class);
     }
 
+    public function totalLotItemsCount()
+    {
+        return $this->lots->sum(fn($lot) => $lot->lotLotItems->count());
+    }
+
     public function getAuctionStartTimeAttribute($value)
     {
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;

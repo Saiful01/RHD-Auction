@@ -22,7 +22,7 @@ class PackageController extends Controller
     {
         abort_if(Gate::denies('package_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $packages = Package::with(['road', 'media'])->get();
+        $packages = Package::with(['road.division', 'media'])->get();
 
         return view('admin.packages.index', compact('packages'));
     }

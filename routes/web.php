@@ -74,8 +74,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
         Route::delete('lot-items/delete/{lotItem}', 'LotItemController@destroy')->name('lot-items.destroy');
     });
 
-
-
     // Office Type
     Route::delete('office-types/destroy', 'OfficeTypeController@massDestroy')->name('office-types.massDestroy');
     Route::resource('office-types', 'OfficeTypeController');

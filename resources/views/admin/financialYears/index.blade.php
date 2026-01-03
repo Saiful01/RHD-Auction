@@ -3,9 +3,9 @@
 <div class="content">
     @can('financial_year_create')
         <div style="margin-bottom: 10px;" class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12 text-right">
                 <a class="btn btn-success" href="{{ route('admin.financial-years.create') }}">
-                    {{ trans('global.add') }} {{ trans('cruds.financialYear.title_singular') }}
+                    Create {{ trans('cruds.financialYear.title_singular') }}
                 </a>
             </div>
         </div>
@@ -25,7 +25,7 @@
 
                                     </th>
                                     <th>
-                                        {{ trans('cruds.financialYear.fields.id') }}
+                                        SL
                                     </th>
                                     <th>
                                         {{ trans('cruds.financialYear.fields.year') }}
@@ -48,7 +48,7 @@
 
                                         </td>
                                         <td>
-                                            {{ $financialYear->id ?? '' }}
+                                            {{ $key + 1 }}
                                         </td>
                                         <td>
                                             {{ $financialYear->year ?? '' }}

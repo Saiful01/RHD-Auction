@@ -2,10 +2,69 @@
 
 @section('content')
     <div class="content">
+        @if (isset($lot) && $lot)
+            <div class="row mt-4 mb-4">
+                <div class="col-md-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>Lot Information</strong>
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="row">
+
+                                <div class="col-md-4 mb-3">
+                                    <label class="text-uppercase" style="color:#5bc0de; font-size:12px; letter-spacing:1px;">
+                                        Lot Name
+                                    </label>
+                                    <div class="fw-bold border-bottom pb-1">
+                                        {{ $lot->name }}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <label class="text-uppercase"
+                                        style="color:#5bc0de; font-size:12px; letter-spacing:1px;">
+                                        Location
+                                    </label>
+                                    <div class="border-bottom pb-1">
+                                        {{ strip_tags($lot->location ?? '—') }}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <label class="text-uppercase"
+                                        style="color:#5bc0de; font-size:12px; letter-spacing:1px;">
+                                        Package
+                                    </label>
+                                    <div class="border-bottom pb-1">
+                                        {{ optional($lot->package)->name ?? '—' }}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mt-4">
+                                    <label class="text-uppercase"
+                                        style="color:#5bc0de; font-size:12px; letter-spacing:1px;">
+                                        Details
+                                    </label>
+                                    <div class="pt-2" style="line-height:1.6;">
+                                        {{ $lot->details ?? '—' }}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        @endif
+
+
         <div class="row">
 
             {{-- LEFT: CREATE LOT ITEM --}}
-            <div class="col-lg-6">
+            <div class="col-lg-5">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         Create Lot Item
@@ -23,32 +82,32 @@
                                     <div class="flex-grow-1">
                                         {{-- NAME --}}
                                         <div class="form-group">
-                                            <label class="required">Name</label>
+                                            <label class="required">Name (গাছের নাম)</label>
                                             <input type="text" name="name[]" class="form-control name" required>
                                         </div>
 
                                         {{-- TREE NO --}}
                                         <div class="form-group">
-                                            <label>Tree No</label>
+                                            <label>Tree No (গাছের নম্বর)</label>
                                             <textarea name="tree_no[]" class="form-control ckeditor"></textarea>
                                         </div>
 
                                         {{-- DIA --}}
                                         <div class="form-group">
-                                            <label>Dia</label>
+                                            <label>Dia (বেড় ৫'-৬'.১১")</label>
                                             <input type="text" name="dia[]" class="form-control">
                                         </div>
 
                                         {{-- QUANTITY --}}
                                         <div class="form-group">
-                                            <label>Quantity</label>
+                                            <label>Quantity (কাঠের পরিমাণ)</label>
                                             <input type="number" step="0.0000001" name="quantity[]"
                                                 class="form-control quantity">
                                         </div>
 
                                         {{-- UNIT --}}
                                         <div class="form-group">
-                                            <label class="required">Unit</label>
+                                            <label class="required">Unit (একক)</label>
                                             <select name="unit[]" class="form-control" required>
                                                 @foreach (App\Models\LotItem::UNIT_SELECT as $k => $v)
                                                     <option value="{{ $k }}">{{ $v }}</option>
@@ -95,7 +154,7 @@
             </div>
 
             {{-- RIGHT: LIST --}}
-            <div class="col-lg-6">
+            <div class="col-lg-7">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         Lot Items List
@@ -105,6 +164,7 @@
                         <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
+                                    <th>SL</th>
                                     <th>Name</th>
                                     <th>Qty</th>
                                     <th>Unit</th>
@@ -118,11 +178,14 @@
                             <tbody>
                                 @foreach (\App\Models\LotItem::where('lot_id', $lotId)->get() as $item)
                                     <tr>
+                                        <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->quantity }}</td>
                                         <td>{{ \App\Models\LotItem::UNIT_SELECT[$item->unit] ?? '' }}</td>
-                                        <td>{{ $item->unit_price }}</td>
-                                        <td>{{ $item->estimated_price }}</td>
+                                        <td>{{ $item->unit_price }}
+                                        </td>
+                                        <td>
+                                            {{ $item->estimated_price }}</td>
                                         <td>
                                             @if ($item->item_image)
                                                 <img src="{{ asset('storage/' . $item->item_image) }}" width="70"
@@ -132,24 +195,33 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-info btn-xs editBtn"
-                                                data-id="{{ $item->id }}" data-name="{{ $item->name }}"
-                                                data-tree_no="{{ $item->tree_no }}" data-dia="{{ $item->dia }}"
-                                                data-quantity="{{ $item->quantity }}" data-unit="{{ $item->unit }}"
-                                                data-unit_price="{{ $item->unit_price }}"
-                                                data-estimated_price="{{ $item->estimated_price }}"
-                                                data-image="{{ $item->item_image ? asset('storage/' . $item->item_image) : '' }}">
-                                                Edit
-                                            </button>
+                                            <div style="display: inline-flex; gap: 5px; align-items: center;">
+                                                {{-- Bootstrap 3 safe --}}
+                                                <button type="button" class="btn btn-info btn-xs editBtn"
+                                                    data-id="{{ $item->id }}" data-name="{{ $item->name }}"
+                                                    data-tree_no="{{ $item->tree_no }}" data-dia="{{ $item->dia }}"
+                                                    data-quantity="{{ $item->quantity }}"
+                                                    data-unit="{{ $item->unit }}"
+                                                    data-unit_price="{{ $item->unit_price }}"
+                                                    data-estimated_price="{{ $item->estimated_price }}"
+                                                    data-image="{{ $item->item_image ? asset('storage/' . $item->item_image) : '' }}">
+                                                    <i class="fa fa-edit"></i>
+                                                </button>
 
-                                            <form method="POST"
-                                                action="{{ route('admin.lots.lot-items.destroy', $item->id) }}"
-                                                style="display:inline-block" onsubmit="return confirm('Are you sure?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-xs">Delete</button>
-                                            </form>
+                                                <form method="POST"
+                                                    action="{{ route('admin.lots.lot-items.destroy', $item->id) }}"
+                                                    style="display:inline-block; margin:0;"
+                                                    onsubmit="return confirm('Are you sure?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-xs">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </td>
+
+
                                     </tr>
                                 @endforeach
                             </tbody>

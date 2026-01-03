@@ -3,9 +3,9 @@
     <div class="content">
         @can('lot_create')
             <div style="margin-bottom: 10px;" class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-12 text-right">
                     <a class="btn btn-success" href="{{ route('admin.lots.create') }}">
-                        {{ trans('global.add') }} {{ trans('cruds.lot.title_singular') }}
+                        Create {{ trans('cruds.lot.title_singular') }}
                     </a>
                 </div>
             </div>
@@ -25,8 +25,9 @@
 
                                         </th>
                                         <th>
-                                            {{ trans('cruds.lot.fields.id') }}
+                                            SL
                                         </th>
+                                        <th>Division</th>
                                         <th>
                                             {{ trans('cruds.lot.fields.road') }}
                                         </th>
@@ -36,6 +37,7 @@
                                         <th>
                                             {{ trans('cruds.lot.fields.name') }}
                                         </th>
+                                        <th>Lot Items</th>
                                         <th>
                                             &nbsp;
                                         </th>
@@ -48,8 +50,9 @@
 
                                             </td>
                                             <td>
-                                                {{ $lot->id ?? '' }}
+                                                {{ $key + 1 }}
                                             </td>
+                                            <td>{{ $lot->package->road->division->name }}</td>
                                             <td>
                                                 {{ $lot->road->name ?? '' }}
                                             </td>
@@ -59,40 +62,45 @@
                                             <td>
                                                 {{ $lot->name ?? '' }}
                                             </td>
+                                            <td>{{ $lot->lotLotItems->count() }}</td>
                                             <td>
-                                                @can('lot_show')
-                                                    <a class="btn btn-xs btn-primary"
-                                                        href="{{ route('admin.lots.show', $lot->id) }}">
-                                                        {{ trans('global.view') }}
-                                                    </a>
-                                                @endcan
+                                                <div style="display: inline-flex; gap: 5px; align-items: center;">
+                                                    {{-- all buttons inline --}}
+                                                    @can('lot_show')
+                                                        <a class="btn btn-xs btn-primary"
+                                                            href="{{ route('admin.lots.show', $lot->id) }}">
+                                                            {{ trans('global.view') }}
+                                                        </a>
+                                                    @endcan
 
-                                                @can('lot_edit')
-                                                    <a class="btn btn-xs btn-info"
-                                                        href="{{ route('admin.lots.edit', $lot->id) }}">
-                                                        {{ trans('global.edit') }}
-                                                    </a>
-                                                @endcan
+                                                    @can('lot_edit')
+                                                        <a class="btn btn-xs btn-info"
+                                                            href="{{ route('admin.lots.edit', $lot->id) }}">
+                                                            {{ trans('global.edit') }}
+                                                        </a>
+                                                    @endcan
 
-                                                @can('lot_delete')
-                                                    <form action="{{ route('admin.lots.destroy', $lot->id) }}" method="POST"
-                                                        onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
-                                                        style="display: inline-block;">
-                                                        <input type="hidden" name="_method" value="DELETE">
-                                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                        <input type="submit" class="btn btn-xs btn-danger"
-                                                            value="{{ trans('global.delete') }}">
-                                                    </form>
-                                                @endcan
+                                                    @can('lot_delete')
+                                                        <form action="{{ route('admin.lots.destroy', $lot->id) }}"
+                                                            method="POST"
+                                                            onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
+                                                            style="display:inline-block; margin:0;">
+                                                            <input type="hidden" name="_method" value="DELETE">
+                                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                            <input type="submit" class="btn btn-xs btn-danger"
+                                                                value="{{ trans('global.delete') }}">
+                                                        </form>
+                                                    @endcan
 
-                                                @can('lot_item_access')
-                                                    <a class="btn btn-xs btn-success"
-                                                        href="{{ route('admin.lots.lot-items.newCreate', ['lot_id' => $lot->id]) }}">
-                                                        {{ trans('cruds.lot.fields.add_lot_item') }}
-                                                    </a>
-                                                @endcan
-
+                                                    @can('lot_item_access')
+                                                        <a class="btn btn-xs btn-success"
+                                                            href="{{ route('admin.lots.lot-items.newCreate', ['lot_id' => $lot->id]) }}">
+                                                            {{ trans('cruds.lot.fields.add_lot_item') }}
+                                                        </a>
+                                                    @endcan
+                                                </div>
                                             </td>
+
 
                                         </tr>
                                     @endforeach

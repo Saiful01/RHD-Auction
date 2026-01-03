@@ -3,9 +3,9 @@
 <div class="content">
     @can('bidder_create')
         <div style="margin-bottom: 10px;" class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12 text-right">
                 <a class="btn btn-success" href="{{ route('admin.bidders.create') }}">
-                    {{ trans('global.add') }} {{ trans('cruds.bidder.title_singular') }}
+                    Create {{ trans('cruds.bidder.title_singular') }}
                 </a>
             </div>
         </div>
@@ -25,7 +25,7 @@
 
                                     </th>
                                     <th>
-                                        {{ trans('cruds.bidder.fields.id') }}
+                                        SL
                                     </th>
                                     <th>
                                         {{ trans('cruds.bidder.fields.name') }}
@@ -57,7 +57,7 @@
 
                                         </td>
                                         <td>
-                                            {{ $bidder->id ?? '' }}
+                                            {{ $key + 1 }}
                                         </td>
                                         <td>
                                             {{ $bidder->name ?? '' }}

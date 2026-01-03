@@ -3,9 +3,9 @@
 <div class="content">
     @can('permission_create')
         <div style="margin-bottom: 10px;" class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12 text-right">
                 <a class="btn btn-success" href="{{ route('admin.permissions.create') }}">
-                    {{ trans('global.add') }} {{ trans('cruds.permission.title_singular') }}
+                    Create {{ trans('cruds.permission.title_singular') }}
                 </a>
             </div>
         </div>
@@ -24,9 +24,10 @@
                                     <th width="10">
 
                                     </th>
-                                    <th>
+                                    {{-- <th>
                                         {{ trans('cruds.permission.fields.id') }}
-                                    </th>
+                                    </th> --}}
+                                    <th>SL</th>
                                     <th>
                                         {{ trans('cruds.permission.fields.title') }}
                                     </th>
@@ -45,7 +46,7 @@
 
                                         </td>
                                         <td>
-                                            {{ $permission->id ?? '' }}
+                                            {{ $key + 1 }}
                                         </td>
                                         <td>
                                             {{ $permission->title ?? '' }}

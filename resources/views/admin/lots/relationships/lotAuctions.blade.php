@@ -1,5 +1,5 @@
 <div class="content">
-    @can('auction_create')
+    {{-- @can('auction_create')
         <div style="margin-bottom: 10px;" class="row">
             <div class="col-lg-12">
                 <a class="btn btn-success" href="{{ route('admin.auctions.create') }}">
@@ -7,7 +7,7 @@
                 </a>
             </div>
         </div>
-    @endcan
+    @endcan --}}
     <div class="row">
         <div class="col-lg-12">
 
@@ -84,9 +84,9 @@
                                     <th>
                                         {{ trans('cruds.auction.fields.employees') }}
                                     </th>
-                                    <th>
+                                    {{-- <th>
                                         &nbsp;
-                                    </th>
+                                    </th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -159,7 +159,7 @@
                                                 <span class="label label-info label-many">{{ $item->personnel }}</span>
                                             @endforeach
                                         </td>
-                                        <td>
+                                        {{-- <td>
                                             @can('auction_show')
                                                 <a class="btn btn-xs btn-primary" href="{{ route('admin.auctions.show', $auction->id) }}">
                                                     {{ trans('global.view') }}
@@ -180,7 +180,7 @@
                                                 </form>
                                             @endcan
 
-                                        </td>
+                                        </td> --}}
 
                                     </tr>
                                 @endforeach

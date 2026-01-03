@@ -9,8 +9,9 @@
                     {{ trans('global.show') }} {{ trans('cruds.lot.title') }}
                 </div>
                 <div class="panel-body">
+                    
                     <div class="form-group">
-                        <div class="form-group">
+                        <div class="form-group text-right">
                             <a class="btn btn-default" href="{{ route('admin.lots.index') }}">
                                 {{ trans('global.back_to_list') }}
                             </a>

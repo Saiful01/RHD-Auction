@@ -10,7 +10,7 @@
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <div class="form-group">
+                        <div class="form-group text-right">
                             <a class="btn btn-default" href="{{ route('admin.roads.index') }}">
                                 {{ trans('global.back_to_list') }}
                             </a>

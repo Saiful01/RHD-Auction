@@ -10,21 +10,21 @@
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <div class="form-group">
+                        <div class="form-group text-right">
                             <a class="btn btn-default" href="{{ route('admin.auctions.index') }}">
                                 {{ trans('global.back_to_list') }}
                             </a>
                         </div>
                         <table class="table table-bordered table-striped">
                             <tbody>
-                                <tr>
+                                {{-- <tr>
                                     <th>
                                         {{ trans('cruds.auction.fields.id') }}
                                     </th>
                                     <td>
                                         {{ $auction->id }}
                                     </td>
-                                </tr>
+                                </tr> --}}
                                 <tr>
                                     <th>
                                         {{ trans('cruds.auction.fields.financial_year') }}
@@ -123,7 +123,7 @@
                                         {{ $auction->tender_visible_end_date }}
                                     </td>
                                 </tr>
-                                <tr>
+                                {{-- <tr>
                                     <th>
                                         {{ trans('cruds.auction.fields.tender_sale_start_date') }}
                                     </th>
@@ -138,7 +138,7 @@
                                     <td>
                                         {{ $auction->tender_sale_end_date }}
                                     </td>
-                                </tr>
+                                </tr> --}}
                                 <tr>
                                     <th>
                                         {{ trans('cruds.auction.fields.deadline_for_tree_removal') }}

@@ -3,9 +3,9 @@
 <div class="content">
     @can('office_create')
         <div style="margin-bottom: 10px;" class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12 text-right">
                 <a class="btn btn-success" href="{{ route('admin.offices.create') }}">
-                    {{ trans('global.add') }} {{ trans('cruds.office.title_singular') }}
+                    Create {{ trans('cruds.office.title_singular') }}
                 </a>
             </div>
         </div>
@@ -25,7 +25,7 @@
 
                                     </th>
                                     <th>
-                                        {{ trans('cruds.office.fields.id') }}
+                                        SL
                                     </th>
                                     <th>
                                         {{ trans('cruds.office.fields.office_name_en') }}
@@ -51,7 +51,7 @@
 
                                         </td>
                                         <td>
-                                            {{ $office->id ?? '' }}
+                                            {{ $key + 1 }}
                                         </td>
                                         <td>
                                             {{ $office->office_name_en ?? '' }}

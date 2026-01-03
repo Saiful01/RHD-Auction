@@ -27,7 +27,7 @@ class AuctionController extends Controller
     {
         abort_if(Gate::denies('auction_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $auctions = Auction::with(['financial_year', 'road', 'package', 'lots', 'employees'])->get();
+        $auctions = Auction::with(['financial_year', 'road', 'package', 'lots.lotLotItems', 'employees'])->get();
 
         return view('admin.auctions.index', compact('auctions'));
     }
@@ -44,7 +44,11 @@ class AuctionController extends Controller
 
         $lots = Lot::with('lotLotItems')->get();
 
-        $employees = Employee::pluck('personnel', 'id');
+        $employees = Employee::all()->mapWithKeys(function ($e) {
+            return [
+                $e->id => $e->name_en . ' - ' . $e->personnel
+            ];
+        });
 
         return view('admin.auctions.create', compact('employees', 'financial_years', 'lots', 'packages', 'roads'));
     }
@@ -82,7 +86,11 @@ class AuctionController extends Controller
 
         $lots = Lot::with('lotLotItems')->get();
 
-        $employees = Employee::pluck('personnel', 'id');
+        $employees = Employee::all()->mapWithKeys(function ($e) {
+            return [
+                $e->id => $e->personnel . ' - ' . $e->name_en
+            ];
+        });
 
         $auction->load('financial_year', 'road', 'package', 'lots', 'employees');
 

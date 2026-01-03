@@ -115,7 +115,12 @@ class LotItemController extends Controller
 
         $lotId = $request->get('lot_id'); // optional
 
-        return view('admin.lotItems.newCreate', compact('lots', 'lotId'));
+        $lot = null;
+        if ($lotId) {
+            $lot = Lot::find($lotId);
+        }
+
+        return view('admin.lotItems.newCreate', compact('lots', 'lotId', 'lot'));
     }
 
     public function newStore(Request $request)

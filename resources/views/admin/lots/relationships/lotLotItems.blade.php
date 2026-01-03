@@ -1,5 +1,5 @@
 <div class="content">
-    @can('lot_item_create')
+    {{-- @can('lot_item_create')
         <div style="margin-bottom: 10px;" class="row">
             <div class="col-lg-12">
                 <a class="btn btn-success" href="{{ route('admin.lot-items.create') }}">
@@ -7,7 +7,7 @@
                 </a>
             </div>
         </div>
-    @endcan
+    @endcan --}}
     <div class="row">
         <div class="col-lg-12">
 
@@ -48,9 +48,9 @@
                                     <th>
                                         {{ trans('cruds.lotItem.fields.estimated_price') }}
                                     </th>
-                                    <th>
+                                    {{-- <th>
                                         &nbsp;
-                                    </th>
+                                    </th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -83,7 +83,7 @@
                                         <td>
                                             {{ $lotItem->estimated_price ?? '' }}
                                         </td>
-                                        <td>
+                                        {{-- <td>
                                             @can('lot_item_show')
                                                 <a class="btn btn-xs btn-primary" href="{{ route('admin.lot-items.show', $lotItem->id) }}">
                                                     {{ trans('global.view') }}
@@ -104,7 +104,7 @@
                                                 </form>
                                             @endcan
 
-                                        </td>
+                                        </td> --}}
 
                                     </tr>
                                 @endforeach

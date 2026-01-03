@@ -3,9 +3,9 @@
 <div class="content">
     @can('division_create')
         <div style="margin-bottom: 10px;" class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12 text-right">
                 <a class="btn btn-success" href="{{ route('admin.divisions.create') }}">
-                    {{ trans('global.add') }} {{ trans('cruds.division.title_singular') }}
+                    Create {{ trans('cruds.division.title_singular') }}
                 </a>
             </div>
         </div>
@@ -25,7 +25,7 @@
 
                                     </th>
                                     <th>
-                                        {{ trans('cruds.division.fields.id') }}
+                                        SL
                                     </th>
                                     <th>
                                         {{ trans('cruds.division.fields.name') }}
@@ -45,7 +45,7 @@
 
                                         </td>
                                         <td>
-                                            {{ $division->id ?? '' }}
+                                            {{ $key+1 }}
                                         </td>
                                         <td>
                                             {{ $division->name ?? '' }}

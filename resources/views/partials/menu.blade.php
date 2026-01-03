@@ -56,6 +56,55 @@
                     </ul>
                 </li>
             @endcan
+            @can('master_data')
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fas fa-database fa-fw">
+
+                        </i>
+                        <span>Master Data</span>
+                        <span class="pull-right-container"><i class="fa fa-fw fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        @can('financial_year_access')
+                            <li
+                                class="{{ request()->is('admin/financial-years') || request()->is('admin/financial-years/*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.financial-years.index') }}">
+                                    <i class="fa-fw fas fa-calendar-alt">
+
+                                    </i>
+                                    <span>{{ trans('cruds.financialYear.title') }}</span>
+
+                                </a>
+                            </li>
+                        @endcan
+                        @can('division_access')
+                            <li
+                                class="{{ request()->is('admin/divisions') || request()->is('admin/divisions/*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.divisions.index') }}">
+                                    <i class="fa-fw fas fa-map-marker">
+
+                                    </i>
+                                    <span>{{ trans('cruds.division.title') }}</span>
+
+                                </a>
+                            </li>
+                        @endcan
+                        @can('road_access')
+                <li class="{{ request()->is('admin/roads') || request()->is('admin/roads/*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.roads.index') }}">
+                        <i class="fa-fw fas fa-road">
+
+                        </i>
+                        <span>{{ trans('cruds.road.title') }}</span>
+
+                    </a>
+                </li>
+            @endcan
+
+                    </ul>
+                </li>
+            @endcan
             @can('auction_manage_access')
                 <li class="treeview">
                     <a href="#">
@@ -66,14 +115,14 @@
                         <span class="pull-right-container"><i class="fa fa-fw fa-angle-left pull-right"></i></span>
                     </a>
                     <ul class="treeview-menu">
-                        @can('auction_access')
+                        @can('package_access')
                             <li
-                                class="{{ request()->is('admin/auctions') || request()->is('admin/auctions/*') ? 'active' : '' }}">
-                                <a href="{{ route('admin.auctions.index') }}">
-                                    <i class="fa-fw fas fa-gavel">
+                                class="{{ request()->is('admin/packages') || request()->is('admin/packages/*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.packages.index') }}">
+                                    <i class="fa-fw fas fa-box">
 
                                     </i>
-                                    <span>{{ trans('cruds.auction.title') }}</span>
+                                    <span>{{ trans('cruds.package.title') }}</span>
 
                                 </a>
                             </li>
@@ -100,18 +149,20 @@
                                 </a>
                             </li> --}}
                         @endcan
-                        @can('package_access')
+                        @can('auction_access')
                             <li
-                                class="{{ request()->is('admin/packages') || request()->is('admin/packages/*') ? 'active' : '' }}">
-                                <a href="{{ route('admin.packages.index') }}">
-                                    <i class="fa-fw fas fa-box">
+                                class="{{ request()->is('admin/auctions') || request()->is('admin/auctions/*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.auctions.index') }}">
+                                    <i class="fa-fw fas fa-gavel">
 
                                     </i>
-                                    <span>{{ trans('cruds.package.title') }}</span>
+                                    <span>{{ trans('cruds.auction.title') }}</span>
 
                                 </a>
                             </li>
                         @endcan
+                        
+                        
                     </ul>
                 </li>
             @endcan
@@ -178,8 +229,8 @@
             @endcan
 
             @can('bidder_access')
-                <li class="{{ request()->is("admin/bidders") || request()->is("admin/bidders/*") ? "active" : "" }}">
-                    <a href="{{ route("admin.bidders.index") }}">
+                <li class="{{ request()->is('admin/bidders') || request()->is('admin/bidders/*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.bidders.index') }}">
                         <i class="fa-fw fas fa-user-check">
 
                         </i>
@@ -189,8 +240,9 @@
                 </li>
             @endcan
             @can('bidder_auction_request_access')
-                <li class="{{ request()->is("admin/bidder-auction-requests") || request()->is("admin/bidder-auction-requests/*") ? "active" : "" }}">
-                    <a href="{{ route("admin.bidder-auction-requests.index") }}">
+                <li
+                    class="{{ request()->is('admin/bidder-auction-requests') || request()->is('admin/bidder-auction-requests/*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.bidder-auction-requests.index') }}">
                         <i class="fa-fw fas fa-smoking">
 
                         </i>
@@ -200,8 +252,8 @@
                 </li>
             @endcan
             @can('bid_access')
-                <li class="{{ request()->is("admin/bids") || request()->is("admin/bids/*") ? "active" : "" }}">
-                    <a href="{{ route("admin.bids.index") }}">
+                <li class="{{ request()->is('admin/bids') || request()->is('admin/bids/*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.bids.index') }}">
                         <i class="fa-fw fas fa-signal">
 
                         </i>
@@ -210,40 +262,8 @@
                     </a>
                 </li>
             @endcan
-            @can('road_access')
-                <li class="{{ request()->is('admin/roads') || request()->is('admin/roads/*') ? 'active' : '' }}">
-                    <a href="{{ route('admin.roads.index') }}">
-                        <i class="fa-fw fas fa-road">
+            
 
-                        </i>
-                        <span>{{ trans('cruds.road.title') }}</span>
-
-                    </a>
-                </li>
-            @endcan
-            @can('financial_year_access')
-                <li
-                    class="{{ request()->is('admin/financial-years') || request()->is('admin/financial-years/*') ? 'active' : '' }}">
-                    <a href="{{ route('admin.financial-years.index') }}">
-                        <i class="fa-fw fas fa-calendar-alt">
-
-                        </i>
-                        <span>{{ trans('cruds.financialYear.title') }}</span>
-
-                    </a>
-                </li>
-            @endcan
-            @can('division_access')
-                <li class="{{ request()->is('admin/divisions') || request()->is('admin/divisions/*') ? 'active' : '' }}">
-                    <a href="{{ route('admin.divisions.index') }}">
-                        <i class="fa-fw fas fa-map-marker">
-
-                        </i>
-                        <span>{{ trans('cruds.division.title') }}</span>
-
-                    </a>
-                </li>
-            @endcan
             @if (file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))
                 @can('profile_password_edit')
                     <li
