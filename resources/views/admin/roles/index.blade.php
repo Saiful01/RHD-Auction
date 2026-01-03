@@ -52,35 +52,38 @@
                                             </td>
                                             <td>
                                                 @foreach ($role->permissions as $key => $item)
-                                                    <span class="label label-info label-many">{{ $item->display_name }}</span>
+                                                    <span
+                                                        class="label label-info label-many">{{ $item->display_name }}</span>
                                                 @endforeach
                                             </td>
                                             <td>
-                                                @can('role_show')
-                                                    <a class="btn btn-xs btn-primary"
-                                                        href="{{ route('admin.roles.show', $role->id) }}">
-                                                        {{ trans('global.view') }}
-                                                    </a>
-                                                @endcan
+                                                <div style="display: inline-flex; gap: 5px; align-items: center;">
+                                                    @can('role_show')
+                                                        <a class="btn btn-xs btn-primary"
+                                                            href="{{ route('admin.roles.show', $role->id) }}">
+                                                            {{ trans('global.view') }}
+                                                        </a>
+                                                    @endcan
 
-                                                @can('role_edit')
-                                                    <a class="btn btn-xs btn-info"
-                                                        href="{{ route('admin.roles.edit', $role->id) }}">
-                                                        {{ trans('global.edit') }}
-                                                    </a>
-                                                @endcan
+                                                    @can('role_edit')
+                                                        <a class="btn btn-xs btn-info"
+                                                            href="{{ route('admin.roles.edit', $role->id) }}">
+                                                            {{ trans('global.edit') }}
+                                                        </a>
+                                                    @endcan
 
-                                                @can('role_delete')
-                                                    <form action="{{ route('admin.roles.destroy', $role->id) }}" method="POST"
-                                                        onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
-                                                        style="display: inline-block;">
-                                                        <input type="hidden" name="_method" value="DELETE">
-                                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                        <input type="submit" class="btn btn-xs btn-danger"
-                                                            value="{{ trans('global.delete') }}">
-                                                    </form>
-                                                @endcan
-
+                                                    @can('role_delete')
+                                                        <form action="{{ route('admin.roles.destroy', $role->id) }}"
+                                                            method="POST"
+                                                            onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
+                                                            style="margin:0;">
+                                                            @method('DELETE')
+                                                            @csrf
+                                                            <input type="submit" class="btn btn-xs btn-danger"
+                                                                value="{{ trans('global.delete') }}">
+                                                        </form>
+                                                    @endcan
+                                                </div>
                                             </td>
 
                                         </tr>

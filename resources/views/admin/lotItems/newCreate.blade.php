@@ -60,9 +60,7 @@
             </div>
         @endif
 
-
         <div class="row">
-
             {{-- LEFT: CREATE LOT ITEM --}}
             <div class="col-lg-5">
                 <div class="panel panel-default">
@@ -125,7 +123,7 @@
                                         {{-- ESTIMATED --}}
                                         <div class="form-group">
                                             <label>Estimated Price</label>
-                                            <input type="number" step="0.0000001" name="estimated_price[]"
+                                            <input type="number" step="0.0000001" name="estimated_price[]" value = "0.000"
                                                 class="form-control estimated_price" readonly>
                                         </div>
 
@@ -230,7 +228,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -282,7 +279,7 @@
                         <div class="form-group">
                             <label>Estimated Price</label>
                             <input type="number" step="0.0000001" name="estimated_price" id="editEstimatedPrice"
-                                class="form-control" readonly>
+                                value="0" class="form-control" readonly>
                         </div>
 
                         <div class="form-group">
@@ -313,9 +310,12 @@
             // AUTO CALCULATE ESTIMATED PRICE
             $(document).on('input', '.quantity,.unit_price', function() {
                 let row = $(this).closest('.lot-item-row');
-                let q = parseFloat(row.find('.quantity').val()) || 0;
-                let p = parseFloat(row.find('.unit_price').val()) || 0;
-                row.find('.estimated_price').val((q * p).toFixed(7));
+                let q = parseFloat(row.find('.quantity').val());
+                let p = parseFloat(row.find('.unit_price').val());
+                q = isNaN(q) ? 0 : q;
+                p = isNaN(p) ? 0 : p;
+                let total = q * p;
+                row.find('.estimated_price').val(total.toFixed(7));
             });
 
             // ADD NEW LOT ITEM ROW
