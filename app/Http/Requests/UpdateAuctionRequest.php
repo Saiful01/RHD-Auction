@@ -94,11 +94,16 @@ class UpdateAuctionRequest extends FormRequest
                 'min:-2147483648',
                 'max:2147483647',
             ],
-            'employees.*' => [
+
+            'bid_entity' => [
+                'nullable',
                 'integer',
+                'exists:employees,id',
             ],
-            'employees' => [
-                'array',
+            'contract_person' => [
+                'nullable',
+                'integer',
+                'exists:employees,id',
             ],
         ];
     }

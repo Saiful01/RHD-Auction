@@ -52,6 +52,8 @@ class Auction extends Model implements HasMedia
         'min_bid_amount',
         'vat',
         'tax',
+        'bid_entity',
+        'contract_person',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -156,5 +158,14 @@ class Auction extends Model implements HasMedia
     public function employees()
     {
         return $this->belongsToMany(Employee::class);
+    }
+
+    public function bidEntityEmployee()
+    {
+        return $this->belongsTo(Employee::class, 'bid_entity');
+    }
+    public function contractPersonEmployee()
+    {
+        return $this->belongsTo(Employee::class, 'contract_person');
     }
 }

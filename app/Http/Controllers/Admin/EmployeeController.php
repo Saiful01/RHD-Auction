@@ -125,4 +125,17 @@ class EmployeeController extends Controller
 
         return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }
+
+    public function search(Request $request)
+    {
+        $q = $request->get('q');
+
+        $users = Employee::query()
+            ->where('name_en', 'like', "%{$q}%")
+            ->orWhere('personnel', 'like', "%{$q}%")
+            ->limit(20)
+            ->get(['id', 'name_en', 'personnel']);
+
+        return response()->json($users);
+    }
 }

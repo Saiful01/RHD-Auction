@@ -297,26 +297,29 @@
                                     <span class="help-block">{{ trans('cruds.auction.fields.tax_helper') }}</span>
                                 </div>
                             </div>
-                            <div class="form-group {{ $errors->has('employees') ? 'has-error' : '' }}">
-                                <label for="employees">{{ trans('cruds.auction.fields.employees') }}</label>
-                                {{-- <div style="padding-bottom: 4px">
-                                    <span class="btn btn-info btn-xs select-all"
-                                        style="border-radius: 0">{{ trans('global.select_all') }}</span>
-                                    <span class="btn btn-info btn-xs deselect-all"
-                                        style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
-                                </div> --}}
-                                <select class="form-control select2" name="employees[]" id="employees" multiple>
-                                    @foreach ($employees as $id => $employee)
-                                        <option value="{{ $id }}"
-                                            {{ in_array($id, old('employees', [])) ? 'selected' : '' }}>
-                                            {{ $employee }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @if ($errors->has('employees'))
-                                    <span class="help-block" role="alert">{{ $errors->first('employees') }}</span>
-                                @endif
-                                <span class="help-block">{{ trans('cruds.auction.fields.employees_helper') }}</span>
+                            <div class="row mb-3">
+
+                                <!-- Bid Entity -->
+                                <div class="form-group col-md-6">
+                                    <label class="form-label">Bid Entity</label>
+                                    <select name="bid_entity" id="bid_entity" class="form-control select2">
+                                        <option value="">-- Select Bid Entity --</option>
+                                    </select>
+                                    @error('bid_entity')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <!-- Contract Person -->
+                                <div class="form-group col-md-6">
+                                    <label class="form-label">Contract Person</label>
+                                    <select name="contract_person" id="contract_person" class="form-control select2">
+                                        <option value="">-- Select Contract Person --</option>
+                                    </select>
+                                    @error('contract_person')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-danger" type="submit">
@@ -441,6 +444,47 @@
             // Percentage change
             $('#estimate_value_percentage').on('input', function() {
                 recalculate();
+            });
+
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            const ajaxConfig = {
+                url: '{{ route('admin.employee.search') }}',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        q: params.term
+                    };
+                },
+                processResults: function(data) {
+                    console.log("Ajax response:", data);
+                    return {
+                        results: data.map(emp => ({
+                            id: emp.id,
+                            text: emp.name_en + ' (' + emp.personnel + ')'
+                        }))
+                    };
+                },
+                cache: true
+            };
+
+            // Bid Entity
+            $('#bid_entity').select2({
+                placeholder: '-- Select Bid Entity --',
+                minimumInputLength: 3,
+                ajax: ajaxConfig,
+                allowClear: true
+            });
+
+            // Contract Person
+            $('#contract_person').select2({
+                placeholder: '-- Select Contract Person --',
+                minimumInputLength: 3,
+                ajax: ajaxConfig,
+                allowClear: true
             });
 
         });

@@ -4,6 +4,7 @@
 
 use App\Http\Controllers\Admin\AuctionController;
 use App\Http\Controllers\Admin\BidderController;
+use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Frontend\AuthController;
 
@@ -91,6 +92,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('employees/media', 'EmployeeController@storeMedia')->name('employees.storeMedia');
     Route::post('employees/ckmedia', 'EmployeeController@storeCKEditorImages')->name('employees.storeCKEditorImages');
     Route::resource('employees', 'EmployeeController');
+    Route::get('employee/search', [EmployeeController::class, 'search'])->name('employee.search');
 
     // Auction
     Route::delete('auctions/destroy', 'AuctionController@massDestroy')->name('auctions.massDestroy');
