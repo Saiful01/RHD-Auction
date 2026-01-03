@@ -19,7 +19,7 @@ return [
             'updated_at_helper'   => ' ',
             'deleted_at'          => 'Deleted at',
             'deleted_at_helper'   => ' ',
-            'display_name'        => 'Display Name',
+            'display_name'        => 'Name',
             'display_name_helper' => ' ',
         ],
     ],

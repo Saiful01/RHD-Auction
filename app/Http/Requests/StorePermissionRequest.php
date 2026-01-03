@@ -17,10 +17,10 @@ class StorePermissionRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => [
+          /*  'title' => [
                 'string',
                 'required',
-            ],
+            ],*/
             'display_name' => [
                 'string',
                 'nullable',

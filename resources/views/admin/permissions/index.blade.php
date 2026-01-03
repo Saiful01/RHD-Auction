@@ -28,9 +28,9 @@
                                         {{ trans('cruds.permission.fields.id') }}
                                     </th> --}}
                                     <th>SL</th>
-                                    <th>
+                                  {{--  <th>
                                         {{ trans('cruds.permission.fields.title') }}
-                                    </th>
+                                    </th>--}}
                                     <th>
                                         {{ trans('cruds.permission.fields.display_name') }}
                                     </th>
@@ -48,9 +48,9 @@
                                         <td>
                                             {{ $key + 1 }}
                                         </td>
-                                        <td>
+                                      {{--  <td>
                                             {{ $permission->title ?? '' }}
-                                        </td>
+                                        </td>--}}
                                         <td>
                                             {{ $permission->display_name ?? '' }}
                                         </td>
@@ -136,7 +136,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 })
 
 </script>

@@ -31,6 +31,9 @@ class PermissionsController extends Controller
 
     public function store(StorePermissionRequest $request)
     {
+
+        $request['title'] = strtolower(str_replace(' ', '_', $request->display_name));
+
         $permission = Permission::create($request->all());
 
         return redirect()->route('admin.permissions.index');
