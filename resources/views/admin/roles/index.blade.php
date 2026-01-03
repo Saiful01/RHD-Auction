@@ -52,7 +52,7 @@
                                             </td>
                                             <td>
                                                 @foreach ($role->permissions as $key => $item)
-                                                    <span class="label label-info label-many">{{ $item->title }}</span>
+                                                    <span class="label label-info label-many">{{ $item->display_name }}</span>
                                                 @endforeach
                                             </td>
                                             <td>

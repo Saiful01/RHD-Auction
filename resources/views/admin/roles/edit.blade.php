@@ -20,7 +20,7 @@
                             @endif
                             <span class="help-block">{{ trans('cruds.role.fields.title_helper') }}</span>
                         </div>
-                        <div class="form-group {{ $errors->has('permissions') ? 'has-error' : '' }}">
+                        {{--<div class="form-group {{ $errors->has('permissions') ? 'has-error' : '' }}">
                             <label class="required" for="permissions">{{ trans('cruds.role.fields.permissions') }}</label>
                             <div style="padding-bottom: 4px">
                                 <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
@@ -35,7 +35,36 @@
                                 <span class="help-block" role="alert">{{ $errors->first('permissions') }}</span>
                             @endif
                             <span class="help-block">{{ trans('cruds.role.fields.permissions_helper') }}</span>
+                        </div>--}}
+                        <div class="form-group {{ $errors->has('permissions') ? 'has-error' : '' }}">
+                            <label class="required">{{ trans('cruds.role.fields.permissions') }}</label>
+
+                            <!-- Select All Checkbox -->
+                            <div style="margin-bottom:10px;">
+                                <label style="font-weight:bold;">
+                                    <input type="checkbox" id="selectAllCheckbox"> Select All
+                                </label>
+                            </div>
+
+                            <!-- Permission Checkbox List -->
+                            <div id="permissionCheckboxes">
+                                @foreach($permissions as $id => $permission)
+                                    <div style="margin-bottom:6px;">
+                                        <label>
+                                            <input type="checkbox" class="permission-checkbox" name="permissions[]" value="{{ $id }}"
+                                                {{ (in_array($id, old('permissions', [])) || $role->permissions->contains($id)) ? 'checked' : '' }}>
+                                            {{ $permission }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            @if($errors->has('permissions'))
+                                <span class="help-block" role="alert">{{ $errors->first('permissions') }}</span>
+                            @endif
+                            <span class="help-block">{{ trans('cruds.role.fields.permissions_helper') }}</span>
                         </div>
+
                         <div class="form-group">
                             <button class="btn btn-danger" type="submit">
                                 {{ trans('global.save') }}
@@ -50,4 +79,21 @@
         </div>
     </div>
 </div>
+
+
+<!-- JS for Select All & Uncheck All -->
+<script>
+    document.getElementById('selectAllCheckbox').addEventListener('change', function () {
+        let checkboxes = document.querySelectorAll('.permission-checkbox');
+        checkboxes.forEach(cb => cb.checked = this.checked);
+    });
+
+    // যদি সব permission checkbox manually check করা হয়, Select All ও auto-check হবে
+    document.querySelectorAll('.permission-checkbox').forEach(cb => {
+        cb.addEventListener('change', function () {
+            let allChecked = document.querySelectorAll('.permission-checkbox:checked').length === document.querySelectorAll('.permission-checkbox').length;
+            document.getElementById('selectAllCheckbox').checked = allChecked;
+        });
+    });
+</script>
 @endsection
