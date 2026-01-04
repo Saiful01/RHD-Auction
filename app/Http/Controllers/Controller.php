@@ -13,7 +13,9 @@ class Controller extends BaseController
 
     public function home()
     {
-        $auctions = Auction::with(['financial_year', 'road', 'package', 'lots', 'employees'])->get();
+        $auctions = Auction::with(['financial_year', 'road', 'package', 'lots', 'employees'])
+            ->whereIn('status', ['active', 'under_review', 'rejected'])
+            ->get();
         return view('frontend.home.index', compact('auctions'));
     }
 
@@ -29,5 +31,5 @@ class Controller extends BaseController
     }
 
     // bidder registration form
-    
+
 }

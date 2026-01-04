@@ -9,7 +9,7 @@
                 <h6>Dashboard</h6>
             </a>
         </li>
-        <li>
+        {{-- <li>
             <a href="dashboard-my-auction.html">
                 <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
                     <g>
@@ -19,7 +19,7 @@
                 </svg>
                 <h6>My Auction</h6>
             </a>
-        </li>
+        </li> --}}
         {{-- <li>
                             <a href="dashboard-payment.html">
                                 <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">

@@ -199,14 +199,14 @@
                                                         </td>
                                                     </tr>
 
-                                                    <tr>
+                                                    {{-- <tr>
                                                         <th>Tender Sale Period</th>
                                                         <td>
                                                             {{ \Carbon\Carbon::parse($auction->tender_sale_start_date)->format('d M Y') }}
                                                             —
                                                             {{ \Carbon\Carbon::parse($auction->tender_sale_end_date)->format('d M Y') }}
                                                         </td>
-                                                    </tr>
+                                                    </tr> --}}
 
                                                     <tr>
                                                         <th>Deadline for Tree Removal</th>

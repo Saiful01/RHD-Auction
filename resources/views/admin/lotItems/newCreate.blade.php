@@ -48,10 +48,9 @@
                                         Details
                                     </label>
                                     <div class="pt-2" style="line-height:1.6;">
-                                        {{ $lot->details ?? '—' }}
+                                        {{ strip_tags($lot->details ?? '—') }}
                                     </div>
                                 </div>
-
                             </div>
                         </div>
 

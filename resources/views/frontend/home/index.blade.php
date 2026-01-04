@@ -98,11 +98,39 @@
                     <div class="col-lg-12">
                         <div class="swiper auction-slider">
                             <div class="swiper-wrapper">
+                                @php
+                                    use Carbon\Carbon;
+                                    $now = Carbon::now();
+                                @endphp
                                 @foreach ($auctions as $auction)
-                                    <div class="swiper-slide">
+                                    @php
+                                        $startTime = $auction->auction_start_time
+                                            ? Carbon::parse($auction->auction_start_time)
+                                            : null;
+                                        $badgeText = 'Upcoming';
+                                        $badgeClass = 'upcoming';
+                                        $isClickable = false;
+
+                                        if ($auction->status === 'active' && $startTime->lte($now)) {
+                                            $badgeText = 'Live';
+                                            $badgeClass = 'live';
+                                            $isClickable = true;
+                                        } elseif ($auction->status === 'rejected') {
+                                            $badgeText = 'Rejected';
+                                            $badgeClass = 'rejected';
+                                            $isClickable = false;
+                                        } elseif ($auction->status === 'under_review') {
+                                            $badgeText = 'Upcoming';
+                                            $badgeClass = 'upcoming';
+                                            $isClickable = false;
+                                        }
+                                    @endphp
+                                    <div class="swiper-slide"
+                                        style="{{ $isClickable ? '' : 'pointer-events:none; opacity:0.6;' }}">
                                         <div class="auction-card">
                                             <div class="auction-card-img-wrap">
-                                                <a href="{{ route('auction.details', $auction->id) }}" class="card-img">
+                                                <a href="{{ $isClickable ? route('auction.details', $auction->id) : 'javascript:void(0)' }}"
+                                                    class="card-img">
                                                     @php
                                                         // lot item image
                                                         $firstItemImage = null;
@@ -121,13 +149,13 @@
                                                 </a>
 
                                                 <div class="batch">
-                                                    <span class="live">
+                                                    <span class="{{ $badgeClass }}">
                                                         <svg width="11" height="11" viewBox="0 0 11 11"
                                                             xmlns="http://www.w3.org/2000/svg">
                                                             <path
                                                                 d="M10.6777 11H4.83398C4.65599 11 4.51172 10.8557 4.51172 10.6777V10.334C4.51172 9.97798 4.80025 9.68944 5.15625 9.68944V9.30414C5.15625 8.79397 5.57133 8.37889 6.0815 8.37889H9.43022C9.94039 8.37889 10.3555 8.79397 10.3555 9.30414V9.68944C10.7115 9.68944 11 9.97798 11 10.334V10.6777C11 10.8556 10.8556 11 10.6777 11ZM6.96665 7.09722C6.75245 7.38146 6.34829 7.43829 6.06405 7.22402C5.77973 7.00985 5.72299 6.60568 5.93716 6.32134L7.8766 3.74766C8.09087 3.46333 8.49494 3.40659 8.7792 3.62077C9.06353 3.83503 9.12035 4.23911 8.90609 4.52346L6.96665 7.09722ZM2.334 3.60618C2.11973 3.89042 1.71563 3.94725 1.43131 3.73298C1.14707 3.51881 1.09025 3.11473 1.30451 2.83038L3.24397 0.256726C3.45815 -0.027598 3.86231 -0.0844241 4.14657 0.12984C4.43081 0.344103 4.48763 0.748181 4.27337 1.03253L2.334 3.60618ZM3.74767 5.4785C3.27134 5.11956 2.91373 4.67385 2.69008 4.20454L4.94678 1.20984C5.45955 1.29552 5.98651 1.51631 6.46293 1.87534C6.93928 2.23428 7.29689 2.67999 7.52054 3.14921L5.26382 6.14409C4.75108 6.05841 4.22411 5.83751 3.74767 5.4785ZM2.87749 5.56242C3.02753 5.71533 3.18557 5.86196 3.35979 5.99329C3.53409 6.12456 3.71864 6.23606 3.90689 6.33822L3.48668 6.89589L2.45719 6.12018L2.87749 5.56242ZM2.06929 6.63488L3.09878 7.41059L1.15932 9.98436C0.945055 10.2687 0.540977 10.3254 0.256717 10.1112C-0.027607 9.89698 -0.0843477 9.4929 0.12983 9.20856L2.06929 6.63488Z" />
                                                         </svg>
-                                                        Live
+                                                        {{ $badgeText }}
                                                     </span>
                                                 </div>
                                                 <ul class="view-and-favorite-area">
@@ -150,34 +178,41 @@
                                                         </a>
                                                     </li>
                                                 </ul>
-                                                <div class="countdown-timer">
-                                                    <ul
-                                                        data-countdown="{{ \Carbon\Carbon::parse($auction->auction_end_time)->format('Y-m-d H:i:s') }}">
-                                                        <li class="times" data-days="00">00</li>
-                                                        <li class="colon">
-                                                            :
-                                                        </li>
-                                                        <li class="times" data-hours="00">00</li>
-                                                        <li class="colon">
-                                                            :
-                                                        </li>
-                                                        <li class="times" data-minutes="00">00</li>
-                                                        <li class="colon">
-                                                            :
-                                                        </li>
-                                                        <li class="times" data-seconds="00">00</li>
-                                                    </ul>
-                                                </div>
+                                                @if ($badgeText === 'Live')
+                                                    <div class="countdown-timer">
+                                                        <ul
+                                                            data-countdown="{{ \Carbon\Carbon::parse($auction->auction_end_time)->format('Y-m-d H:i:s') }}">
+                                                            <li class="times" data-days="00">00</li>
+                                                            <li class="colon">
+                                                                :
+                                                            </li>
+                                                            <li class="times" data-hours="00">00</li>
+                                                            <li class="colon">
+                                                                :
+                                                            </li>
+                                                            <li class="times" data-minutes="00">00</li>
+                                                            <li class="colon">
+                                                                :
+                                                            </li>
+                                                            <li class="times" data-seconds="00">00</li>
+                                                        </ul>
+                                                    </div>
+                                                @endif
                                             </div>
                                             <div class="auction-card-content">
-                                                <h6><a
-                                                        href="{{ route('auction.details', $auction->id) }}">{{ strip_tags($auction->name) }}</a>
+                                                <h6>
+                                                    <a
+                                                        href="{{ $isClickable ? route('auction.details', $auction->id) : 'javascript:void(0)' }}">
+                                                        {{ strip_tags($auction->name) }}
+                                                    </a>
                                                 </h6>
                                                 <div class="price-and-code-area">
-                                                    <div class="price">
-                                                        <span>Current Base Value:</span>
-                                                        <strong>{{ $auction->base_value_amount }} ৳</strong>
-                                                    </div>
+                                                    @if ($badgeText === 'Live')
+                                                        <div class="price">
+                                                            <span>Current Base Value:</span>
+                                                            <strong>{{ $auction->base_value_amount }} ৳</strong>
+                                                        </div>
+                                                    @endif
                                                     <div class="code">
                                                         <span>
                                                             @foreach ($auction->lots as $lot)
@@ -200,7 +235,8 @@
                                                             </h6>
                                                         </div>
                                                     </a> --}}
-                                                    <a href="{{ route('auction.details', $auction->id) }}" class="bid-btn">
+                                                    <a href="{{ $isClickable ? route('auction.details', $auction->id) : 'javascript:void(0)' }}"
+                                                        class="bid-btn {{ $isClickable ? '' : 'disabled' }}">
                                                         View Details
                                                     </a>
                                                 </div>
@@ -213,7 +249,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row wow animate fadeInUp" data-wow-delay="200ms" data-wow-duration="1500ms">
+            {{-- <div class="row wow animate fadeInUp" data-wow-delay="200ms" data-wow-duration="1500ms">
                 <div class="col-lg-12 d-flex justify-content-center">
                     <a class="view-button" href="auction-grid.html">
                         View All Auction
@@ -222,7 +258,7 @@
                         </svg>
                     </a>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
     <!-- End Live Auction section -->
