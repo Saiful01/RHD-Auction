@@ -2,22 +2,10 @@
 
 @section('content')
     <!-- Start Breadcrumb section -->
-    <div class="breadcrumb-section"
-        style="background-image: url(../assets/img/inner-pages/breadcrumb-bg1.png), linear-gradient(87.29deg, #FDF8E7 0%, #E4FFF0 99.71%);">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 d-flex justify-content-center">
-                    <div class="banner-content">
-                        <h1>Auction Details</h1>
-                        <ul class="breadcrumb-list">
-                            <li><a href="{{ route('home') }}">Home</a></li>
-                            <li>Auction Details</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('frontend_layouts.partials.breadcrumb', [
+        'title' => 'Auction Details',
+        'breadcrumb' => 'Auction Details',
+    ])
     <!-- End Breadcrumb section -->
 
     <!-- Start Auction Details section -->
@@ -82,7 +70,7 @@
                         <div class="batch">
                             <span>
                                 @foreach ($auction->lots as $lot)
-                                    {{ $lot->details }}
+                                    {{ strip_tags($lot->details) }}
                                 @endforeach
                             </span>
                         </div>
