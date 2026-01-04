@@ -158,4 +158,13 @@ class BidderController extends Controller
 
         return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }
+
+    // Toggle status
+    public function toggleStatus(Bidder $bidder)
+    {
+        abort_if(Gate::denies('bidder_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $bidder->status  = $bidder->status == 1 ? 0 : 1;
+        $bidder->save();
+        return back()->with('success', 'Bidder status updated successfully.');
+    }
 }

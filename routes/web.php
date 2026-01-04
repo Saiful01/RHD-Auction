@@ -10,6 +10,8 @@ use App\Http\Controllers\Frontend\AuthController;
 
 Route::get('/', [Controller::class, 'home'])->name('home');
 Route::get('/auction-details/{auction}', [Controller::class, 'auction_details'])->name('auction.details');
+Route::get('/auction-bid-rules', [Controller::class, 'auction_bid_rules'])->name('auction.bid.rules');
+
 Route::get('/home', function () {
     if (session('status')) {
         return redirect()->route('admin.home')->with('status', session('status'));
@@ -106,7 +108,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('auctions/reject/{auction}', [AuctionController::class, 'reject'])->name('auctions.reject');
     Route::post('auctions/{auction}/toggle-status', [AuctionController::class, 'toggleStatus'])->name('auctions.toggleStatus');
 
-    // Bidder approve
+    // Bidder approve for email notification
     Route::get('bidders/approve/{bidder}', [BidderController::class, 'approve'])->name('bidders.approve');
 
 
@@ -115,6 +117,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('bidders/media', 'BidderController@storeMedia')->name('bidders.storeMedia');
     Route::post('bidders/ckmedia', 'BidderController@storeCKEditorImages')->name('bidders.storeCKEditorImages');
     Route::resource('bidders', 'BidderController');
+    Route::post('bidder/{bidder}/toggle-status', [BidderController::class, 'toggleStatus'])->name('bidders.toggleStatus');
 
     // Bidder Auction Request
     Route::delete('bidder-auction-requests/destroy', 'BidderAuctionRequestController@massDestroy')->name('bidder-auction-requests.massDestroy');
@@ -151,5 +154,7 @@ Route::middleware(['auth:bidder', 'bidder.status'])->group(function () {
     Route::get('bidder/dashboard', [AuthController::class, 'dashboard'])->name('bidder.dashboard');
     Route::get('bidder/profile', [AuthController::class, 'profile'])->name('bidder.profile');
     Route::post('bidder/update', [AuthController::class, 'update'])->name('bidder.update');
+    Route::get('bidder/change-password', [AuthController::class, 'changePassword'])->name('bidder.changePassword');
+    Route::post('bidder/change-password', [AuthController::class, 'updatePassword'])->name('bidder.updatePassword');
     Route::post('bidder/logout', [AuthController::class, 'logout'])->name('bidder.logout');
 });

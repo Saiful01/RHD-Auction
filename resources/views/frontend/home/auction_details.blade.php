@@ -237,20 +237,20 @@
                                                         <td>{{ strip_tags($auction->required_document) }}</td>
                                                     </tr>
 
-                                                    <tr>
+                                                    {{-- <tr>
                                                         <th>Estimated Value (%)</th>
                                                         <td>{{ $auction->estimate_value_percentage }}%</td>
-                                                    </tr>
+                                                    </tr> --}}
 
                                                     <tr>
                                                         <th>Base Value Amount</th>
                                                         <td>{{ number_format($auction->base_value_amount, 2) }}</td>
                                                     </tr>
 
-                                                    <tr>
+                                                    {{-- <tr>
                                                         <th>Minimum Bid Amount</th>
                                                         <td>{{ number_format($auction->min_bid_amount, 2) }}</td>
-                                                    </tr>
+                                                    </tr> --}}
 
                                                     <tr>
                                                         <th>VAT</th>
@@ -265,7 +265,7 @@
                                                     @if ($auction->note)
                                                         <tr>
                                                             <th>Note</th>
-                                                            <td>{{ $auction->note }}</td>
+                                                            <td>{{ strip_tags($auction->note) }}</td>
                                                         </tr>
                                                     @endif
 
@@ -315,7 +315,7 @@
                                                             <th>Dia</th>
                                                             <th>Quantity</th>
                                                             <th>Unit</th>
-                                                            <th>Unit Price</th>
+                                                            {{-- <th>Unit Price</th> --}}
                                                         </tr>
                                                     </thead>
 
@@ -327,7 +327,7 @@
                                                                 <td>{{ $item->dia }}</td>
                                                                 <td>{{ $item->quantity }}</td>
                                                                 <td>{{ $item->unit }}</td>
-                                                                <td>{{ number_format($item->unit_price, 2) }}</td>
+                                                                {{-- <td>{{ number_format($item->unit_price, 2) }}</td> --}}
                                                             </tr>
                                                         @empty
                                                             <tr>

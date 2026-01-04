@@ -27,7 +27,7 @@
             <div class="dashboard-wrapper">
                 <div class="dashboard-sidebar-menu">
                     <ul>
-                        <li>
+                        <li class="active">
                             <a href="{{ route('bidder.dashboard') }}">
                                 <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -60,7 +60,7 @@
                                 <h6>Payment</h6>
                             </a>
                         </li> --}}
-                        <li class="active">
+                        <li>
                             <a href="{{ route('bidder.profile') }}">
                                 <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
                                     <g>
@@ -74,7 +74,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="dashboard-change-password.html">
+                            <a href="{{ route('bidder.changePassword') }}">
                                 <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
                                     <g>
                                         <path
@@ -118,6 +118,7 @@
                                 @csrf
                             </form>
                         </li>
+
                     </ul>
                 </div>
                 <div class="dashboard-content-wrap two">
@@ -125,14 +126,16 @@
                         <div class="edit-info-area">
 
                             <h6>Edit Your Information</h6>
-                            <form action="{{ route('bidder.update') }}" class="edit-info-form" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('bidder.update') }}" class="edit-info-form" method="POST"
+                                enctype="multipart/form-data">
                                 @csrf
                                 <div class="edit-info-area mb-30">
                                     <h6>Edit Your Profile Picture</h6>
                                     <div class="edit-profile-img-area">
                                         <div class="profile-img">
-                                            @if ($bidder->photo)
-                                                <img src="{{ asset('storage/' . $bidder->photo) }}" alt="Bidder Photo">
+                                            @if ($bidder->getFirstMediaUrl('profile_image'))
+                                                <img src="{{ $bidder->getFirstMediaUrl('profile_image') }}"
+                                                    alt="Bidder Photo">
                                             @else
                                                 <img src="{{ asset('assets/img/inner-pages/dashbaord-edit-profile-img.png') }}"
                                                     alt="">
@@ -150,18 +153,61 @@
                                 <div class="row">
                                     <div class="col-md-6 mb-30">
                                         <div class="form-inner">
-                                            <label>First Name</label>
+                                            <label>Full Name</label>
                                             <input type="text" name="name" value="{{ old('name', $bidder->name) }}"
                                                 placeholder="Md. Rofiqul">
                                         </div>
                                     </div>
+
                                     <div class="col-md-6 mb-30">
+                                        <div class="verify-area">
+                                            <div class="form-inner">
+                                                <label>Email Address</label>
+                                                <input type="email" name="email"
+                                                    value="{{ old('email', $bidder->email) }}">
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 mb-30">
+                                        <div class="form-inner">
+                                            <label>Phone</label>
+                                            <input type="text" name="phone" value="{{ old('phone', $bidder->phone) }}"
+                                                placeholder="Md. Rofiqul">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 mb-30">
+                                        <div class="form-inner">
+                                            <label>NID Number</label>
+                                            <input type="text" name="nid_no"
+                                                value="{{ old('nid_no', $bidder->nid_no) }}" placeholder="Md. Rofiqul">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 mb-30">
+                                        <div class="form-inner">
+                                            <label>TIN Number</label>
+                                            <input type="text" name="tin_no"
+                                                value="{{ old('tin_no', $bidder->tin_no) }}" placeholder="Md. Rofiqul">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 mb-30">
+                                        <div class="form-inner">
+                                            <label>BIN Number</label>
+                                            <input type="text" name="bin_no"
+                                                value="{{ old('bin_no', $bidder->bin_no) }}" placeholder="Md. Rofiqul">
+                                        </div>
+                                    </div>
+                                    {{-- <div class="col-md-6 mb-30">
                                         <div class="form-inner">
                                             <label>Last Name</label>
                                             <input type="text" name="last_name"
                                                 value="{{ old('last_name', $bidder->last_name) }}">
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-md-12 mb-50">
                                         <div class="form-inner">
                                             <label>Your Address</label>
@@ -169,30 +215,108 @@
                                                 value="{{ old('address', $bidder->address) }}">
                                         </div>
                                     </div>
-                                    <div class="col-md-12 mb-30">
-                                        <div class="verify-area">
-                                            <div class="form-inner">
-                                                <label>Email Address</label>
-                                                <input type="email" name="email"
-                                                    value="{{ old('email', $bidder->email) }}">
-                                            </div>
-                                            <button class="primary-btn btn-hover two black-bg">
-                                                Verify Email
-                                                <span></span>
-                                            </button>
+
+                                    <div class="col-md-12 mb-50">
+                                        <div class="form-inner">
+                                            <label>About Yourself</label>
+                                            <input type="text" name="details"
+                                                value="{{ old('details', $bidder->details) }}">
                                         </div>
                                     </div>
-                                    <div class="col-md-12 mb-60">
-                                        <div class="verify-area">
-                                            <div class="form-inner">
-                                                <label>Phone Number</label>
-                                                <input type="text" name="phone"
-                                                    value="{{ old('phone', $bidder->phone) }}">
+
+                                    <div class="col-md-6 mb-30">
+                                        <div class="edit-info-area">
+                                            <h6>NID File</h6>
+                                            <div class="edit-profile-img-area">
+                                                <div class="profile-img">
+                                                    @if ($bidder->getFirstMediaUrl('nid_file'))
+                                                        {{-- PDF or image preview --}}
+                                                        @php
+                                                            $nidFile = $bidder->getFirstMedia('nid_file');
+                                                            $isImage = str_contains($nidFile->mime_type, 'image');
+                                                        @endphp
+                                                        @if ($isImage)
+                                                            <img src="{{ $nidFile->getUrl('preview') }}" alt="NID File">
+                                                        @else
+                                                            <a href="{{ $nidFile->getUrl() }}" target="_blank">View NID
+                                                                File</a>
+                                                        @endif
+                                                    @else
+                                                        <span>No NID File Uploaded</span>
+                                                    @endif
+                                                </div>
+                                                <div class="upload-img-area">
+                                                    <h6>Upload NID File</h6>
+                                                    <div class="upload-filed">
+                                                        <input type="file" name="nid_file">
+                                                    </div>
+                                                    <span>PDF / JPEG / PNG, Max: 5MB</span>
+                                                </div>
                                             </div>
-                                            <button class="primary-btn btn-hover two black-bg">
-                                                Verify Phone
-                                                <span></span>
-                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 mb-30">
+                                        <div class="edit-info-area">
+                                            <h6>TIN File</h6>
+                                            <div class="edit-profile-img-area">
+                                                <div class="profile-img">
+                                                    @if ($bidder->getFirstMediaUrl('tin_file'))
+                                                        {{-- PDF or image preview --}}
+                                                        @php
+                                                            $tinFile = $bidder->getFirstMedia('tin_file');
+                                                            $isImage = str_contains($tinFile->mime_type, 'image');
+                                                        @endphp
+                                                        @if ($isImage)
+                                                            <img src="{{ $tinFile->getUrl('preview') }}" alt="TIN File">
+                                                        @else
+                                                            <a href="{{ $tinFile->getUrl() }}" target="_blank">View TIN
+                                                                File</a>
+                                                        @endif
+                                                    @else
+                                                        <span>No NID File Uploaded</span>
+                                                    @endif
+                                                </div>
+                                                <div class="upload-img-area">
+                                                    <h6>Upload TIN File</h6>
+                                                    <div class="upload-filed">
+                                                        <input type="file" name="tin_file">
+                                                    </div>
+                                                    <span>PDF / JPEG / PNG, Max: 5MB</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 mb-30">
+                                        <div class="edit-info-area">
+                                            <h6>BIN File</h6>
+                                            <div class="edit-profile-img-area">
+                                                <div class="profile-img">
+                                                    @if ($bidder->getFirstMediaUrl('bin_file'))
+                                                        {{-- PDF or image preview --}}
+                                                        @php
+                                                            $binFile = $bidder->getFirstMedia('bin_file');
+                                                            $isImage = str_contains($binFile->mime_type, 'image');
+                                                        @endphp
+                                                        @if ($isImage)
+                                                            <img src="{{ $binFile->getUrl('preview') }}" alt="BIN File">
+                                                        @else
+                                                            <a href="{{ $binFile->getUrl() }}" target="_blank">View BIN
+                                                                File</a>
+                                                        @endif
+                                                    @else
+                                                        <span>No BIN File Uploaded</span>
+                                                    @endif
+                                                </div>
+                                                <div class="upload-img-area">
+                                                    <h6>Upload BIN File</h6>
+                                                    <div class="upload-filed">
+                                                        <input type="file" name="bin_file">
+                                                    </div>
+                                                    <span>PDF / JPEG / PNG, Max: 5MB</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

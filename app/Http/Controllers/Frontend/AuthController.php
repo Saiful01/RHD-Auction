@@ -73,6 +73,7 @@ class AuthController extends Controller
             'nid_no' => 'required|string',
             'tin_no' => 'nullable|string',
             'bin_no' => 'nullable|string',
+            'address' => 'nullable|string',
             'profile_image' => 'nullable|file|mimes:jpg,jpeg,png',
             'nid_file' => 'required|file|mimes:jpg,jpeg,png,pdf',
             'tin_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
@@ -98,6 +99,7 @@ class AuthController extends Controller
             'nid_no' => $request->nid_no,
             'tin_no' => $request->tin_no,
             'bin_no' => $request->bin_no,
+            'address' => $request->address,
             'status' => 0,
         ]);
 
@@ -166,20 +168,20 @@ class AuthController extends Controller
 
         $request->validate([
             'name'      => 'nullable|string|max:255',
-            'last_name' => 'nullable|string|max:255',
+            // 'last_name' => 'nullable|string|max:255',
             'address'   => 'nullable|string|max:500',
             'email'     => 'nullable|email|unique:bidders,email,' . $bidder->id,
             'phone'     => 'nullable|string|max:20',
-            'photo'     => 'nullable|image|mimes:jpg,jpeg,png|max:4096',
+            'nid_no'        => 'nullable|string|max:255',
+            'tin_no'        => 'nullable|string|max:255',
+            'bin_no'        => 'nullable|string|max:255',
+            'details'       => 'nullable|string',
+            'status'        => 'nullable|string|max:255',
+            'profile_image'     => 'nullable|image|mimes:jpg,jpeg,png|max:4096',
+            'nid_file'         => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:5120',
+            'tin_file'         => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:5120',
+            'bin_file'         => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:5120',
         ]);
-
-
-        if ($request->hasFile('photo')) {
-            if ($bidder->photo && Storage::disk('public')->exists($bidder->photo)) {
-                Storage::disk('public')->delete($bidder->photo);
-            }
-            $bidder->photo = $request->file('photo')->store('bidders/photo', 'public');
-        }
 
         $bidder->update([
             'name'      => $request->name ?? $bidder->name,
@@ -187,9 +189,50 @@ class AuthController extends Controller
             'address'   => $request->address ?? $bidder->address,
             'email'     => $request->email ?? $bidder->email,
             'phone'     => $request->phone ?? $bidder->phone,
-            'photo'     => $bidder->photo,
+            'nid_no'    => $request->nid_no ?? $bidder->nid_no,
+            'tin_no'    => $request->tin_no ?? $bidder->tin_no,
+            'bin_no'    => $request->bin_no ?? $bidder->bin_no,
+            'details'   => $request->details ?? $bidder->details,
+            'status'    => $request->status ?? $bidder->status,
         ]);
 
+        // Media files update
+        foreach (['profile_image', 'nid_file', 'tin_file', 'bin_file'] as $file) {
+            if ($request->hasFile($file)) {
+                if ($bidder->$file) {
+                    $bidder->$file->delete();
+                }
+                $tmpPath = $request->file($file)->store('tmp/uploads');
+                $bidder->addMedia(storage_path('app/' . $tmpPath))->toMediaCollection($file);
+            }
+        }
+
         return back()->with('success', 'Profile updated successfully');
+    }
+
+    public function changePassword()
+    {
+        return view('frontend.bidder.change-password');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $bidder = auth('bidder')->user();
+
+        $request->validate([
+            'current_password' => 'required',
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        if (!Hash::check($request->current_password, $bidder->password)) {
+            return back()->withErrors(['current_password' => 'The provided password does not match your current password.']);
+        }
+
+        $bidder->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+
+        return back()->with('success', 'Password updated successfully.');
     }
 }

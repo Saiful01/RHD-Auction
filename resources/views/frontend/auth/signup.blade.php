@@ -41,6 +41,20 @@
                                     <label class="fw-semibold small">Email</label>
                                     <input type="email" name="email" class="form-control" required>
                                 </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="fw-semibold small">Phone Number</label>
+                                    <input type="text" name="phone" class="form-control" required>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="fw-semibold small">NID Number</label>
+                                    <input type="text" name="nid_no" class="form-control" required>
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <label class="fw-semibold small">Address</label>
+                                    <input type="text" name="address" class="form-control" required>
+                                </div>
 
                                 <div class="col-md-6 mb-3 position-relative">
                                     <label class="fw-semibold small">Password</label>
@@ -62,15 +76,7 @@
                                     </span>
                                 </div>
 
-                                <div class="col-md-6 mb-3">
-                                    <label class="fw-semibold small">Phone Number</label>
-                                    <input type="text" name="phone" class="form-control" required>
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label class="fw-semibold small">NID Number</label>
-                                    <input type="text" name="nid_no" class="form-control" required>
-                                </div>
+                                
 
                                 <div class="col-md-6 mb-3">
                                     <label class="fw-semibold small">TIN Number (Optional)</label>

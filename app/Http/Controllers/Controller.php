@@ -23,6 +23,11 @@ class Controller extends BaseController
         return view('frontend.home.auction_details', compact('auction'));
     }
 
+    public function auction_bid_rules()
+    {
+        return view('frontend.home.auction_bid_rules');
+    }
+
     // bidder registration form
     
 }

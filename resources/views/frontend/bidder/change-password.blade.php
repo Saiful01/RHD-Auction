@@ -1,6 +1,6 @@
 @extends('frontend_layouts.frontend')
 
-@section('title', 'Dashboard')
+@section('title', 'Bidder Change Password')
 
 @section('content')
     <!-- Start Breadcrumb section -->
@@ -12,7 +12,7 @@
                     <div class="banner-content">
                         <h1>Profile</h1>
                         <ul class="breadcrumb-list">
-                            <li><a href="{{ route('home') }}">Home</a></li>
+                            <li><a href="index.html">Home</a></li>
                             <li>Profile </li>
                         </ul>
                     </div>
@@ -122,119 +122,46 @@
 
                     </ul>
                 </div>
-                <div class="dashboard-content-wrap">
-                    <div class="profile-info-wrap">
-                        <div class="profile-img">
-                            <img src="{{ $bidder->getFirstMediaUrl('profile_image') }}" alt="Bidder Photo">
-                        </div>
-                        <div class="profile-content">
-                            <h4>Hi, {{ $bidder->name }}</h4>
-                            <p>You Have Complete 10 Auction In Last Month. Start Your auction Today.</p>
-                        </div>
-                    </div>
-                    <div class="row g-lg-3 gy-4">
-                        <div class="col-lg-4">
-                            <div class="single-counter-card">
-                                <span>Auction Attend</span>
-                                <h2>280</h2>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="single-counter-card two">
-                                <span>Auction Win</span>
-                                <h2>50</h2>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="single-counter-card three">
-                                <span>Cancel Auction</span>
-                                <h2>25</h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bidding-summary-wrap">
-                        <h6>Bidding Summary</h6>
-                        <table class="bidding-summary-table">
-                            <thead>
-                                <tr>
-                                    <th>Auction ID</th>
-                                    <th>Product name</th>
-                                    <th>Amount</th>
-                                    <th>Status</th>
-                                    <th>Auction Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td data-label="Auction ID">12584885455</td>
-                                    <td data-label="Product name">Porcelain</td>
-                                    <td data-label="Amount">$1800</td>
-                                    <td data-label="Status"><span>Winning</span></td>
-                                    <td data-label="Auction Date">June 25, 2024</td>
-                                </tr>
-                                <tr>
-                                    <td data-label="Auction ID">12584885482</td>
-                                    <td data-label="Product name">Old Clocks</td>
-                                    <td data-label="Amount">$1900</td>
-                                    <td data-label="Status"><span>Winning</span></td>
-                                    <td data-label="Auction Date">June 13, 2024</td>
-                                </tr>
-                                <tr>
-                                    <td data-label="Auction ID">12584885536</td>
-                                    <td data-label="Product name">Manuscripts</td>
-                                    <td data-label="Amount">$2000</td>
-                                    <td data-label="Status"><span class="cancel">Cancel</span></td>
-                                    <td data-label="Auction Date">June 2, 2024</td>
-                                </tr>
-                                <tr>
-                                    <td data-label="Auction ID">12584885548</td>
-                                    <td data-label="Product name">Renaissance Art</td>
-                                    <td data-label="Amount">$2100</td>
-                                    <td data-label="Status"><span>Winning</span></td>
-                                    <td data-label="Auction Date">June 8, 2024</td>
-                                </tr>
-                                <tr>
-                                    <td data-label="Auction ID">12584885563</td>
-                                    <td data-label="Product name">Impressionism Art</td>
-                                    <td data-label="Amount">$2200</td>
-                                    <td data-label="Status"><span>Winning</span></td>
-                                    <td data-label="Auction Date">June 21, 2024</td>
-                                </tr>
-                                <tr>
-                                    <td data-label="Auction ID">12584885589</td>
-                                    <td data-label="Product name">Romanticism Art</td>
-                                    <td data-label="Amount">$2300</td>
-                                    <td data-label="Status"><span class="cancel">Cancel</span></td>
-                                    <td data-label="Auction Date">June 9, 2024</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="row pt-40">
-                        <div class="col-lg-12">
-                            <div class="inner-pagination-area two">
-                                <ul class="paginations">
-                                    <li class="page-item active">
-                                        <a href="#">01</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a href="#">02</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a href="#">03</a>
-                                    </li>
-                                    <li class="page-item paginations-button">
-                                        <a href="#">
-                                            <svg width="16" height="13" viewBox="0 0 16 13"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M15.557 10.1026L1.34284 1.89603M15.557 10.1026C12.9386 8.59083 10.8853 3.68154 12.7282 0.489511M15.557 10.1026C12.9386 8.59083 7.66029 9.2674 5.81744 12.4593"
-                                                    stroke-width="0.96" stroke-linecap="round"></path>
-                                            </svg>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+                <div class="dashboard-content-wrap two">
+                    <div class="change-pass-wrap">
+                        <div class="edit-info-area">
+                            <h6>Update Your Password</h6>
+                            <form action="{{ route('bidder.updatePassword') }}" method="POST" class="edit-info-form">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-md-12 mb-50">
+                                        <div class="form-inner">
+                                            <label>Old Password</label>
+                                            <input name="current_password" id="password" type="password"
+                                                placeholder="Htydh746fg@1’;po\">
+                                            <i class="bi
+                                                bi-eye-slash" id="togglePassword"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-30">
+                                        <div class="form-inner">
+                                            <label>New Password</label>
+                                            <input name="password" id="password2" type="password"
+                                                placeholder="Htydh746fg@1’;po\">
+                                            <i class="bi
+                                                bi-eye-slash" id="togglePassword2"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-60">
+                                        <div class="form-inner">
+                                            <label>Confirm Password</label>
+                                            <input name="password_confirmation" id="password3" type="password"
+                                                placeholder="Htydh746fg@1’;po\">
+                                            <i class="bi
+                                                bi-eye-slash bi-eye" id="togglePassword3"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="primary-btn btn-hover two">
+                                    Change Password
+                                    <span></span>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
