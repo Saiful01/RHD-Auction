@@ -31,12 +31,12 @@
                                         {{ trans('cruds.lot.fields.road') }}
                                     </th>
                                     <td>
-                                        {{ $lot->road->name ?? '' }}
+                                        সড়ক
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.lot.fields.package') }}
+                                       প্যাকেজ
                                     </th>
                                     <td>
                                         {{ $lot->package->name ?? '' }}
@@ -44,7 +44,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.lot.fields.name') }}
+                                        নাম
                                     </th>
                                     <td>
                                         {{ $lot->name }}
@@ -52,7 +52,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.lot.fields.details') }}
+                                        বিবরণ
                                     </th>
                                     <td>
                                         {!! $lot->details !!}
@@ -60,7 +60,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.lot.fields.location') }}
+                                        অবস্থান
                                     </th>
                                     <td>
                                         {!! $lot->location !!}
@@ -68,7 +68,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.lot.fields.tree_description') }}
+                                        গাছের বিবরণ
                                     </th>
                                     <td>
                                         {!! $lot->tree_description !!}
@@ -76,7 +76,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.lot.fields.comment') }}
+                                        মন্তব্য
                                     </th>
                                     <td>
                                         {!! $lot->comment !!}
@@ -84,11 +84,11 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <a class="btn btn-default" href="{{ route('admin.lots.index') }}">
                                 {{ trans('global.back_to_list') }}
                             </a>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>

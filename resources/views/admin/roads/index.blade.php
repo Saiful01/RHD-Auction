@@ -5,7 +5,7 @@
             <div style="margin-bottom: 10px;" class="row">
                 <div class="col-lg-12 text-right">
                     <a class="btn btn-success" href="{{ route('admin.roads.create') }}">
-                        Create {{ trans('cruds.road.title_singular') }}
+                        সড়ক তৈরি করুন
                     </a>
                 </div>
             </div>
@@ -14,7 +14,7 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        {{ trans('cruds.road.title_singular') }} {{ trans('global.list') }}
+                        সড়কসমূহের তালিকা
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
@@ -25,25 +25,25 @@
 
                                         </th>
                                         <th>
-                                            SL
+                                            ক্রমিক নং
                                         </th>
                                         <th>
-                                            {{ trans('cruds.road.fields.division') }}
+                                            বিভাগ
                                         </th>
                                         <th>
-                                            {{ trans('cruds.road.fields.name') }}
+                                            সড়কের নাম
                                         </th>
                                         {{-- <th>
                                         {{ trans('cruds.road.fields.details') }}
                                     </th> --}}
                                         <th>
-                                            {{ trans('cruds.road.fields.address') }}
+                                            ঠিকানা
                                         </th>
                                         <th>
-                                            {{ trans('cruds.road.fields.email') }}
+                                            ই-মেইল
                                         </th>
                                         <th>
-                                            {{ trans('cruds.road.fields.phone') }}
+                                            ফোন নম্বর
                                         </th>
                                         {{-- <th>
                                         {{ trans('cruds.road.fields.image') }}

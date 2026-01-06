@@ -66,8 +66,8 @@
 
                 <ul class="menu-list">
                     <li><a href="/" class="drop-down active">হোম</a></li>
-                    <li><a href="#auctions" class="drop-down">নিলাম</a></li>
-                    <li><a href="#contact" class="drop-down">যোগাযোগ</a></li>
+                    <li><a href="{{url('/')}}#auctions" class="drop-down">নিলাম</a></li>
+                    <li><a href="{{url('/')}}#contact" class="drop-down">যোগাযোগ</a></li>
                 </ul>
 
                 <ul class="contact-area d-lg-none d-flex">

@@ -8,12 +8,14 @@ use App\Http\Requests\MassDestroyAuctionRequest;
 use App\Http\Requests\StoreAuctionRequest;
 use App\Http\Requests\UpdateAuctionRequest;
 use App\Models\Auction;
+use App\Models\Document as ModelsDocument;
 use App\Models\Employee;
 use App\Models\FinancialYear;
 use App\Models\Lot;
 use App\Models\LotItem;
 use App\Models\Package;
 use App\Models\Road;
+use Dom\Document;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -50,7 +52,9 @@ class AuctionController extends Controller
             ];
         });
 
-        return view('admin.auctions.create', compact('employees', 'financial_years', 'lots', 'packages', 'roads'));
+        $documents = \App\Models\Document::all();
+
+        return view('admin.auctions.create', compact('employees', 'financial_years', 'lots', 'packages', 'roads', 'documents'));
     }
 
     public function store(StoreAuctionRequest $request)
@@ -62,6 +66,7 @@ class AuctionController extends Controller
         $auction = Auction::create($data);
         $auction->lots()->sync($request->input('lots', []));
         $auction->employees()->sync($request->input('employees', []));
+        $auction->documents()->sync($request->input('documents', []));
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $auction->id]);
         }
@@ -91,10 +96,11 @@ class AuctionController extends Controller
                 $e->id => $e->personnel . ' - ' . $e->name_en
             ];
         });
+        $documents = \App\Models\Document::all();
 
         $auction->load('financial_year', 'road', 'package', 'lots', 'employees');
 
-        return view('admin.auctions.edit', compact('auction', 'employees', 'financial_years', 'lots', 'packages', 'roads'));
+        return view('admin.auctions.edit', compact('auction', 'employees', 'financial_years', 'lots', 'packages', 'roads', 'documents'));
     }
 
     public function update(UpdateAuctionRequest $request, Auction $auction)
@@ -106,6 +112,7 @@ class AuctionController extends Controller
         $auction->update($request->all());
         $auction->lots()->sync($request->input('lots', []));
         $auction->employees()->sync($request->input('employees', []));
+        $auction->documents()->sync($request->input('documents', []));
 
         return redirect()->route('admin.auctions.index');
     }

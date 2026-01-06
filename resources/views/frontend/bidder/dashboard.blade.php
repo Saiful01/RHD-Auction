@@ -11,7 +11,7 @@
     <!-- End Breadcrumb section -->
 
     <!-- Start Dashboard section -->
-    <div class="dashboard-section pt-110 mb-110">
+    <div class="dashboard-section pt-50 mb-110">
         <div class="container">
             <div class="dashboard-wrapper">
                 @include('frontend.bidder.partials.sidebar')

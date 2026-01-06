@@ -2,7 +2,7 @@
 
 @section('content')
     <!-- Start Banner section -->
-    <div class="home1-banner-section mb-110">
+    <div class="home1-banner-section mb-50">
         <div class="banner-wrapper"
             style="background-image: linear-gradient(180deg, rgba(11, 12, 12, 0.65) 0%, rgba(11, 12, 12, 0.65) 100%), url(assets/img/banner.jpg);">
             <div class="container">
@@ -209,7 +209,7 @@
                                                 <div class="price-and-code-area">
                                                     @if ($badgeText === 'Live')
                                                         <div class="price">
-                                                            <span>Current Base Value:</span>
+                                                            <span>বর্তমান ভিত্তিমূল্য:</span>
                                                             <strong>{{ $auction->base_value_amount }} ৳</strong>
                                                         </div>
                                                     @endif
@@ -288,7 +288,7 @@
                                     <strong>অফিসের নাম:</strong>
                                 </div>
                                 <hr style="border-top: 1px solid #ccc; margin:0 0 5px 0;">
-                                <div>বাংলাদেশ নিলাম কর্তৃপক্ষ</div>
+                                <div>সওজ বৃক্ষপালনবিদ, পাইকপাড়া, মিরপুর, ঢাকা।</div>
                             </div>
 
                             <div class="contact-area mb-3">
@@ -297,7 +297,7 @@
                                     <strong>ইমেইল:</strong>
                                 </div>
                                 <hr style="border-top: 1px solid #ccc; margin:0 0 5px 0;">
-                                <div><a href="mailto:info@auction.com">info@auction.com</a></div>
+                                <div><a href="mailto:info@auction.com">ecodeast@rhd.gov.bd</a></div>
                             </div>
 
                             <div class="contact-area mb-3">

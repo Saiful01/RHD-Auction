@@ -3,6 +3,7 @@
 /*Route::redirect('/', '/login');*/
 
 use App\Http\Controllers\Admin\AuctionController;
+use App\Http\Controllers\Admin\BidderAuctionRequestController;
 use App\Http\Controllers\Admin\BidderController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Controller;
@@ -49,6 +50,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('roads/media', 'RoadController@storeMedia')->name('roads.storeMedia');
     Route::post('roads/ckmedia', 'RoadController@storeCKEditorImages')->name('roads.storeCKEditorImages');
     Route::resource('roads', 'RoadController');
+
+    // Document
+    Route::delete('documents/destroy', 'DocumentController@massDestroy')->name('documents.massDestroy');
+    Route::resource('documents', 'DocumentController');
 
     // Package
     Route::delete('packages/destroy', 'PackageController@massDestroy')->name('packages.massDestroy');
@@ -124,6 +129,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('bidder-auction-requests/media', 'BidderAuctionRequestController@storeMedia')->name('bidder-auction-requests.storeMedia');
     Route::post('bidder-auction-requests/ckmedia', 'BidderAuctionRequestController@storeCKEditorImages')->name('bidder-auction-requests.storeCKEditorImages');
     Route::resource('bidder-auction-requests', 'BidderAuctionRequestController');
+    Route::post('bidder-auction-requests/{bidderAuctionRequest}/toggle-status', [BidderAuctionRequestController::class, 'toggleStatus'])->name('bidder-auction-requests.toggleStatus');
 
     // Bid
     Route::delete('bids/destroy', 'BidController@massDestroy')->name('bids.massDestroy');
@@ -138,7 +144,6 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
         Route::post('profile/destroy', 'ChangePasswordController@destroy')->name('password.destroyProfile');
     }
 });
-
 
 //bidder info route (authenticated)
 Route::prefix('bidder')->name('bidder.')->group(function () {
@@ -157,4 +162,13 @@ Route::middleware(['auth:bidder', 'bidder.status'])->group(function () {
     Route::get('bidder/change-password', [AuthController::class, 'changePassword'])->name('bidder.changePassword');
     Route::post('bidder/change-password', [AuthController::class, 'updatePassword'])->name('bidder.updatePassword');
     Route::post('bidder/logout', [AuthController::class, 'logout'])->name('bidder.logout');
+});
+
+// bidder interested auction routes
+Route::middleware(['auth:bidder'])->group(function () {
+    Route::get('auction/{auction}/interest', [Controller::class, 'showInterestForm'])->name('auction.interest.create');
+    Route::post('auction/{auction}/interest', [Controller::class, 'storeInterest'])->name('auction.interest.store');
+    Route::get('bidder/interestPending', [Controller::class, 'pendingInterest'])->name('bidderInterest.pending');
+    Route::get('/bidder/interest/print/{id}', [Controller::class, 'interestPrint'])
+        ->name('bidder.interest.print');
 });

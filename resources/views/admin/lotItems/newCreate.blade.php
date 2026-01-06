@@ -7,7 +7,7 @@
                 <div class="col-md-12">
                     <div class="panel panel-info">
                         <div class="panel-heading">
-                            <strong>Lot Information</strong>
+                            <strong>লটের তথ্য</strong>
                         </div>
 
                         <div class="panel-body">
@@ -15,7 +15,7 @@
 
                                 <div class="col-md-4 mb-3">
                                     <label class="text-uppercase" style="color:#5bc0de; font-size:12px; letter-spacing:1px;">
-                                        Lot Name
+                                        লটের নাম
                                     </label>
                                     <div class="fw-bold border-bottom pb-1">
                                         {{ $lot->name }}
@@ -25,7 +25,7 @@
                                 <div class="col-md-4 mb-3">
                                     <label class="text-uppercase"
                                         style="color:#5bc0de; font-size:12px; letter-spacing:1px;">
-                                        Location
+                                        অবস্থান
                                     </label>
                                     <div class="border-bottom pb-1">
                                         {{ strip_tags($lot->location ?? '—') }}
@@ -35,7 +35,7 @@
                                 <div class="col-md-4 mb-3">
                                     <label class="text-uppercase"
                                         style="color:#5bc0de; font-size:12px; letter-spacing:1px;">
-                                        Package
+                                        প্যাকেজ
                                     </label>
                                     <div class="border-bottom pb-1">
                                         {{ optional($lot->package)->name ?? '—' }}
@@ -45,7 +45,7 @@
                                 <div class="col-md-6 mt-4">
                                     <label class="text-uppercase"
                                         style="color:#5bc0de; font-size:12px; letter-spacing:1px;">
-                                        Details
+                                        বিস্তারিত
                                     </label>
                                     <div class="pt-2" style="line-height:1.6;">
                                         {{ strip_tags($lot->details ?? '—') }}
@@ -64,7 +64,7 @@
             <div class="col-lg-5">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Create Lot Item
+                        লট আইটেম তৈরি করুন
                     </div>
 
                     <div class="panel-body">
@@ -79,32 +79,32 @@
                                     <div class="flex-grow-1">
                                         {{-- NAME --}}
                                         <div class="form-group">
-                                            <label class="required">Name (গাছের নাম)</label>
+                                            <label class="required">গাছের নাম</label>
                                             <input type="text" name="name[]" class="form-control name" required>
                                         </div>
 
                                         {{-- TREE NO --}}
                                         <div class="form-group">
-                                            <label>Tree No (গাছের নম্বর)</label>
+                                            <label>গাছের নম্বর</label>
                                             <textarea name="tree_no[]" class="form-control ckeditor"></textarea>
                                         </div>
 
                                         {{-- DIA --}}
                                         <div class="form-group">
-                                            <label>Dia (বেড় ৫'-৬'.১১")</label>
+                                            <label>বেড় (৫'-৬'.১১")</label>
                                             <input type="text" name="dia[]" class="form-control">
                                         </div>
 
                                         {{-- QUANTITY --}}
                                         <div class="form-group">
-                                            <label>Quantity (কাঠের পরিমাণ)</label>
+                                            <label>কাঠের পরিমাণ</label>
                                             <input type="number" step="0.0000001" name="quantity[]"
                                                 class="form-control quantity">
                                         </div>
 
                                         {{-- UNIT --}}
                                         <div class="form-group">
-                                            <label class="required">Unit (একক)</label>
+                                            <label class="required">একক (প্রতি ঘন ফুট)</label>
                                             <select name="unit[]" class="form-control" required>
                                                 @foreach (App\Models\LotItem::UNIT_SELECT as $k => $v)
                                                     <option value="{{ $k }}">{{ $v }}</option>
@@ -114,21 +114,21 @@
 
                                         {{-- UNIT PRICE --}}
                                         <div class="form-group">
-                                            <label>Unit Price</label>
+                                            <label>দর</label>
                                             <input type="number" step="0.0000001" name="unit_price[]"
                                                 class="form-control unit_price">
                                         </div>
 
                                         {{-- ESTIMATED --}}
                                         <div class="form-group">
-                                            <label>Estimated Price</label>
+                                            <label>মূল্য</label>
                                             <input type="number" step="0.0000001" name="estimated_price[]" value = "0.000"
                                                 class="form-control estimated_price" readonly>
                                         </div>
 
                                         {{-- IMAGE UPLOAD --}}
                                         <div class="form-group">
-                                            <label>Image Upload</label>
+                                            <label>ছবি আপলোড</label>
                                             <input type="file" name="item_image[]" class="form-control item_image"
                                                 accept="image/*">
                                         </div>
@@ -154,21 +154,21 @@
             <div class="col-lg-7">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Lot Items List
+                        লট আইটেমের তালিকা
                     </div>
 
                     <div class="panel-body">
                         <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>SL</th>
-                                    <th>Name</th>
-                                    <th>Qty</th>
-                                    <th>Unit</th>
-                                    <th>Unit Price</th>
-                                    <th>Est Total</th>
-                                    <th>Image Upload</th>
-                                    <th>Action</th>
+                                    <th>ক্রমিক নং</th>
+                                    <th>নাম</th>
+                                    <th>পরিমাণ</th>
+                                    <th>একক</th>
+                                    <th>একক মূল্য</th>
+                                    <th>আনুমানিক মোট</th>
+                                    <th>ছবি আপলোড</th>
+                                    <th>কার্যক্রম</th>
                                 </tr>
                             </thead>
 
@@ -240,30 +240,30 @@
 
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Edit Lot Item</h5>
+                        <h5 class="modal-title">লট আইটেম এডিট করুন</h5>
 
                     </div>
 
                     <div class="modal-body">
                         <div class="form-group">
-                            <label>Name</label>
+                            <label>নাম</label>
                             <input type="text" name="name" id="editName" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label>Tree No</label>
+                            <label>গাছ নম্বর</label>
                             <textarea name="tree_no" id="editTreeNo" class="form-control ckeditor"></textarea>
                         </div>
                         <div class="form-group">
-                            <label>Dia</label>
+                            <label>বেড় (৫'-৬'.১১")</label>
                             <input type="text" name="dia" id="editDia" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label>Quantity</label>
+                            <label>পরিমাণ</label>
                             <input type="number" step="0.0000001" name="quantity" id="editQuantity"
                                 class="form-control">
                         </div>
                         <div class="form-group">
-                            <label>Unit</label>
+                            <label>একক</label>
                             <select name="unit" id="editUnit" class="form-control">
                                 @foreach (App\Models\LotItem::UNIT_SELECT as $k => $v)
                                     <option value="{{ $k }}">{{ $v }}</option>
@@ -271,18 +271,18 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Unit Price</label>
+                            <label>একক মূল্য</label>
                             <input type="number" step="0.0000001" name="unit_price" id="editUnitPrice"
                                 class="form-control">
                         </div>
                         <div class="form-group">
-                            <label>Estimated Price</label>
+                            <label>আনুমানিক মোট</label>
                             <input type="number" step="0.0000001" name="estimated_price" id="editEstimatedPrice"
                                 value="0" class="form-control" readonly>
                         </div>
 
                         <div class="form-group">
-                            <label>Image Upload</label>
+                            <label>ছবি আপলোড</label>
                             <input type="file" name="item_image" id="editItemImage" class="form-control"
                                 accept="image/*">
                             <div class="mt-2">

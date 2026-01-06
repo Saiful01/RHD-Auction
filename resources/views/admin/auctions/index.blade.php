@@ -5,7 +5,7 @@
             <div style="margin-bottom: 10px;" class="row">
                 <div class="col-lg-12 text-right">
                     <a class="btn btn-success" href="{{ route('admin.auctions.create') }}">
-                        Create {{ trans('cruds.auction.title_singular') }}
+                        নিলাম তৈরি করুন
                     </a>
                 </div>
             </div>
@@ -15,7 +15,7 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        {{ trans('cruds.auction.title_singular') }} {{ trans('global.list') }}
+                        নিলামের তালিকা
                     </div>
 
                     <div class="panel-body">
@@ -24,15 +24,15 @@
                                 <thead>
                                     <tr>
                                         <th width="10"></th>
-                                        <th>SL</th>
-                                        <th>Financial Year</th>
-                                        <th>Division</th>
-                                        <th>Road</th>
-                                        <th>Package</th>
-                                        <th>Lot</th>
-                                        <th>Lot Item</th>
-                                        <th>Base Value({{ $auctions->first()->estimate_value_percentage }} %)</th>
-                                        <th>Status</th>
+                                        <th>ক্রমিক নং</th>
+                                        <th>অর্থবছর</th>
+                                        <th>বিভাগ</th>
+                                        <th>সড়ক</th>
+                                        <th>প্যাকেজ</th>
+                                        <th>লট</th>
+                                        <th>লট আইটেম</th>
+                                        <th>ভিত্তি মূল্য({{ $auctions->first()->estimate_value_percentage }} %)</th>
+                                        <th>অবস্থা</th>
                                         <th>&nbsp;</th>
                                     </tr>
                                 </thead>
@@ -179,11 +179,11 @@
                                             <table class="table table-bordered table-striped">
                                                 <thead>
                                                     <tr>
-                                                        <th>SL</th>
-                                                        <th>Name</th>
-                                                        <th>Qty</th>
-                                                        <th>Unit</th>
-                                                        <th>Image</th>
+                                                        <th>ক্রমিক নং</th>
+                                                        <th>নাম</th>
+                                                        <th>কাঠের পরিমাণ</th>
+                                                        <th>একক</th>
+                                                        <th>ছবি</th>
                                                     </tr>
                                                 </thead>
 

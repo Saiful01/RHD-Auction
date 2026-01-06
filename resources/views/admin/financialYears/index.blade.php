@@ -5,7 +5,7 @@
         <div style="margin-bottom: 10px;" class="row">
             <div class="col-lg-12 text-right">
                 <a class="btn btn-success" href="{{ route('admin.financial-years.create') }}">
-                    Create {{ trans('cruds.financialYear.title_singular') }}
+                    অর্থবছর তৈরি করুন
                 </a>
             </div>
         </div>
@@ -14,7 +14,7 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    {{ trans('cruds.financialYear.title_singular') }} {{ trans('global.list') }}
+                    অর্থবছরের তালিকা
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -25,16 +25,16 @@
 
                                     </th>
                                     <th>
-                                        SL
+                                        ক্রমিক নং
                                     </th>
                                     <th>
-                                        {{ trans('cruds.financialYear.fields.year') }}
+                                        অর্থবছর
                                     </th>
                                     <th>
-                                        {{ trans('cruds.financialYear.fields.start_date') }}
+                                        অর্থবছরের শুরু তারিখ
                                     </th>
                                     <th>
-                                        {{ trans('cruds.financialYear.fields.end_date') }}
+                                        অর্থবছরের শেষ তারিখ
                                     </th>
                                     <th>
                                         &nbsp;

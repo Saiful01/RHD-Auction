@@ -3,11 +3,11 @@
     <div class="content">
         @can('bidder_auction_request_create')
             <div style="margin-bottom: 10px;" class="row">
-                <div class="col-lg-12 text-right">
+                {{-- <div class="col-lg-12 text-right">
                     <a class="btn btn-success" href="{{ route('admin.bidder-auction-requests.create') }}">
                         Create {{ trans('cruds.bidderAuctionRequest.title_singular') }}
                     </a>
-                </div>
+                </div> --}}
             </div>
         @endcan
         <div class="row">
@@ -64,7 +64,7 @@
                                                 {{ $bidderAuctionRequest->bidder->name ?? '' }}
                                             </td>
                                             <td>
-                                                {{ $bidderAuctionRequest->auction->memo_no ?? '' }}
+                                                {{ strip_tags($bidderAuctionRequest->auction->name ?? '') }}
                                             </td>
                                             <td>
                                                 @foreach ($bidderAuctionRequest->pay_order as $key => $media)
@@ -83,34 +83,47 @@
                                                 {{ App\Models\BidderAuctionRequest::STATUS_RADIO[$bidderAuctionRequest->status] ?? '' }}
                                             </td>
                                             <td>
-                                                @can('bidder_auction_request_show')
-                                                    <a class="btn btn-xs btn-primary"
-                                                        href="{{ route('admin.bidder-auction-requests.show', $bidderAuctionRequest->id) }}">
-                                                        {{ trans('global.view') }}
-                                                    </a>
-                                                @endcan
+                                                <div style="display:inline-flex; gap:5px; align-items:center;">
+                                                    @can('bidder_auction_request_show')
+                                                        <a class="btn btn-xs btn-primary"
+                                                            href="{{ route('admin.bidder-auction-requests.show', $bidderAuctionRequest->id) }}">
+                                                            {{ trans('global.view') }}
+                                                        </a>
+                                                    @endcan
 
-                                                @can('bidder_auction_request_edit')
-                                                    <a class="btn btn-xs btn-info"
-                                                        href="{{ route('admin.bidder-auction-requests.edit', $bidderAuctionRequest->id) }}">
-                                                        {{ trans('global.edit') }}
-                                                    </a>
-                                                @endcan
+                                                    @can('bidder_auction_request_edit')
+                                                        <a class="btn btn-xs btn-info"
+                                                            href="{{ route('admin.bidder-auction-requests.edit', $bidderAuctionRequest->id) }}">
+                                                            {{ trans('global.edit') }}
+                                                        </a>
 
-                                                @can('bidder_auction_request_delete')
-                                                    <form
-                                                        action="{{ route('admin.bidder-auction-requests.destroy', $bidderAuctionRequest->id) }}"
-                                                        method="POST"
-                                                        onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
-                                                        style="display: inline-block;">
-                                                        <input type="hidden" name="_method" value="DELETE">
-                                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                        <input type="submit" class="btn btn-xs btn-danger"
-                                                            value="{{ trans('global.delete') }}">
-                                                    </form>
-                                                @endcan
+                                                        <form
+                                                            action="{{ route('admin.bidder-auction-requests.toggleStatus', $bidderAuctionRequest->id) }}"
+                                                            method="POST" style="margin:0;">
+                                                            @csrf
+                                                            <button type="submit"
+                                                                class="btn btn-xs
+                        {{ $bidderAuctionRequest->status == '1' ? 'btn-warning' : ($bidderAuctionRequest->status == '2' ? 'btn-success' : 'btn-danger') }}">
+                                                                {{ $bidderAuctionRequest->status == '1' ? 'Pending' : ($bidderAuctionRequest->status == '2' ? 'Accept' : 'Reject') }}
+                                                            </button>
+                                                        </form>
+                                                    @endcan
 
+                                                    @can('bidder_auction_request_delete')
+                                                        <form
+                                                            action="{{ route('admin.bidder-auction-requests.destroy', $bidderAuctionRequest->id) }}"
+                                                            method="POST"
+                                                            onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
+                                                            style="margin:0;">
+                                                            <input type="hidden" name="_method" value="DELETE">
+                                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                            <input type="submit" class="btn btn-xs btn-danger"
+                                                                value="{{ trans('global.delete') }}">
+                                                        </form>
+                                                    @endcan
+                                                </div>
                                             </td>
+
 
                                         </tr>
                                     @endforeach

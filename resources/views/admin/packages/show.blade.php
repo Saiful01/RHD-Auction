@@ -10,7 +10,7 @@
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <div class="form-group">
+                        <div class="form-group text-right">
                             <a class="btn btn-default" href="{{ route('admin.packages.index') }}">
                                 {{ trans('global.back_to_list') }}
                             </a>
@@ -27,7 +27,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.package.fields.road') }}
+                                        সড়ক
                                     </th>
                                     <td>
                                         {{ $package->road->name ?? '' }}
@@ -35,7 +35,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.package.fields.name') }}
+                                        নাম
                                     </th>
                                     <td>
                                         {{ $package->name }}
@@ -43,7 +43,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.package.fields.unique_code') }}
+                                        ইউনিক কোড
                                     </th>
                                     <td>
                                         {{ $package->unique_code }}
@@ -51,7 +51,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.package.fields.details') }}
+                                        বিবরণ
                                     </th>
                                     <td>
                                         {!! $package->details !!}
@@ -59,7 +59,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.package.fields.status') }}
+                                       অবস্থা
                                     </th>
                                     <td>
                                         {{ App\Models\Package::STATUS_RADIO[$package->status] ?? '' }}
@@ -67,7 +67,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.package.fields.images') }}
+                                        ছবি
                                     </th>
                                     <td>
                                         @foreach($package->images as $key => $media)
@@ -79,7 +79,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.package.fields.files') }}
+                                        ফাইলসমূহ
                                     </th>
                                     <td>
                                         @foreach($package->files as $key => $media)
@@ -91,16 +91,16 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <a class="btn btn-default" href="{{ route('admin.packages.index') }}">
                                 {{ trans('global.back_to_list') }}
                             </a>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
 
-            <div class="panel panel-default">
+            {{-- <div class="panel panel-default">
                 <div class="panel-heading">
                     {{ trans('global.relatedData') }}
                 </div>
@@ -124,7 +124,7 @@
                         @includeIf('admin.packages.relationships.packageAuctions', ['auctions' => $package->packageAuctions])
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
         </div>
     </div>

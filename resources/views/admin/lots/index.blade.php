@@ -5,7 +5,7 @@
             <div style="margin-bottom: 10px;" class="row">
                 <div class="col-lg-12 text-right">
                     <a class="btn btn-success" href="{{ route('admin.lots.create') }}">
-                        Create {{ trans('cruds.lot.title_singular') }}
+                        লট তৈরি করুন
                     </a>
                 </div>
             </div>
@@ -14,7 +14,7 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        {{ trans('cruds.lot.title_singular') }} {{ trans('global.list') }}
+                       লটের তালিকা
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
@@ -25,19 +25,19 @@
 
                                         </th>
                                         <th>
-                                            SL
+                                            ক্রমিক নং
                                         </th>
-                                        <th>Division</th>
+                                        <th>বিভাগ</th>
                                         <th>
-                                            {{ trans('cruds.lot.fields.road') }}
-                                        </th>
-                                        <th>
-                                            {{ trans('cruds.lot.fields.package') }}
+                                            সড়ক
                                         </th>
                                         <th>
-                                            {{ trans('cruds.lot.fields.name') }}
+                                           প্যাকেজ
                                         </th>
-                                        <th>Lot Items</th>
+                                        <th>
+                                            নাম
+                                        </th>
+                                        <th>লট আইটেমসমূহ</th>
                                         <th>
                                             &nbsp;
                                         </th>

@@ -168,4 +168,10 @@ class Auction extends Model implements HasMedia
     {
         return $this->belongsTo(Employee::class, 'contract_person');
     }
+
+    // Document relation
+    public function documents()
+    {
+        return $this->belongsToMany(Document::class, 'auction_document', 'auction_id', 'document_id');
+    }
 }

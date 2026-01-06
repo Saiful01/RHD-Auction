@@ -13,7 +13,7 @@
                         @method('PUT')
                         @csrf
                         <div class="form-group {{ $errors->has('road') ? 'has-error' : '' }}">
-                            <label class="required" for="road_id">{{ trans('cruds.lot.fields.road') }}</label>
+                            <label class="required" for="road_id">সড়ক</label>
                             <select class="form-control select2" name="road_id" id="road_id" required>
                                 @foreach($roads as $id => $entry)
                                     <option value="{{ $id }}" {{ (old('road_id') ? old('road_id') : $lot->road->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
@@ -25,7 +25,7 @@
                             <span class="help-block">{{ trans('cruds.lot.fields.road_helper') }}</span>
                         </div>
                         <div class="form-group {{ $errors->has('package') ? 'has-error' : '' }}">
-                            <label for="package_id">{{ trans('cruds.lot.fields.package') }}</label>
+                            <label for="package_id">প্যাকেজ</label>
                             <select class="form-control select2" name="package_id" id="package_id">
                                 @foreach($packages as $id => $entry)
                                     <option value="{{ $id }}" {{ (old('package_id') ? old('package_id') : $lot->package->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
@@ -37,7 +37,7 @@
                             <span class="help-block">{{ trans('cruds.lot.fields.package_helper') }}</span>
                         </div>
                         <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-                            <label class="required" for="name">{{ trans('cruds.lot.fields.name') }}</label>
+                            <label class="required" for="name">নাম</label>
                             <input class="form-control" type="text" name="name" id="name" value="{{ old('name', $lot->name) }}" required>
                             @if($errors->has('name'))
                                 <span class="help-block" role="alert">{{ $errors->first('name') }}</span>
@@ -45,7 +45,7 @@
                             <span class="help-block">{{ trans('cruds.lot.fields.name_helper') }}</span>
                         </div>
                         <div class="form-group {{ $errors->has('details') ? 'has-error' : '' }}">
-                            <label for="details">{{ trans('cruds.lot.fields.details') }}</label>
+                            <label for="details">বিবরণ</label>
                             <textarea class="form-control ckeditor" name="details" id="details">{!! old('details', $lot->details) !!}</textarea>
                             @if($errors->has('details'))
                                 <span class="help-block" role="alert">{{ $errors->first('details') }}</span>
@@ -53,7 +53,7 @@
                             <span class="help-block">{{ trans('cruds.lot.fields.details_helper') }}</span>
                         </div>
                         <div class="form-group {{ $errors->has('location') ? 'has-error' : '' }}">
-                            <label for="location">{{ trans('cruds.lot.fields.location') }}</label>
+                            <label for="location">অবস্থান</label>
                             <textarea class="form-control ckeditor" name="location" id="location">{!! old('location', $lot->location) !!}</textarea>
                             @if($errors->has('location'))
                                 <span class="help-block" role="alert">{{ $errors->first('location') }}</span>
@@ -61,7 +61,7 @@
                             <span class="help-block">{{ trans('cruds.lot.fields.location_helper') }}</span>
                         </div>
                         <div class="form-group {{ $errors->has('tree_description') ? 'has-error' : '' }}">
-                            <label for="tree_description">{{ trans('cruds.lot.fields.tree_description') }}</label>
+                            <label for="tree_description">গাছের বিবরণ</label>
                             <textarea class="form-control ckeditor" name="tree_description" id="tree_description">{!! old('tree_description', $lot->tree_description) !!}</textarea>
                             @if($errors->has('tree_description'))
                                 <span class="help-block" role="alert">{{ $errors->first('tree_description') }}</span>
@@ -69,7 +69,7 @@
                             <span class="help-block">{{ trans('cruds.lot.fields.tree_description_helper') }}</span>
                         </div>
                         <div class="form-group {{ $errors->has('comment') ? 'has-error' : '' }}">
-                            <label for="comment">{{ trans('cruds.lot.fields.comment') }}</label>
+                            <label for="comment">মন্তব্য</label>
                             <textarea class="form-control ckeditor" name="comment" id="comment">{!! old('comment', $lot->comment) !!}</textarea>
                             @if($errors->has('comment'))
                                 <span class="help-block" role="alert">{{ $errors->first('comment') }}</span>

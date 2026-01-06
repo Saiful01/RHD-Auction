@@ -3,6 +3,25 @@
 @section('title', 'Profile')
 
 @section('content')
+
+    @if (session('success'))
+        <div id="success-message" class="alert alert-success" role="alert"
+            style="position: fixed; top: 20px; right: 20px; z-index: 9999;">
+            {{ session('success') }}
+        </div>
+
+        <script>
+            setTimeout(function() {
+                var msg = document.getElementById('success-message');
+                if (msg) {
+                    msg.style.transition = 'opacity 0.5s';
+                    msg.style.opacity = '0';
+                    setTimeout(() => msg.remove(), 500);
+                }
+            }, 3000); // 3 seconds
+        </script>
+    @endif
+
     <!-- Start Breadcrumb section -->
     @include('frontend_layouts.partials.breadcrumb', [
         'title' => 'Profile',
@@ -10,7 +29,7 @@
     ])
     <!-- End Breadcrumb section -->
     <!-- Start Dashboard section -->
-    <div class="dashboard-section pt-110 mb-110">
+    <div class="dashboard-section pt-50 mb-110">
         <div class="container">
             <div class="dashboard-wrapper">
                 @include('frontend.bidder.partials.sidebar')

@@ -27,7 +27,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.road.fields.division') }}
+                                        বিভাগ
                                     </th>
                                     <td>
                                         {{ $road->division->name ?? '' }}
@@ -35,7 +35,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.road.fields.name') }}
+                                        নাম
                                     </th>
                                     <td>
                                         {{ $road->name }}
@@ -43,7 +43,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.road.fields.details') }}
+                                        বিবরণ
                                     </th>
                                     <td>
                                         {{ $road->details }}
@@ -51,7 +51,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.road.fields.address') }}
+                                        ঠিকানা
                                     </th>
                                     <td>
                                         {{ $road->address }}
@@ -59,7 +59,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.road.fields.email') }}
+                                        ই-মেইল
                                     </th>
                                     <td>
                                         {{ $road->email }}
@@ -67,7 +67,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.road.fields.phone') }}
+                                        ফোন নম্বর
                                     </th>
                                     <td>
                                         {{ $road->phone }}
@@ -75,7 +75,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.road.fields.image') }}
+                                        ছবি
                                     </th>
                                     <td>
                                         @foreach($road->image as $key => $media)
@@ -87,7 +87,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.road.fields.files') }}
+                                       ফাইলসমূহ
                                     </th>
                                     <td>
                                         @foreach($road->files as $key => $media)
@@ -99,16 +99,16 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <a class="btn btn-default" href="{{ route('admin.roads.index') }}">
                                 {{ trans('global.back_to_list') }}
                             </a>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
 
-            <div class="panel panel-default">
+            {{-- <div class="panel panel-default">
                 <div class="panel-heading">
                     {{ trans('global.relatedData') }}
                 </div>
@@ -140,7 +140,7 @@
                         @includeIf('admin.roads.relationships.roadAuctions', ['auctions' => $road->roadAuctions])
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
         </div>
     </div>

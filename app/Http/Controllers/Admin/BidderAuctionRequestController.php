@@ -47,6 +47,25 @@ class BidderAuctionRequestController extends Controller
             $bidderAuctionRequest->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('pay_order');
         }
 
+        // my changes
+        // Individual documents
+        $docFields = [
+            'auto_chalan',
+            'nid_copy',
+            'passport_photo',
+            'trade_license',
+            'tax_certificate',
+            'wood_license',
+            'bank_guarantee',
+            'mobile_signature',
+        ];
+        foreach ($docFields as $field) {
+            foreach ($request->input($field, []) as $file) {
+                $bidderAuctionRequest->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection($field);
+            }
+        }
+        // End my changes
+
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $bidderAuctionRequest->id]);
         }
@@ -71,22 +90,55 @@ class BidderAuctionRequestController extends Controller
     {
         $bidderAuctionRequest->update($request->all());
 
-        if (count($bidderAuctionRequest->pay_order) > 0) {
-            foreach ($bidderAuctionRequest->pay_order as $media) {
-                if (! in_array($media->file_name, $request->input('pay_order', []))) {
-                    $media->delete();
+        // my changes
+        $docFields = [
+            'pay_order',
+            'auto_chalan',
+            'nid_copy',
+            'passport_photo',
+            'trade_license',
+            'tax_certificate',
+            'wood_license',
+            'bank_guarantee',
+            'mobile_signature',
+        ];
+
+        foreach ($docFields as $field) {
+            if ($bidderAuctionRequest->{$field}->count() > 0) {
+                foreach ($bidderAuctionRequest->{$field} as $media) {
+                    if (!in_array($media->file_name, $request->input($field, []))) {
+                        $media->delete();
+                    }
+                }
+            }
+            $mediaFiles = $bidderAuctionRequest->{$field}->pluck('file_name')->toArray();
+            foreach ($request->input($field, []) as $file) {
+                if (count($mediaFiles) === 0 || !in_array($file, $mediaFiles)) {
+                    $bidderAuctionRequest->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection($field);
                 }
             }
         }
-        $media = $bidderAuctionRequest->pay_order->pluck('file_name')->toArray();
-        foreach ($request->input('pay_order', []) as $file) {
-            if (count($media) === 0 || ! in_array($file, $media)) {
-                $bidderAuctionRequest->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('pay_order');
-            }
-        }
+
+        // End my changes
+
+        // comment is for saiful vai code
+        // if (count($bidderAuctionRequest->pay_order) > 0) {
+        //     foreach ($bidderAuctionRequest->pay_order as $media) {
+        //         if (! in_array($media->file_name, $request->input('pay_order', []))) {
+        //             $media->delete();
+        //         }
+        //     }
+        // }
+        // $media = $bidderAuctionRequest->pay_order->pluck('file_name')->toArray();
+        // foreach ($request->input('pay_order', []) as $file) {
+        //     if (count($media) === 0 || ! in_array($file, $media)) {
+        //         $bidderAuctionRequest->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('pay_order');
+        //     }
+        // }
 
         return redirect()->route('admin.bidder-auction-requests.index');
     }
+
 
     public function show(BidderAuctionRequest $bidderAuctionRequest)
     {
@@ -127,5 +179,22 @@ class BidderAuctionRequestController extends Controller
         $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
 
         return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
+    }
+
+    public function toggleStatus(BidderAuctionRequest $bidderAuctionRequest)
+    {
+        abort_if(Gate::denies('bidder_auction_request_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+
+        $bidderAuctionRequest->status = match ($bidderAuctionRequest->status) {
+            '1' => '2',
+            '2' => '3',
+            '3' => '1',
+            default => '1',
+        };
+
+        $bidderAuctionRequest->save();
+
+        return back()->with('success', 'Bidder Auction Request status updated successfully.');
     }
 }

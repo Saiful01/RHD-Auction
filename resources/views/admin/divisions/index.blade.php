@@ -5,7 +5,7 @@
         <div style="margin-bottom: 10px;" class="row">
             <div class="col-lg-12 text-right">
                 <a class="btn btn-success" href="{{ route('admin.divisions.create') }}">
-                    Create {{ trans('cruds.division.title_singular') }}
+                    বিভাগ তৈরি করুন
                 </a>
             </div>
         </div>
@@ -14,7 +14,7 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    {{ trans('cruds.division.title_singular') }} {{ trans('global.list') }}
+                    বিভাগের তালিকা
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -25,13 +25,13 @@
 
                                     </th>
                                     <th>
-                                        SL
+                                        ক্রমিক নং
                                     </th>
                                     <th>
-                                        {{ trans('cruds.division.fields.name') }}
+                                        বিভাগের নাম
                                     </th>
                                     <th>
-                                        {{ trans('cruds.division.fields.details') }}
+                                        বিভাগের বিবরণ
                                     </th>
                                     <th>
                                         &nbsp;

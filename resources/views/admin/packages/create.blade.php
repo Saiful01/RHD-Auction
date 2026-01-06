@@ -14,7 +14,7 @@
 
                         <div class="row">
                             <div class="col-md-6 form-group {{ $errors->has('road') ? 'has-error' : '' }}">
-                                <label class="required" for="road_id">{{ trans('cruds.package.fields.road') }}</label>
+                                <label class="required" for="road_id">সড়ক</label>
                                 <select class="form-control select2" name="road_id" id="road_id" required>
                                     @foreach($roads as $id => $entry)
                                         <option value="{{ $id }}" {{ old('road_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
@@ -27,7 +27,7 @@
                             </div>
 
                             <div class="col-md-6 form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-                                <label class="required" for="name">{{ trans('cruds.package.fields.name') }}</label>
+                                <label class="required" for="name">নাম</label>
                                 <input class="form-control" type="text" name="name" id="name" value="{{ old('name', '') }}" required>
                                 @if($errors->has('name'))
                                     <span class="help-block" role="alert">{{ $errors->first('name') }}</span>
@@ -37,7 +37,7 @@
                         </div>
 
                         <div class="form-group {{ $errors->has('unique_code') ? 'has-error' : '' }}">
-                            <label class="required" for="unique_code">{{ trans('cruds.package.fields.unique_code') }}</label>
+                            <label class="required" for="unique_code">ইউনিক কোড</label>
                             <input class="form-control" type="text" name="unique_code" id="unique_code" value="{{ old('unique_code', '') }}" required>
                             @if($errors->has('unique_code'))
                                 <span class="help-block" role="alert">{{ $errors->first('unique_code') }}</span>
@@ -46,7 +46,7 @@
                         </div>
 
                         <div class="form-group {{ $errors->has('details') ? 'has-error' : '' }}">
-                            <label for="details">{{ trans('cruds.package.fields.details') }}</label>
+                            <label for="details">বিবরণ</label>
                             <textarea class="form-control ckeditor" name="details" id="details">{!! old('details') !!}</textarea>
                             @if($errors->has('details'))
                                 <span class="help-block" role="alert">{{ $errors->first('details') }}</span>
@@ -55,7 +55,7 @@
                         </div>
 
                         <div class="form-group {{ $errors->has('status') ? 'has-error' : '' }}">
-                            <label>{{ trans('cruds.package.fields.status') }}</label>
+                            <label>অবস্থা</label>
                             @foreach(App\Models\Package::STATUS_RADIO as $key => $label)
                                 <div>
                                     <input type="radio" id="status_{{ $key }}" name="status" value="{{ $key }}" {{ old('status', '1') === (string) $key ? 'checked' : '' }}>
@@ -69,7 +69,7 @@
                         </div>
 
                         <div class="form-group {{ $errors->has('images') ? 'has-error' : '' }}">
-                            <label for="images">{{ trans('cruds.package.fields.images') }}</label>
+                            <label for="images">ছবি</label>
                             <div class="needsclick dropzone" id="images-dropzone"></div>
                             @if($errors->has('images'))
                                 <span class="help-block" role="alert">{{ $errors->first('images') }}</span>
@@ -78,7 +78,7 @@
                         </div>
 
                         <div class="form-group {{ $errors->has('files') ? 'has-error' : '' }}">
-                            <label for="files">{{ trans('cruds.package.fields.files') }}</label>
+                            <label for="files">ফাইলসমূহ</label>
                             <div class="needsclick dropzone" id="files-dropzone"></div>
                             @if($errors->has('files'))
                                 <span class="help-block" role="alert">{{ $errors->first('files') }}</span>

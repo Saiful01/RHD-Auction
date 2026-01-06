@@ -32,6 +32,73 @@ class StoreBidderAuctionRequestRequest extends FormRequest
             'pay_order.*' => [
                 'required',
             ],
+
+            // Individual document fields
+            'auto_chalan' => [
+                'array',
+                'required',
+            ],
+            'auto_chalan.*' => [
+                'required',
+            ],
+
+            'nid_copy' => [
+                'array',
+                'required',
+            ],
+            'nid_copy.*' => [
+                'required',
+            ],
+
+            'passport_photo' => [
+                'array',
+                'required',
+            ],
+            'passport_photo.*' => [
+                'required',
+            ],
+
+            'trade_license' => [
+                'array',
+                'required',
+            ],
+            'trade_license.*' => [
+                'required',
+            ],
+
+            'tax_certificate' => [
+                'array',
+                'required',
+            ],
+            'tax_certificate.*' => [
+                'required',
+            ],
+
+            'wood_license' => [
+                'array',
+                'required',
+            ],
+            'wood_license.*' => [
+                'required',
+            ],
+
+            'bank_guarantee' => [
+                'array',
+                'required',
+            ],
+            'bank_guarantee.*' => [
+                'required',
+            ],
+
+            'mobile_signature' => [
+                'array',
+                'required',
+            ],
+            'mobile_signature.*' => [
+                'required',
+            ],
+            // End individual document fields
+
             'pay_amount' => [
                 'numeric',
             ],

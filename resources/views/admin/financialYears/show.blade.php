@@ -10,7 +10,7 @@
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <div class="form-group">
+                        <div class="form-group text-right">
                             <a class="btn btn-default" href="{{ route('admin.financial-years.index') }}">
                                 {{ trans('global.back_to_list') }}
                             </a>
@@ -27,7 +27,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.financialYear.fields.year') }}
+                                        বছর
                                     </th>
                                     <td>
                                         {{ $financialYear->year }}
@@ -35,7 +35,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.financialYear.fields.start_date') }}
+                                        শুরু তারিখ
                                     </th>
                                     <td>
                                         {{ $financialYear->start_date }}
@@ -43,7 +43,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.financialYear.fields.end_date') }}
+                                        শেষ তারিখ
                                     </th>
                                     <td>
                                         {{ $financialYear->end_date }}
@@ -51,16 +51,16 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <a class="btn btn-default" href="{{ route('admin.financial-years.index') }}">
                                 {{ trans('global.back_to_list') }}
                             </a>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
 
-            <div class="panel panel-default">
+            {{-- <div class="panel panel-default">
                 <div class="panel-heading">
                     {{ trans('global.relatedData') }}
                 </div>
@@ -76,7 +76,7 @@
                         @includeIf('admin.financialYears.relationships.financialYearAuctions', ['auctions' => $financialYear->financialYearAuctions])
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
         </div>
     </div>

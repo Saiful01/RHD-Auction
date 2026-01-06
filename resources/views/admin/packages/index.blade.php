@@ -5,7 +5,7 @@
             <div style="margin-bottom: 10px;" class="row">
                 <div class="col-lg-12 text-right">
                     <a class="btn btn-success" href="{{ route('admin.packages.create') }}">
-                        Create {{ trans('cruds.package.title_singular') }}
+                        প্যাকেজ তৈরি করুন
                     </a>
                 </div>
             </div>
@@ -14,7 +14,7 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        {{ trans('cruds.package.title_singular') }} {{ trans('global.list') }}
+                        প্যাকেজের তালিকা
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
@@ -25,22 +25,22 @@
 
                                         </th>
                                         <th>
-                                            SL
+                                            ক্রমিক নং
                                         </th>
                                         <th>
-                                            Division
+                                            বিভাগ
                                         </th>
                                         <th>
-                                            {{ trans('cruds.package.fields.road') }}
+                                            সড়ক
                                         </th>
                                         <th>
-                                            {{ trans('cruds.package.fields.name') }}
+                                            নাম
                                         </th>
                                         <th>
-                                            {{ trans('cruds.package.fields.unique_code') }}
+                                            ইউনিক কোড
                                         </th>
                                         <th>
-                                            {{ trans('cruds.package.fields.status') }}
+                                            অবস্থা
                                         </th>
                                         {{-- <th>
                                         {{ trans('cruds.package.fields.images') }}

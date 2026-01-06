@@ -15,7 +15,7 @@
                             <div class="row">
                                 <div class="col-md-6 form-group {{ $errors->has('division') ? 'has-error' : '' }}">
                                     <label class="required"
-                                        for="division_id">{{ trans('cruds.road.fields.division') }}</label>
+                                        for="division_id">বিভাগ</label>
                                     <select class="form-control select2" name="division_id" id="division_id" required>
                                         @foreach ($divisions as $id => $entry)
                                             <option value="{{ $id }}"
@@ -30,7 +30,7 @@
                                 </div>
 
                                 <div class="col-md-6 form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-                                    <label class="required" for="name">{{ trans('cruds.road.fields.name') }}</label>
+                                    <label class="required" for="name">নাম</label>
                                     <input class="form-control" type="text" name="name" id="name"
                                         value="{{ old('name', '') }}" required>
                                     @if ($errors->has('name'))
@@ -41,7 +41,7 @@
                             </div>
 
                             <div class="form-group {{ $errors->has('details') ? 'has-error' : '' }}">
-                                <label for="details">{{ trans('cruds.road.fields.details') }}</label>
+                                <label for="details">বিবরণ</label>
                                 <textarea class="form-control" name="details" id="details">{{ old('details') }}</textarea>
                                 @if ($errors->has('details'))
                                     <span class="help-block" role="alert">{{ $errors->first('details') }}</span>
@@ -50,7 +50,7 @@
                             </div>
 
                             <div class="form-group {{ $errors->has('address') ? 'has-error' : '' }}">
-                                <label for="address">{{ trans('cruds.road.fields.address') }}</label>
+                                <label for="address">ঠিকানা</label>
                                 <input class="form-control" type="text" name="address" id="address"
                                     value="{{ old('address', '') }}">
                                 @if ($errors->has('address'))
@@ -61,7 +61,7 @@
 
                             <div class="row">
                                 <div class="col-md-6 form-group {{ $errors->has('email') ? 'has-error' : '' }}">
-                                    <label for="email">{{ trans('cruds.road.fields.email') }}</label>
+                                    <label for="email">ই-মেইল</label>
                                     <input class="form-control" type="email" name="email" id="email"
                                         value="{{ old('email') }}">
                                     @if ($errors->has('email'))
@@ -71,7 +71,7 @@
                                 </div>
 
                                 <div class="col-md-6 form-group {{ $errors->has('phone') ? 'has-error' : '' }}">
-                                    <label for="phone">{{ trans('cruds.road.fields.phone') }}</label>
+                                    <label for="phone">ফোন নম্বর</label>
                                     <input class="form-control" type="text" name="phone" id="phone"
                                         value="{{ old('phone', '') }}">
                                     @if ($errors->has('phone'))
@@ -81,7 +81,7 @@
                                 </div>
 
                                 <div class="col-md-6 form-group {{ $errors->has('image') ? 'has-error' : '' }}">
-                                    <label for="image">{{ trans('cruds.road.fields.image') }}</label>
+                                    <label for="image">ছবি</label>
                                     <div class="needsclick dropzone" id="image-dropzone"></div>
                                     @if ($errors->has('image'))
                                         <span class="help-block" role="alert">{{ $errors->first('image') }}</span>
@@ -90,7 +90,7 @@
                                 </div>
 
                                 <div class="col-md-6 form-group {{ $errors->has('files') ? 'has-error' : '' }}">
-                                    <label for="files">{{ trans('cruds.road.fields.files') }}</label>
+                                    <label for="files">ফাইলসমূহ</label>
                                     <div class="needsclick dropzone" id="files-dropzone"></div>
                                     @if ($errors->has('files'))
                                         <span class="help-block" role="alert">{{ $errors->first('files') }}</span>

@@ -6,15 +6,14 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        {{ trans('global.create') }} {{ trans('cruds.auction.title_singular') }}
+                        নিলাম তৈরি করুন
                     </div>
                     <div class="panel-body">
                         <form method="POST" action="{{ route('admin.auctions.store') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col-md-4 form-group {{ $errors->has('financial_year') ? 'has-error' : '' }}">
-                                    <label class="required"
-                                        for="financial_year_id">{{ trans('cruds.auction.fields.financial_year') }}</label>
+                                    <label class="required" for="financial_year_id">অর্থবছর</label>
                                     <select class="form-control select2" name="financial_year_id" id="financial_year_id"
                                         required>
                                         @foreach ($financial_years as $id => $entry)
@@ -31,7 +30,7 @@
                                         class="help-block">{{ trans('cruds.auction.fields.financial_year_helper') }}</span>
                                 </div>
                                 <div class="col-md-4 form-group {{ $errors->has('road') ? 'has-error' : '' }}">
-                                    <label class="required" for="road_id">{{ trans('cruds.auction.fields.road') }}</label>
+                                    <label class="required" for="road_id">সড়ক</label>
                                     <select class="form-control select2" name="road_id" id="road_id" required>
                                         @foreach ($roads as $id => $entry)
                                             <option value="{{ $id }}"
@@ -45,7 +44,7 @@
                                     <span class="help-block">{{ trans('cruds.auction.fields.road_helper') }}</span>
                                 </div>
                                 <div class="col-md-4 form-group {{ $errors->has('package') ? 'has-error' : '' }}">
-                                    <label for="package_id">{{ trans('cruds.auction.fields.package') }}</label>
+                                    <label for="package_id">প্যাকেজ</label>
                                     <select class="form-control select2" name="package_id" id="package_id">
                                         @foreach ($packages as $id => $entry)
                                             <option value="{{ $id }}"
@@ -60,7 +59,7 @@
                                 </div>
                             </div>
                             <div class="form-group {{ $errors->has('lots') ? 'has-error' : '' }}">
-                                <label class="required" for="lots">{{ trans('cruds.auction.fields.lot') }}</label>
+                                <label class="required" for="lots">লট</label>
                                 {{-- <div style="padding-bottom: 4px">
                                     <span class="btn btn-info btn-xs select-all"
                                         style="border-radius: 0">{{ trans('global.select_all') }}</span>
@@ -83,8 +82,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6 form-group {{ $errors->has('memo_no') ? 'has-error' : '' }}">
-                                    <label class="required"
-                                        for="memo_no">{{ trans('cruds.auction.fields.memo_no') }}</label>
+                                    <label class="required" for="memo_no">স্মারক নং</label>
                                     <input class="form-control" type="text" name="memo_no" id="memo_no"
                                         value="{{ old('memo_no', '') }}" required>
                                     @if ($errors->has('memo_no'))
@@ -93,8 +91,7 @@
                                     <span class="help-block">{{ trans('cruds.auction.fields.memo_no_helper') }}</span>
                                 </div>
                                 <div class="col-md-6 form-group {{ $errors->has('announcement_no') ? 'has-error' : '' }}">
-                                    <label class="required"
-                                        for="announcement_no">{{ trans('cruds.auction.fields.announcement_no') }}</label>
+                                    <label class="required" for="announcement_no">বিজ্ঞপ্তি নং</label>
                                     <input class="form-control" type="text" name="announcement_no" id="announcement_no"
                                         value="{{ old('announcement_no', '') }}" required>
                                     @if ($errors->has('announcement_no'))
@@ -106,7 +103,7 @@
                                 </div>
                             </div>
                             <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-                                <label for="name">{{ trans('cruds.auction.fields.name') }}</label>
+                                <label for="name">নাম</label>
                                 <textarea class="form-control ckeditor" name="name" id="name">{!! old('name') !!}</textarea>
                                 @if ($errors->has('name'))
                                     <span class="help-block" role="alert">{{ $errors->first('name') }}</span>
@@ -114,7 +111,7 @@
                                 <span class="help-block">{{ trans('cruds.auction.fields.name_helper') }}</span>
                             </div>
                             <div class="form-group {{ $errors->has('details') ? 'has-error' : '' }}">
-                                <label for="details">{{ trans('cruds.auction.fields.details') }}</label>
+                                <label for="details">বিবরণ</label>
                                 <textarea class="form-control ckeditor" name="details" id="details">{!! old('details') !!}</textarea>
                                 @if ($errors->has('details'))
                                     <span class="help-block" role="alert">{{ $errors->first('details') }}</span>
@@ -124,8 +121,7 @@
                             <div class="row">
                                 <div
                                     class="col-md-6 form-group {{ $errors->has('auction_start_time') ? 'has-error' : '' }}">
-                                    <label class="required"
-                                        for="auction_start_time">{{ trans('cruds.auction.fields.auction_start_time') }}</label>
+                                    <label class="required" for="auction_start_time">নিলামের শুরু সময়</label>
                                     <input class="form-control datetime" type="text" name="auction_start_time"
                                         id="auction_start_time" value="{{ old('auction_start_time') }}" required>
                                     @if ($errors->has('auction_start_time'))
@@ -137,8 +133,7 @@
                                 </div>
                                 <div
                                     class="col-md-6 form-group {{ $errors->has('auction_end_time') ? 'has-error' : '' }}">
-                                    <label class="required"
-                                        for="auction_end_time">{{ trans('cruds.auction.fields.auction_end_time') }}</label>
+                                    <label class="required" for="auction_end_time">নিলামের শেষ সময়</label>
                                     <input class="form-control datetime" type="text" name="auction_end_time"
                                         id="auction_end_time" value="{{ old('auction_end_time') }}" required>
                                     @if ($errors->has('auction_end_time'))
@@ -150,8 +145,7 @@
                                 </div>
                                 <div
                                     class="col-md-6 form-group {{ $errors->has('tender_visible_start_date') ? 'has-error' : '' }}">
-                                    <label
-                                        for="tender_visible_start_date">{{ trans('cruds.auction.fields.tender_visible_start_date') }}</label>
+                                    <label for="tender_visible_start_date">নিলাম প্রদর্শনের শুরু তারিখ</label>
                                     <input class="form-control datetime" type="text" name="tender_visible_start_date"
                                         id="tender_visible_start_date" value="{{ old('tender_visible_start_date') }}">
                                     @if ($errors->has('tender_visible_start_date'))
@@ -163,8 +157,7 @@
                                 </div>
                                 <div
                                     class="col-md-6 form-group {{ $errors->has('tender_visible_end_date') ? 'has-error' : '' }}">
-                                    <label
-                                        for="tender_visible_end_date">{{ trans('cruds.auction.fields.tender_visible_end_date') }}</label>
+                                    <label for="tender_visible_end_date">নিলাম প্রদর্শনের শেষ তারিখ</label>
                                     <input class="form-control datetime" type="text" name="tender_visible_end_date"
                                         id="tender_visible_end_date" value="{{ old('tender_visible_end_date') }}">
                                     @if ($errors->has('tender_visible_end_date'))
@@ -200,8 +193,7 @@
                             </div> --}}
                             </div>
                             <div class="form-group {{ $errors->has('deadline_for_tree_removal') ? 'has-error' : '' }}">
-                                <label
-                                    for="deadline_for_tree_removal">{{ trans('cruds.auction.fields.deadline_for_tree_removal') }}</label>
+                                <label for="deadline_for_tree_removal">গাছ অপসারণের শেষ সময়সীমা</label>
                                 <input class="form-control" type="text" name="deadline_for_tree_removal"
                                     id="deadline_for_tree_removal" value="{{ old('deadline_for_tree_removal', '') }}">
                                 @if ($errors->has('deadline_for_tree_removal'))
@@ -212,7 +204,7 @@
                                     class="help-block">{{ trans('cruds.auction.fields.deadline_for_tree_removal_helper') }}</span>
                             </div>
                             <div class="form-group {{ $errors->has('bidder_criteria') ? 'has-error' : '' }}">
-                                <label for="bidder_criteria">{{ trans('cruds.auction.fields.bidder_criteria') }}</label>
+                                <label for="bidder_criteria">বিডারের যোগ্যতার শর্তাবলি</label>
                                 <textarea class="form-control ckeditor" name="bidder_criteria" id="bidder_criteria">{!! old('bidder_criteria') !!}</textarea>
                                 @if ($errors->has('bidder_criteria'))
                                     <span class="help-block"
@@ -221,8 +213,7 @@
                                 <span class="help-block">{{ trans('cruds.auction.fields.bidder_criteria_helper') }}</span>
                             </div>
                             <div class="form-group {{ $errors->has('required_document') ? 'has-error' : '' }}">
-                                <label
-                                    for="required_document">{{ trans('cruds.auction.fields.required_document') }}</label>
+                                <label for="required_document">লট অনুযায়ী জমার শর্তাবলি</label>
                                 <textarea class="form-control ckeditor" name="required_document" id="required_document">{!! old('required_document') !!}</textarea>
                                 @if ($errors->has('required_document'))
                                     <span class="help-block"
@@ -232,7 +223,7 @@
                                     class="help-block">{{ trans('cruds.auction.fields.required_document_helper') }}</span>
                             </div>
                             <div class="form-group {{ $errors->has('note') ? 'has-error' : '' }}">
-                                <label for="note">{{ trans('cruds.auction.fields.note') }}</label>
+                                <label for="note">নোট</label>
                                 <textarea class="form-control ckeditor" name="note" id="note">{!! old('note') !!}</textarea>
                                 @if ($errors->has('note'))
                                     <span class="help-block" role="alert">{{ $errors->first('note') }}</span>
@@ -242,8 +233,7 @@
                             <div class="row">
                                 <div
                                     class="col-md-3 form-group {{ $errors->has('estimate_value_percentage') ? 'has-error' : '' }}">
-                                    <label
-                                        for="estimate_value_percentage">{{ trans('cruds.auction.fields.estimate_value_percentage') }}</label>
+                                    <label for="estimate_value_percentage">অনুমানমূল্য শতাংশ (%)</label>
                                     <input class="form-control" type="number" name="estimate_value_percentage"
                                         id="estimate_value_percentage" value="{{ old('estimate_value_percentage', '') }}"
                                         step="1">
@@ -256,8 +246,7 @@
                                 </div>
                                 <div
                                     class="col-md-3 form-group {{ $errors->has('base_value_amount') ? 'has-error' : '' }}">
-                                    <label class="required"
-                                        for="base_value_amount">{{ trans('cruds.auction.fields.base_value_amount') }}</label>
+                                    <label class="required" for="base_value_amount">ভিত্তিমূল্য পরিমাণ</label>
                                     <input class="form-control" type="number" name="base_value_amount"
                                         id="base_value_amount" value="{{ old('base_value_amount', '') }}"
                                         step="0.0000001" required>
@@ -279,7 +268,7 @@
                                 <span class="help-block">{{ trans('cruds.auction.fields.min_bid_amount_helper') }}</span>
                             </div> --}}
                                 <div class="col-md-3 form-group {{ $errors->has('vat') ? 'has-error' : '' }}">
-                                    <label for="vat">{{ trans('cruds.auction.fields.vat') }}</label>
+                                    <label for="vat">ভ্যাট (%)</label>
                                     <input class="form-control" type="number" name="vat" id="vat"
                                         value="{{ old('vat', '') }}" step="1">
                                     @if ($errors->has('vat'))
@@ -288,7 +277,7 @@
                                     <span class="help-block">{{ trans('cruds.auction.fields.vat_helper') }}</span>
                                 </div>
                                 <div class="col-md-3 form-group {{ $errors->has('tax') ? 'has-error' : '' }}">
-                                    <label for="tax">{{ trans('cruds.auction.fields.tax') }}</label>
+                                    <label for="tax">কর (%)</label>
                                     <input class="form-control" type="number" name="tax" id="tax"
                                         value="{{ old('tax', '') }}" step="1">
                                     @if ($errors->has('tax'))
@@ -301,7 +290,7 @@
 
                                 <!-- Bid Entity -->
                                 <div class="form-group col-md-6">
-                                    <label class="form-label">Bid Entity</label>
+                                    <label class="form-label">প্রতিষ্ঠান</label>
                                     <select name="bid_entity" id="bid_entity" class="form-control select2">
                                         <option value="">-- Select Bid Entity --</option>
                                     </select>
@@ -312,7 +301,7 @@
 
                                 <!-- Contract Person -->
                                 <div class="form-group col-md-6">
-                                    <label class="form-label">Contract Person</label>
+                                    <label class="form-label">সংযুক্ত ব্যক্তি</label>
                                     <select name="contract_person" id="contract_person" class="form-control select2">
                                         <option value="">-- Select Contract Person --</option>
                                     </select>
@@ -321,6 +310,47 @@
                                     @enderror
                                 </div>
                             </div>
+
+                            <div class="form-group {{ $errors->has('documents') ? 'has-error' : '' }}">
+                                <label>নথি</label>
+
+                                <div class="panel panel-default"
+                                    style="max-height: 250px; overflow-y: auto; padding: 10px;">
+
+                                    {{-- Select All --}}
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" id="select_all_documents">
+                                            <strong>সব নথি নির্বাচন করুন</strong>
+                                        </label>
+                                    </div>
+
+                                    <hr style="margin: 8px 0;">
+
+                                    {{-- Document List --}}
+                                    @foreach ($documents as $document)
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="documents[]" class="document-checkbox"
+                                                    value="{{ $document->id }}"
+                                                    {{ collect(old('documents'))->contains($document->id) ? 'checked' : '' }}>
+                                                {{ $document->name }}
+                                            </label>
+                                        </div>
+                                    @endforeach
+
+                                </div>
+
+                                @if ($errors->has('documents'))
+                                    <span class="help-block" role="alert">{{ $errors->first('documents') }}</span>
+                                @endif
+
+                                <span class="help-block">
+                                    এই নিলামের জন্য প্রয়োজনীয় নথিগুলো নির্বাচন করুন
+                                </span>
+                            </div>
+
+
                             <div class="form-group">
                                 <button class="btn btn-danger" type="submit">
                                     {{ trans('global.save') }}
@@ -487,6 +517,29 @@
                 allowClear: true
             });
 
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            // Select All toggle
+            $('#select_all_documents').on('change', function() {
+                $('.document-checkbox').prop('checked', this.checked);
+            });
+
+            // If any checkbox unchecked, uncheck Select All
+            $('.document-checkbox').on('change', function() {
+                if ($('.document-checkbox:checked').length !== $('.document-checkbox').length) {
+                    $('#select_all_documents').prop('checked', false);
+                } else {
+                    $('#select_all_documents').prop('checked', true);
+                }
+            });
+
+            // On page load (validation error case)
+            if ($('.document-checkbox:checked').length === $('.document-checkbox').length) {
+                $('#select_all_documents').prop('checked', true);
+            }
         });
     </script>
 @endsection

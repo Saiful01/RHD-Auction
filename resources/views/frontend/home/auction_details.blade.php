@@ -1,6 +1,18 @@
 @extends('frontend_layouts.frontend')
 
 @section('content')
+
+    {{--  bidder auction interest --}}
+    @php
+        $bidder = auth('bidder')->user();
+        $bidderRequest = null;
+        if ($bidder) {
+            $bidderRequest = \App\Models\BidderAuctionRequest::where('bidder_id', $bidder->id)
+                ->where('auction_id', $auction->id)
+                ->first();
+        }
+    @endphp
+
     <!-- Start Breadcrumb section -->
     @include('frontend_layouts.partials.breadcrumb', [
         'title' => 'Auction Details',
@@ -85,7 +97,7 @@
                             @endforeach
                         </p>
                         <div class="price-area">
-                            <span>Current Base Value at:</span>
+                            <span>বর্তমান ভিত্তিমূল্য অনুযায়ী:</span>
                             <strong>{{ $auction->base_value_amount }} ৳</strong>
                         </div>
                         <div class="coundown-area">
@@ -150,48 +162,48 @@
 
                                     <div class="description-content">
 
-                                        <h3>Auction Information</h3>
+                                        <h3>নিলামের তথ্য</h3>
 
                                         <div class="table-responsive">
                                             <table class="table table-bordered align-middle">
                                                 <tbody>
 
                                                     <tr>
-                                                        <th width="35%">Auction Name</th>
+                                                        <th width="35%">নিলামের নাম</th>
                                                         <td>{{ strip_tags($auction->name) }}</td>
                                                     </tr>
 
                                                     <tr>
-                                                        <th>Memo No</th>
+                                                        <th>স্মারক নং</th>
                                                         <td>{{ $auction->memo_no }}</td>
                                                     </tr>
 
                                                     <tr>
-                                                        <th>Announcement No</th>
+                                                        <th>বিজ্ঞপ্তি নং</th>
                                                         <td>{{ $auction->announcement_no }}</td>
                                                     </tr>
 
                                                     <tr>
-                                                        <th>Auction Details</th>
+                                                        <th>নিলামের বিস্তারিত</th>
                                                         <td>{{ strip_tags($auction->details) }}</td>
                                                     </tr>
 
                                                     <tr>
-                                                        <th>Auction Start Time</th>
+                                                        <th>নিলামের শুরু সময়</th>
                                                         <td>
                                                             {{ \Carbon\Carbon::parse($auction->auction_start_time)->format('d M Y h:i A') }}
                                                         </td>
                                                     </tr>
 
                                                     <tr>
-                                                        <th>Auction End Time</th>
+                                                        <th>নিলামের শেষ সময়</th>
                                                         <td>
                                                             {{ \Carbon\Carbon::parse($auction->auction_end_time)->format('d M Y h:i A') }}
                                                         </td>
                                                     </tr>
 
                                                     <tr>
-                                                        <th>Tender Visible Period</th>
+                                                        <th>নিলাম প্রদর্শনের সময়কাল</th>
                                                         <td>
                                                             {{ \Carbon\Carbon::parse($auction->tender_visible_start_date)->format('d M Y') }}
                                                             —
@@ -209,19 +221,19 @@
                                                     </tr> --}}
 
                                                     <tr>
-                                                        <th>Deadline for Tree Removal</th>
+                                                        <th>গাছ অপসারণের শেষ সময়সীমা</th>
                                                         <td>
                                                             {{ $auction->deadline_for_tree_removal }}
                                                         </td>
                                                     </tr>
 
                                                     <tr>
-                                                        <th>Bidder Criteria</th>
+                                                        <th>বিডারের যোগ্যতার শর্তাবলি</th>
                                                         <td>{{ strip_tags($auction->bidder_criteria) }}</td>
                                                     </tr>
 
                                                     <tr>
-                                                        <th>Required Documents</th>
+                                                        <th>প্রয়োজনীয় নথি</th>
                                                         <td>{{ strip_tags($auction->required_document) }}</td>
                                                     </tr>
 
@@ -231,7 +243,7 @@
                                                     </tr> --}}
 
                                                     <tr>
-                                                        <th>Base Value Amount</th>
+                                                        <th>ভিত্তিমূল্য</th>
                                                         <td>{{ number_format($auction->base_value_amount, 2) }}</td>
                                                     </tr>
 
@@ -241,18 +253,18 @@
                                                     </tr> --}}
 
                                                     <tr>
-                                                        <th>VAT</th>
+                                                        <th>ভ্যাট (%)</th>
                                                         <td>{{ $auction->vat }}%</td>
                                                     </tr>
 
                                                     <tr>
-                                                        <th>Tax</th>
+                                                        <th>কর (%)</th>
                                                         <td>{{ $auction->tax }}%</td>
                                                     </tr>
 
                                                     @if ($auction->note)
                                                         <tr>
-                                                            <th>Note</th>
+                                                            <th>নোট</th>
                                                             <td>{{ strip_tags($auction->note) }}</td>
                                                         </tr>
                                                     @endif
@@ -269,40 +281,40 @@
                                     <div class="addithonal-information">
 
                                         {{-- ================= LOT TABLE ================= --}}
-                                        <h4 class="mb-3">Lot Information</h4>
+                                        <h4 class="mb-3">লটের তথ্য</h4>
 
                                         @forelse($auction->lots as $lot)
                                             <table class="table total-table2 mb-4">
                                                 <tbody>
                                                     <tr>
-                                                        <td><span>Lot Name</span></td>
+                                                        <td><span>লটের নাম</span></td>
                                                         <td>{{ $lot->name }}</td>
                                                     </tr>
 
                                                     <tr>
-                                                        <td><span>Tree Description</span></td>
+                                                        <td><span>গাছের বিবরণ</span></td>
                                                         <td>{{ strip_tags($lot->tree_description) }}</td>
                                                     </tr>
 
                                                     <tr>
-                                                        <td><span>Comment</span></td>
+                                                        <td><span>মন্তব্য</span></td>
                                                         <td>{{ strip_tags($lot->comment ?? 'N/A') }}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
 
                                             {{-- ================= LOT ITEM TABLE ================= --}}
-                                            <h5 class="mb-2">Lot Items</h5>
+                                            <h5 class="mb-2">লট আইটেমসমূহ</h5>
 
                                             <div class="table-responsive">
                                                 <table class="table table-bordered align-middle">
                                                     <thead>
                                                         <tr>
-                                                            <th>ID</th>
-                                                            <th>Item Name</th>
-                                                            <th>Dia</th>
-                                                            <th>Quantity</th>
-                                                            <th>Unit</th>
+                                                            <th>SL</th>
+                                                            <th>আইটেমের নাম</th>
+                                                            <th>বেড় (৫'-৬'.১১")</th>
+                                                            <th>পরিমাণ</th>
+                                                            <th>একক</th>
                                                             {{-- <th>Unit Price</th> --}}
                                                         </tr>
                                                     </thead>
@@ -310,7 +322,7 @@
                                                     <tbody>
                                                         @forelse($lot->lotLotItems as $item)
                                                             <tr>
-                                                                <td>{{ $item->id }}</td>
+                                                                <td>{{ $loop->iteration }}</td>
                                                                 <td>{{ $item->name }}</td>
                                                                 <td>{{ $item->dia }}</td>
                                                                 <td>{{ $item->quantity }}</td>
@@ -373,8 +385,46 @@
                     </div>
                 </div>
             </div>
+
+            <div class="text-center mt-5">
+                <div class="form-inner d-inline-block">
+                    @guest('bidder')
+                        <a href="{{ route('bidder.login') }}" class="primary-btn btn-hover px-5" type="button">
+                            আমি আগ্রহী – লগইন করে অংশগ্রহণ করুন
+                            <span></span>
+                        </a>
+                    @else
+                        @if (!$bidderRequest)
+                            <a href="{{ route('auction.interest.create', $auction->id) }}" class="primary-btn btn-hover px-5"
+                                type="button">
+                                আমি আগ্রহী – ডকুমেন্ট জমা দিন
+                                <span></span>
+                            </a>
+                        @elseif($bidderRequest->status === '1')
+                            {{-- Pending --}}
+                            <span class="badge bg-warning text-dark fs-6 p-3 d-block text-center">
+                                যাচাই প্রক্রিয়াধীন
+                                <a href="{{ route('bidderInterest.pending') }}" class="text-dark text-decoration-none">(Click
+                                    Pending
+                                    Details)</a>
+                            </span>
+                        @elseif($bidderRequest->status === '2')
+                            {{-- Approved --}}
+                            <span class="badge bg-success text-white fs-6 p-3 d-block text-center">
+                                অনুমোদিত – আপনি অংশগ্রহণ করতে পারবেন
+                            </span>
+                        @elseif($bidderRequest->status === '3')
+                            {{-- Rejected --}}
+                            <span class="badge bg-danger text-white fs-6 p-3 d-block text-center">
+                                যোগ্য নয়
+                            </span>
+                        @endif
+                    @endguest
+                </div>
+            </div>
+
         </div>
-    </div>
+
     </div>
     <!-- End Auction Details section -->
 @endsection

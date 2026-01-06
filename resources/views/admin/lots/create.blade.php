@@ -19,7 +19,7 @@
                             <div class="col-md-6">
                                 <div class="form-group {{ $errors->has('road') ? 'has-error' : '' }}">
                                     <label class="required" for="road_id">
-                                        {{ trans('cruds.lot.fields.road') }}
+                                        সড়ক
                                     </label>
                                     <select class="form-control select2" name="road_id" id="road_id" required>
                                         @foreach($roads as $id => $entry)
@@ -42,7 +42,7 @@
                             <div class="col-md-6">
                                 <div class="form-group {{ $errors->has('package') ? 'has-error' : '' }}">
                                     <label for="package_id">
-                                        {{ trans('cruds.lot.fields.package') }}
+                                        প্যাকেজ
                                     </label>
                                     <select class="form-control select2" name="package_id" id="package_id">
                                         @foreach($packages as $id => $entry)
@@ -66,7 +66,7 @@
                         {{-- Name --}}
                         <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
                             <label class="required" for="name">
-                                {{ trans('cruds.lot.fields.name') }}
+                                নাম
                             </label>
                             <input class="form-control" type="text" name="name" id="name"
                                    value="{{ old('name', '') }}" required>
@@ -82,7 +82,7 @@
 
                         {{-- Details --}}
                         <div class="form-group {{ $errors->has('details') ? 'has-error' : '' }}">
-                            <label for="details">{{ trans('cruds.lot.fields.details') }}</label>
+                            <label for="details">বিবরণ</label>
                             <textarea class="form-control ckeditor" name="details" id="details">{!! old('details') !!}</textarea>
                             @if($errors->has('details'))
                                 <span class="help-block" role="alert">
@@ -96,7 +96,7 @@
 
                         {{-- Location --}}
                         <div class="form-group {{ $errors->has('location') ? 'has-error' : '' }}">
-                            <label for="location">{{ trans('cruds.lot.fields.location') }}</label>
+                            <label for="location">অবস্থান</label>
                             <textarea class="form-control ckeditor" name="location" id="location">{!! old('location') !!}</textarea>
                             @if($errors->has('location'))
                                 <span class="help-block" role="alert">
@@ -111,7 +111,7 @@
                         {{-- Tree Description --}}
                         <div class="form-group {{ $errors->has('tree_description') ? 'has-error' : '' }}">
                             <label for="tree_description">
-                                {{ trans('cruds.lot.fields.tree_description') }}
+                               গাছের বিবরণ
                             </label>
                             <textarea class="form-control ckeditor" name="tree_description" id="tree_description">{!! old('tree_description') !!}</textarea>
                             @if($errors->has('tree_description'))
@@ -126,7 +126,7 @@
 
                         {{-- Comment --}}
                         <div class="form-group {{ $errors->has('comment') ? 'has-error' : '' }}">
-                            <label for="comment">{{ trans('cruds.lot.fields.comment') }}</label>
+                            <label for="comment">মন্তব্য</label>
                             <textarea class="form-control ckeditor" name="comment" id="comment">{!! old('comment') !!}</textarea>
                             @if($errors->has('comment'))
                                 <span class="help-block" role="alert">

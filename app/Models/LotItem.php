@@ -23,9 +23,9 @@ class LotItem extends Model implements HasMedia
     ];
 
     public const UNIT_SELECT = [
+        'CFT'         => 'CFT (Cubic Feet)',
         'KG'          => 'KG',
         'Piece'       => 'Piece',
-        'CFT'         => 'CFT (Cubic Feet)',
         'cubic_meter' => 'Cubic Meter',
         'Maund'       => 'Maund',
         'Ton'         => 'Ton',

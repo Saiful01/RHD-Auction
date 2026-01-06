@@ -91,16 +91,26 @@
                             </li>
                         @endcan
                         @can('road_access')
-                <li class="{{ request()->is('admin/roads') || request()->is('admin/roads/*') ? 'active' : '' }}">
-                    <a href="{{ route('admin.roads.index') }}">
-                        <i class="fa-fw fas fa-road">
+                            <li class="{{ request()->is('admin/roads') || request()->is('admin/roads/*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.roads.index') }}">
+                                    <i class="fa-fw fas fa-road">
 
-                        </i>
-                        <span>{{ trans('cruds.road.title') }}</span>
+                                    </i>
+                                    <span>{{ trans('cruds.road.title') }}</span>
 
-                    </a>
-                </li>
-            @endcan
+                                </a>
+                            </li>
+                        @endcan
+
+                        @can('document_access')
+                            <li
+                                class="{{ request()->is('admin/documents') || request()->is('admin/documents/*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.documents.index') }}">
+                                    <i class="fa-fw fas fa-file-alt"></i>
+                                    <span>Documents</span>
+                                </a>
+                            </li>
+                        @endcan
 
                     </ul>
                 </li>
@@ -161,8 +171,8 @@
                                 </a>
                             </li>
                         @endcan
-                        
-                        
+
+
                     </ul>
                 </li>
             @endcan
@@ -262,7 +272,7 @@
                     </a>
                 </li>
             @endcan
-            
+
 
             @if (file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))
                 @can('profile_password_edit')

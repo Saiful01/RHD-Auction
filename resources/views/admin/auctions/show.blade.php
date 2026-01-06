@@ -5,7 +5,7 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        {{ trans('global.show') }} {{ trans('cruds.auction.title') }}
+                        নিলাম প্রদর্শন করুন
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
@@ -26,7 +26,7 @@
                                 </tr> --}}
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.auction.fields.financial_year') }}
+                                            অর্থবছর
                                         </th>
                                         <td>
                                             {{ $auction->financial_year->year ?? '' }}
@@ -34,7 +34,7 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.auction.fields.road') }}
+                                            সড়ক
                                         </th>
                                         <td>
                                             {{ $auction->road->name ?? '' }}
@@ -42,7 +42,7 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.auction.fields.package') }}
+                                            প্যাকেজ
                                         </th>
                                         <td>
                                             {{ $auction->package->name ?? '' }}
@@ -50,7 +50,7 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.auction.fields.lot') }}
+                                            লট
                                         </th>
                                         <td>
                                             @foreach ($auction->lots as $key => $lot)
@@ -60,7 +60,7 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.auction.fields.memo_no') }}
+                                            স্মারক নং
                                         </th>
                                         <td>
                                             {{ $auction->memo_no }}
@@ -68,7 +68,7 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.auction.fields.announcement_no') }}
+                                            বিজ্ঞপ্তি নং
                                         </th>
                                         <td>
                                             {{ $auction->announcement_no }}
@@ -76,7 +76,7 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.auction.fields.name') }}
+                                            নাম
                                         </th>
                                         <td>
                                             {!! $auction->name !!}
@@ -84,7 +84,7 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.auction.fields.details') }}
+                                            বিবরণ
                                         </th>
                                         <td>
                                             {!! $auction->details !!}
@@ -92,7 +92,7 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.auction.fields.auction_start_time') }}
+                                            নিলামের শুরু সময়
                                         </th>
                                         <td>
                                             {{ $auction->auction_start_time }}
@@ -100,7 +100,7 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.auction.fields.auction_end_time') }}
+                                            নিলামের শেষ সময়
                                         </th>
                                         <td>
                                             {{ $auction->auction_end_time }}
@@ -108,7 +108,7 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.auction.fields.tender_visible_start_date') }}
+                                            টেন্ডার প্রদর্শনের শুরু তারিখ
                                         </th>
                                         <td>
                                             {{ $auction->tender_visible_start_date }}
@@ -116,7 +116,7 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.auction.fields.tender_visible_end_date') }}
+                                            টেন্ডার প্রদর্শনের শেষ তারিখ
                                         </th>
                                         <td>
                                             {{ $auction->tender_visible_end_date }}
@@ -140,7 +140,7 @@
                                 </tr> --}}
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.auction.fields.deadline_for_tree_removal') }}
+                                            গাছ অপসারণের শেষ সময়সীমা
                                         </th>
                                         <td>
                                             {{ $auction->deadline_for_tree_removal }}
@@ -148,7 +148,7 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.auction.fields.bidder_criteria') }}
+                                           বিডারের যোগ্যতার শর্তাবলি
                                         </th>
                                         <td>
                                             {!! $auction->bidder_criteria !!}
@@ -156,7 +156,7 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.auction.fields.required_document') }}
+                                            লট অনুযায়ী জমার শর্তাবলি
                                         </th>
                                         <td>
                                             {!! $auction->required_document !!}
@@ -164,7 +164,7 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.auction.fields.note') }}
+                                            নোট
                                         </th>
                                         <td>
                                             {!! $auction->note !!}
@@ -172,7 +172,7 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.auction.fields.estimate_value_percentage') }}
+                                            অনুমানমূল্য শতাংশ (%)
                                         </th>
                                         <td>
                                             {{ $auction->estimate_value_percentage }}
@@ -180,23 +180,16 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.auction.fields.base_value_amount') }}
+                                           মূল্য ভিত্তির পরিমাণ
                                         </th>
                                         <td>
                                             {{ $auction->base_value_amount }}
                                         </td>
                                     </tr>
+                                    
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.auction.fields.min_bid_amount') }}
-                                        </th>
-                                        <td>
-                                            {{ $auction->min_bid_amount }}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            {{ trans('cruds.auction.fields.vat') }}
+                                           ভ্যাট (%)
                                         </th>
                                         <td>
                                             {{ $auction->vat }}
@@ -204,14 +197,14 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.auction.fields.tax') }}
+                                            কর (%)
                                         </th>
                                         <td>
                                             {{ $auction->tax }}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>Bid Entity</th>
+                                        <th>ব্যক্তি</th>
                                         <td>
                                             @if ($auction->bidEntityEmployee)
                                                 <span
@@ -223,7 +216,7 @@
                                     </tr>
 
                                     <tr>
-                                        <th>Contract Person</th>
+                                        <th>সংযুক্ত ব্যক্তি</th>
                                         <td>
                                             @if ($auction->contractPersonEmployee)
                                                 <span
@@ -233,13 +226,34 @@
                                             @endif
                                         </td>
                                     </tr>
+
+                                    <tr>
+                                        <th>
+                                            নথি
+                                        </th>
+                                        <td>
+                                            @if ($auction->documents && $auction->documents->count())
+                                                <ul class="list-unstyled mb-0">
+                                                    @foreach ($auction->documents as $document)
+                                                        <li>
+                                                            <i class="fas fa-file-alt text-info"></i>
+                                                            {{ $document->name }}
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            @else
+                                                <span class="text-muted">No documents attached</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+
                                 </tbody>
                             </table>
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <a class="btn btn-default" href="{{ route('admin.auctions.index') }}">
                                     {{ trans('global.back_to_list') }}
                                 </a>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
