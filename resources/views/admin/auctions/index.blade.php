@@ -31,7 +31,9 @@
                                         <th>প্যাকেজ</th>
                                         <th>লট</th>
                                         <th>লট আইটেম</th>
-                                        <th>ভিত্তি মূল্য({{ $auctions->first()->estimate_value_percentage }} %)</th>
+                                        <th>ভিত্তি
+                                            মূল্য({{ optional($auctions->first())->estimate_value_percentage ?? '0' }} %)
+                                        </th>
                                         <th>অবস্থা</th>
                                         <th>&nbsp;</th>
                                     </tr>

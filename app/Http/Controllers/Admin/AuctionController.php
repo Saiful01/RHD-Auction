@@ -29,7 +29,16 @@ class AuctionController extends Controller
     {
         abort_if(Gate::denies('auction_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $auctions = Auction::with(['financial_year', 'road', 'package', 'lots.lotLotItems', 'employees'])->get();
+        // role base auction show
+        $user = auth()->user();
+
+        if ($user->is_admin) {
+            $auctions = Auction::with(['financial_year', 'road', 'package', 'lots.lotLotItems', 'employees'])->get();
+        } else {
+            $auctions = Auction::with(['financial_year', 'road', 'package', 'lots.lotLotItems', 'employees'])
+                ->where('created_by', $user->id)
+                ->get();
+        }
 
         return view('admin.auctions.index', compact('auctions'));
     }
@@ -63,6 +72,7 @@ class AuctionController extends Controller
 
         $data = $request->all();
         $data['status'] = auth()->user()->is_admin ? 'active' : 'under_review';
+        $data['created_by'] = auth()->id();
         $auction = Auction::create($data);
         $auction->lots()->sync($request->input('lots', []));
         $auction->employees()->sync($request->input('employees', []));

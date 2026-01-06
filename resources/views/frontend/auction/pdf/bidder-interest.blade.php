@@ -23,7 +23,7 @@
 
         .page-wrapper {
             padding: 10px 60px 60px;
-            /* 🔥 top space for logo */
+
         }
 
         h4.section-title {
