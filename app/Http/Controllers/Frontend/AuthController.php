@@ -150,8 +150,8 @@ class AuthController extends Controller
     {
         Auth::guard('bidder')->logout();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+      /*  $request->session()->invalidate();
+        $request->session()->regenerateToken();*/
 
         return redirect()->route('bidder.login');
     }
