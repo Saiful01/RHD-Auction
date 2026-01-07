@@ -135,6 +135,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Bid
     Route::delete('bids/destroy', 'BidController@massDestroy')->name('bids.massDestroy');
     Route::resource('bids', 'BidController');
+    Route::post('bids/{bid}/toggle-status', [App\Http\Controllers\Admin\BidController::class, 'toggleStatus'])->name('bids.toggleStatus');
+    Route::post('bids/{bid}/toggle-winner', [App\Http\Controllers\Admin\BidController::class, 'toggleWinner'])->name('bids.toggleWinner');
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
     // Change password

@@ -14,8 +14,8 @@ class Bid extends Model
     public $table = 'bids';
 
     public const IS_WINNER_RADIO = [
-        '0' => 'Yes',
-        '1' => 'NO',
+        '1' => 'Yes',
+        '0' => 'NO',
     ];
 
     protected $dates = [

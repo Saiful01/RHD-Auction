@@ -98,7 +98,7 @@
                         </p>
                         <div class="price-area">
                             <span>বর্তমান ভিত্তিমূল্য অনুযায়ী:</span>
-                            <strong>{{ $auction->base_value_amount }} ৳</strong>
+                            <strong>{{bangla_number_format($auction->base_value_amount, 2) ?? $auction->base_value_amount }} ৳</strong>
                         </div>
                         <div class="coundown-area">
                             <h6>Auction Will Be End:</h6>
@@ -244,7 +244,7 @@
 
                                                     <tr>
                                                         <th>ভিত্তিমূল্য</th>
-                                                        <td>{{ number_format($auction->base_value_amount, 2) }}</td>
+                                                        <td>{{ bangla_number_format($auction->base_value_amount, 2) }}</td>
                                                     </tr>
 
                                                     {{-- <tr>
@@ -361,7 +361,7 @@
                                             </svg>
                                             <div>
                                                 এই নিলামে অংশগ্রহণ করতে, আপনাকে <strong>৳
-                                                    {{ number_format($auction->base_value_amount, 2) }}</strong> মূল্যের
+                                                    {{ bangla_number_format($auction->base_value_amount, 2) }}</strong> মূল্যের
                                                 বেস এমাউন্ট জমা দিতে হবে।
                                                 <span style="font-weight:700; color:#d63384;">
                                                     নিলাম প্রকাশ হওয়ার তারিখের আগে -

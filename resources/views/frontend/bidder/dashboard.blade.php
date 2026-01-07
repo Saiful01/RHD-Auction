@@ -29,19 +29,19 @@
                         <div class="col-lg-4">
                             <div class="single-counter-card">
                                 <span>Auction Attend</span>
-                                <h2>280</h2>
+                                <h2>{{ $auctionAttend }}</h2>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="single-counter-card two">
                                 <span>Auction Win</span>
-                                <h2>50</h2>
+                                <h2>{{ $auctionWin }}</h2>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="single-counter-card three">
                                 <span>Cancel Auction</span>
-                                <h2>25</h2>
+                                <h2>{{ $auctionCanceled }}</h2>
                             </div>
                         </div>
                     </div>
@@ -50,56 +50,49 @@
                         <table class="bidding-summary-table">
                             <thead>
                                 <tr>
-                                    <th>Auction ID</th>
-                                    <th>Product name</th>
-                                    <th>Amount</th>
+                                    <th>Auction Name</th>
+                                    <th>Lot Name</th>
+                                    <th>Bid Amount</th>
+                                    <th>Total Amount (with Vat & Tax)</th>
                                     <th>Status</th>
                                     <th>Auction Date</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td data-label="Auction ID">12584885455</td>
-                                    <td data-label="Product name">Porcelain</td>
-                                    <td data-label="Amount">$1800</td>
-                                    <td data-label="Status"><span>Winning</span></td>
-                                    <td data-label="Auction Date">June 25, 2024</td>
-                                </tr>
-                                <tr>
-                                    <td data-label="Auction ID">12584885482</td>
-                                    <td data-label="Product name">Old Clocks</td>
-                                    <td data-label="Amount">$1900</td>
-                                    <td data-label="Status"><span>Winning</span></td>
-                                    <td data-label="Auction Date">June 13, 2024</td>
-                                </tr>
-                                <tr>
-                                    <td data-label="Auction ID">12584885536</td>
-                                    <td data-label="Product name">Manuscripts</td>
-                                    <td data-label="Amount">$2000</td>
-                                    <td data-label="Status"><span class="cancel">Cancel</span></td>
-                                    <td data-label="Auction Date">June 2, 2024</td>
-                                </tr>
-                                <tr>
-                                    <td data-label="Auction ID">12584885548</td>
-                                    <td data-label="Product name">Renaissance Art</td>
-                                    <td data-label="Amount">$2100</td>
-                                    <td data-label="Status"><span>Winning</span></td>
-                                    <td data-label="Auction Date">June 8, 2024</td>
-                                </tr>
-                                <tr>
-                                    <td data-label="Auction ID">12584885563</td>
-                                    <td data-label="Product name">Impressionism Art</td>
-                                    <td data-label="Amount">$2200</td>
-                                    <td data-label="Status"><span>Winning</span></td>
-                                    <td data-label="Auction Date">June 21, 2024</td>
-                                </tr>
-                                <tr>
-                                    <td data-label="Auction ID">12584885589</td>
-                                    <td data-label="Product name">Romanticism Art</td>
-                                    <td data-label="Amount">$2300</td>
-                                    <td data-label="Status"><span class="cancel">Cancel</span></td>
-                                    <td data-label="Auction Date">June 9, 2024</td>
-                                </tr>
+                                @forelse($recentBids as $bid)
+                                    <tr>
+                                        <td data-label="Auction Name">{{ strip_tags($bid->auction->name) }}</td>
+                                        <td data-label="Lot Name">
+                                            @if ($bid->auction && $bid->auction->lots->count())
+                                                @foreach ($bid->auction->lots as $lot)
+                                                    {{ $lot->name }}
+                                                    @if (!$loop->last)
+                                                        ,
+                                                    @endif
+                                                @endforeach
+                                            @else
+                                                N/A
+                                            @endif
+                                        </td>
+                                        <td data-label="Bid Amount">{{ bangla_number_format($bid->bid_amount, 2) }} ৳</td>
+                                        <td data-label="Total Amount (with Vat & Tax)">
+                                            {{ bangla_number_format($bid->total_amount, 2) }} ৳</td>
+                                        <td data-label="Status">
+                                            @if ($bid->status == 3)
+                                                <span class="bg-danger text-white">Cancle</span>
+                                            @elseif($bid->is_winner)
+                                                <span class="bg-success text-white">Winning</span>
+                                            @else
+                                                <span class="bg-warning text-dark">Pending</span>
+                                            @endif
+                                        </td>
+                                        <td data-label="Auction Date">{{ $bid->created_at->format('F d, Y') }}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center">No Data Found</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

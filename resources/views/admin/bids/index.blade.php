@@ -2,13 +2,13 @@
 @section('content')
     <div class="content">
         @can('bid_create')
-            <div style="margin-bottom: 10px;" class="row">
+            {{-- <div style="margin-bottom: 10px;" class="row">
                 <div class="col-lg-12 text-right">
                     <a class="btn btn-success" href="{{ route('admin.bids.create') }}">
                         Create {{ trans('cruds.bid.title_singular') }}
                     </a>
                 </div>
-            </div>
+            </div> --}}
         @endcan
         <div class="row">
             <div class="col-lg-12">
@@ -96,32 +96,62 @@
                                                 {{ App\Models\Bid::STATUS_RADIO[$bid->status] ?? '' }}
                                             </td>
                                             <td>
-                                                @can('bid_show')
-                                                    <a class="btn btn-xs btn-primary"
-                                                        href="{{ route('admin.bids.show', $bid->id) }}">
-                                                        {{ trans('global.view') }}
-                                                    </a>
-                                                @endcan
+                                                <div
+                                                    style="display:inline-flex; gap:5px; align-items:center;">
 
-                                                @can('bid_edit')
-                                                    <a class="btn btn-xs btn-info"
-                                                        href="{{ route('admin.bids.edit', $bid->id) }}">
-                                                        {{ trans('global.edit') }}
-                                                    </a>
-                                                @endcan
+                                                    {{-- View --}}
+                                                    @can('bid_show')
+                                                        <a class="btn btn-xs btn-primary"
+                                                            href="{{ route('admin.bids.show', $bid->id) }}">
+                                                            {{ trans('global.view') }}
+                                                        </a>
+                                                    @endcan
 
-                                                @can('bid_delete')
-                                                    <form action="{{ route('admin.bids.destroy', $bid->id) }}" method="POST"
-                                                        onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
-                                                        style="display: inline-block;">
-                                                        <input type="hidden" name="_method" value="DELETE">
-                                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                        <input type="submit" class="btn btn-xs btn-danger"
-                                                            value="{{ trans('global.delete') }}">
-                                                    </form>
-                                                @endcan
+                                                    {{-- Edit --}}
+                                                    @can('bid_edit')
+                                                        <a class="btn btn-xs btn-info"
+                                                            href="{{ route('admin.bids.edit', $bid->id) }}">
+                                                            {{ trans('global.edit') }}
+                                                        </a>
 
+                                                        {{-- Status toggle --}}
+                                                        <form action="{{ route('admin.bids.toggleStatus', $bid->id) }}"
+                                                            method="POST" style="margin:0;">
+                                                            @csrf
+                                                            <button type="submit"
+                                                                class="btn btn-xs
+                                                                    {{ $bid->status == '1' ? 'btn-warning' : ($bid->status == '2' ? 'btn-success' : 'btn-danger') }}">
+                                                                {{ $bid->status == '1' ? 'Pending' : ($bid->status == '2' ? 'Accept' : 'Reject') }}
+                                                            </button>
+                                                        </form>
+
+                                                        {{-- Winner toggle --}}
+                                                        <form action="{{ route('admin.bids.toggleWinner', $bid->id) }}"
+                                                            method="POST" style="margin:0;">
+                                                            @csrf
+                                                            <button type="submit"
+                                                                class="btn btn-xs {{ $bid->is_winner ? 'btn-success' : 'btn-secondary' }}">
+                                                                {{ $bid->is_winner ? 'Winner' : 'Mark Winner' }}
+                                                            </button>
+                                                        </form>
+                                                    @endcan
+
+                                                    {{-- Delete --}}
+                                                    @can('bid_delete')
+                                                        <form action="{{ route('admin.bids.destroy', $bid->id) }}"
+                                                            method="POST"
+                                                            onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
+                                                            style="margin:0;">
+                                                            <input type="hidden" name="_method" value="DELETE">
+                                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                            <input type="submit" class="btn btn-xs btn-danger"
+                                                                value="{{ trans('global.delete') }}">
+                                                        </form>
+                                                    @endcan
+
+                                                </div>
                                             </td>
+
 
                                         </tr>
                                     @endforeach

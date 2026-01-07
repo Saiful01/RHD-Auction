@@ -90,4 +90,30 @@ class BidController extends Controller
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
+
+    public function toggleStatus(Bid $bid)
+    {
+        abort_if(Gate::denies('bid_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $bid->status = match ($bid->status) {
+            '1' => '2',  // Pending -> Accept
+            '2' => '3',  // Accept -> Reject
+            '3' => '1',  // Reject -> Pending
+            default => '1',
+        };
+
+        $bid->save();
+
+        return back()->with('success', 'Bid status updated successfully.');
+    }
+
+    public function toggleWinner(Bid $bid)
+    {
+        abort_if(Gate::denies('bid_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $bid->is_winner = $bid->is_winner ? 0 : 1;
+        $bid->save();
+
+        return back()->with('success', 'Bid winner status updated successfully.');
+    }
 }

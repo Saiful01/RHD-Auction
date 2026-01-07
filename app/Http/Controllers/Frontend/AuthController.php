@@ -142,7 +142,21 @@ class AuthController extends Controller
     public function dashboard()
     {
         $bidder = auth('bidder')->user();
-        return view('frontend.bidder.dashboard', compact('bidder'));
+
+        //Auction Attend
+        $auctionAttend = $bidder->bidderBids()->where('status', 1)->count();
+
+        // Auction Win
+        $auctionWin = $bidder->bidderBids()->where('is_winner', 1)->count();
+
+        // Auction canceled
+        $auctionCanceled = $bidder->bidderBids()->where('status', 3)->count();
+
+        // auction /  bid summary
+
+        $recentBids = $bidder->bidderBids()->with('auction.lots.lotLotItems')->latest()->take(6)->get();
+
+        return view('frontend.bidder.dashboard', compact('bidder', 'auctionAttend', 'auctionWin', 'auctionCanceled', 'recentBids'));
     }
 
     // bidder logout
@@ -150,7 +164,7 @@ class AuthController extends Controller
     {
         Auth::guard('bidder')->logout();
 
-      /*  $request->session()->invalidate();
+        /*  $request->session()->invalidate();
         $request->session()->regenerateToken();*/
 
         return redirect()->route('bidder.login');
