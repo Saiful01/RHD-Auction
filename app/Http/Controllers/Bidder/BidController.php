@@ -49,6 +49,10 @@ class BidController extends Controller
     // bid sumbit function
     public function submitBid(Request $request, Auction $auction)
     {
+
+
+
+       // return $request->all();
         $bidder = auth('bidder')->user();
         $now = now();
 
@@ -71,7 +75,7 @@ class BidController extends Controller
             return back()->withErrors('Total Bid Amount must be greater than base amount.');
         }
 
-       
+
         $bid = Bid::create([
             'bidder_id' => $bidder->id,
             'auction_id' => $auction->id,
@@ -84,7 +88,7 @@ class BidController extends Controller
             'is_winner' => 0,
         ]);
 
-        
+
         foreach ($request->bids as $lotItemId => $unitPrice) {
             BidderBidItem::create([
                 'bid_id' => $bid->id,

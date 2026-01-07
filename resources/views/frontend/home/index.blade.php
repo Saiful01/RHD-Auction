@@ -2,9 +2,9 @@
 
 @section('content')
     <!-- Start Banner section -->
-    <div class="home1-banner-section mb-50">
+    <div class="home1-banner-section mb-50" >
         <div class="banner-wrapper"
-            style="background-image: linear-gradient(180deg, rgba(11, 12, 12, 0.65) 0%, rgba(11, 12, 12, 0.65) 100%), url(assets/img/banner.jpg);">
+            style="background-image: linear-gradient(180deg, rgba(11, 12, 12, 0.65) 0%, rgba(11, 12, 12, 0.65) 100%), url(assets/img/banner.jpg);" >
             <div class="container">
                 <div class="banner-content">
                     <span class="sub-title">

@@ -21,7 +21,8 @@
                 @endforeach
             </div>
         </div>
-
+        <form id="bidForm" action="{{ route('bid.submit', $auction->id) }}" method="POST">
+            @csrf
         {{-- Terms / Ongikarnama --}}
         <div class="card mb-4 shadow-sm p-3">
             <h5>শর্তাবলী / Ongikarnama</h5>
@@ -40,8 +41,8 @@
         </div>
 
         {{-- Bid Form --}}
-        <form id="bidForm" action="{{ route('bid.submit', $auction->id) }}" method="POST">
-            @csrf
+
+
 
             @foreach ($auction->lots as $lot)
             <div class="card mb-4 shadow-sm p-3">
@@ -95,6 +96,7 @@
             <div class="text-center mb-5">
                 <button type="submit" id="submitBtn" class="btn btn-primary px-5 py-2 fw-bold">Submit Bid</button>
             </div>
+
         </form>
 
     </div>
