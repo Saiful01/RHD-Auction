@@ -22,6 +22,8 @@ class Auction extends Model implements HasMedia
         'auction_end_time',
         'tender_visible_start_date',
         'tender_visible_end_date',
+        'bid_start_time',
+        'bid_end_time',
         'tender_sale_start_date',
         'tender_sale_end_date',
         'created_at',
@@ -41,6 +43,8 @@ class Auction extends Model implements HasMedia
         'auction_end_time',
         'tender_visible_start_date',
         'tender_visible_end_date',
+        'bid_start_time',
+        'bid_end_time',
         'tender_sale_start_date',
         'tender_sale_end_date',
         'deadline_for_tree_removal',
@@ -57,6 +61,11 @@ class Auction extends Model implements HasMedia
         'created_at',
         'updated_at',
         'deleted_at',
+    ];
+
+    protected $casts = [
+        'bid_start_time'     => 'datetime',
+        'bid_end_time'       => 'datetime',
     ];
 
     protected function serializeDate(DateTimeInterface $date)
@@ -88,6 +97,11 @@ class Auction extends Model implements HasMedia
     public function lots()
     {
         return $this->belongsToMany(Lot::class);
+    }
+
+    public function bids()
+    {
+        return $this->hasMany(Bid::class);
     }
 
     public function totalLotItemsCount()

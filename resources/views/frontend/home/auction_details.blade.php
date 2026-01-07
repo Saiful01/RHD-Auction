@@ -405,14 +405,37 @@
                             <span class="badge bg-warning text-dark fs-6 p-3 d-block text-center">
                                 যাচাই প্রক্রিয়াধীন
                                 <a href="{{ route('bidderInterest.pending') }}" class="text-dark text-decoration-none">(Click
-                                    Pending
-                                    Details)</a>
+                                    Pending Details)</a>
                             </span>
                         @elseif($bidderRequest->status === '2')
                             {{-- Approved --}}
-                            <span class="badge bg-success text-white fs-6 p-3 d-block text-center">
-                                অনুমোদিত – আপনি অংশগ্রহণ করতে পারবেন
-                            </span>
+                            <div class="d-flex justify-content-center align-items-center gap-3 mt-3">
+                                <a href="{{ route('bid.page', $auction->id) }}" class="primary-btn btn-hover px-5"
+                                    id="bid-now-button">
+                                    Bid Now
+                                    <span></span>
+                                </a>
+
+                                {{-- Countdown --}}
+                                <div id="auction-countdown" class="d-flex gap-2 align-items-center">
+                                    <div class="text-center p-2 bg-light border rounded">
+                                        <h5 class="mb-0" id="days">0</h5>
+                                        <small>Days</small>
+                                    </div>
+                                    <div class="text-center p-2 bg-light border rounded">
+                                        <h5 class="mb-0" id="hours">0</h5>
+                                        <small>Hours</small>
+                                    </div>
+                                    <div class="text-center p-2 bg-light border rounded">
+                                        <h5 class="mb-0" id="minutes">0</h5>
+                                        <small>Minutes</small>
+                                    </div>
+                                    <div class="text-center p-2 bg-light border rounded">
+                                        <h5 class="mb-0" id="seconds">0</h5>
+                                        <small>Seconds</small>
+                                    </div>
+                                </div>
+                            </div>
                         @elseif($bidderRequest->status === '3')
                             {{-- Rejected --}}
                             <span class="badge bg-danger text-white fs-6 p-3 d-block text-center">
@@ -422,9 +445,58 @@
                     @endguest
                 </div>
             </div>
-
         </div>
-
     </div>
     <!-- End Auction Details section -->
 @endsection
+
+@push('scripts')
+    {{-- JS Countdown --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auction start time from backend
+            const bidStart = new Date("{{ $auction->bid_start_time }}").getTime();
+            const bidButton = document.getElementById('bid-now-button');
+            const daysEl = document.getElementById('days');
+            const hoursEl = document.getElementById('hours');
+            const minutesEl = document.getElementById('minutes');
+            const secondsEl = document.getElementById('seconds');
+
+            function updateCountdown() {
+                const now = new Date().getTime();
+                let diff = bidStart - now;
+
+                if (diff < 0) {
+                    diff = 0;
+                    // Auction started
+                    bidButton.style.pointerEvents = "auto"; // click-able
+                    bidButton.textContent = "Bid Now";
+                    const hoverSpan = document.createElement('span');
+                    bidButton.appendChild(hoverSpan); // hover span thik thakbe
+                    clearInterval(countdownInterval);
+                } else {
+                    // Countdown cholche, click disabled
+                    bidButton.style.pointerEvents = "none"; // click disabled
+                    bidButton.textContent = "Bid will be started";
+                    const hoverSpan = document.createElement('span');
+                    bidButton.appendChild(hoverSpan); // hover span thik thakbe
+                }
+
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                daysEl.textContent = days;
+                hoursEl.textContent = hours;
+                minutesEl.textContent = minutes;
+                secondsEl.textContent = seconds;
+            }
+
+            // Update every second
+            updateCountdown();
+            const countdownInterval = setInterval(updateCountdown, 1000);
+        });
+    </script>
+@endpush

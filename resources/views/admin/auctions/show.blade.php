@@ -108,7 +108,7 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            টেন্ডার প্রদর্শনের শুরু তারিখ
+                                            নিলাম প্রদর্শনের শুরু তারিখ
                                         </th>
                                         <td>
                                             {{ $auction->tender_visible_start_date }}
@@ -116,10 +116,26 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            টেন্ডার প্রদর্শনের শেষ তারিখ
+                                            নিলাম প্রদর্শনের শেষ তারিখ
                                         </th>
                                         <td>
                                             {{ $auction->tender_visible_end_date }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            বিড শুরু হওয়ার সময়
+                                        </th>
+                                        <td>
+                                            {{ $auction->bid_start_time }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            বিড শেষ হওয়ার সময়
+                                        </th>
+                                        <td>
+                                            {{ $auction->bid_end_time }}
                                         </td>
                                     </tr>
                                     {{-- <tr>
@@ -148,7 +164,7 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                           বিডারের যোগ্যতার শর্তাবলি
+                                            বিডারের যোগ্যতার শর্তাবলি
                                         </th>
                                         <td>
                                             {!! $auction->bidder_criteria !!}
@@ -180,16 +196,16 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                           মূল্য ভিত্তির পরিমাণ
+                                            মূল্য ভিত্তির পরিমাণ
                                         </th>
                                         <td>
                                             {{ $auction->base_value_amount }}
                                         </td>
                                     </tr>
-                                    
+
                                     <tr>
                                         <th>
-                                           ভ্যাট (%)
+                                            ভ্যাট (%)
                                         </th>
                                         <td>
                                             {{ $auction->vat }}

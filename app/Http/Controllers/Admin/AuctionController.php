@@ -20,6 +20,7 @@ use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
+use Carbon\Carbon;
 
 class AuctionController extends Controller
 {
@@ -70,7 +71,22 @@ class AuctionController extends Controller
     {
         $data = $request->all();
 
-        $data = $request->all();
+        // ami change korechi start
+        if (!empty($request->bid_start_time)) {
+            $data['bid_start_time'] = Carbon::createFromFormat(
+                config('panel.date_format') . ' ' . config('panel.time_format'),
+                $request->bid_start_time
+            )->format('Y-m-d H:i:s');
+        }
+
+        if (!empty($request->bid_end_time)) {
+            $data['bid_end_time'] = Carbon::createFromFormat(
+                config('panel.date_format') . ' ' . config('panel.time_format'),
+                $request->bid_end_time
+            )->format('Y-m-d H:i:s');
+        }
+
+        // ami change korechi end
         $data['status'] = auth()->user()->is_admin ? 'active' : 'under_review';
         $data['created_by'] = auth()->id();
         $auction = Auction::create($data);
@@ -119,7 +135,26 @@ class AuctionController extends Controller
             return redirect()->route('admin.auctions.index')
                 ->with('error', 'You cannot update this auction.');
         }
-        $auction->update($request->all());
+        // my changes code start
+        $data = $request->all();
+        if (!empty($request->bid_start_time)) {
+            $data['bid_start_time'] = Carbon::createFromFormat(
+                config('panel.date_format') . ' ' . config('panel.time_format'),
+                $request->bid_start_time
+            )->format('Y-m-d H:i:s');
+        }
+
+        if (!empty($request->bid_end_time)) {
+            $data['bid_end_time'] = Carbon::createFromFormat(
+                config('panel.date_format') . ' ' . config('panel.time_format'),
+                $request->bid_end_time
+            )->format('Y-m-d H:i:s');
+        }
+
+        $auction->update($data);
+        // my changes code end
+
+        // $auction->update($request->all());
         $auction->lots()->sync($request->input('lots', []));
         $auction->employees()->sync($request->input('employees', []));
         $auction->documents()->sync($request->input('documents', []));

@@ -373,6 +373,8 @@ return [
             'tender_visible_start_date'        => 'Tender Visible Start Date',
             'tender_visible_start_date_helper' => ' ',
             'tender_visible_end_date'          => 'Tender Visible End Date',
+            'bid_start_time_helper'            => ' ',
+            'bid_end_time_helper'              => ' ',
             'tender_visible_end_date_helper'   => ' ',
             'tender_sale_start_date'           => 'Tender Sale Start Date',
             'tender_sale_start_date_helper'    => ' ',

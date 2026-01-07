@@ -167,6 +167,29 @@
                                     <span
                                         class="help-block">{{ trans('cruds.auction.fields.tender_visible_end_date_helper') }}</span>
                                 </div>
+
+                                <div class="col-md-6 form-group {{ $errors->has('bid_start_time') ? 'has-error' : '' }}">
+                                    <label for="bid_start_time">বিড শুরু হওয়ার সময়</label>
+                                    <input class="form-control datetime" type="text" name="bid_start_time"
+                                        id="bid_start_time" value="{{ old('bid_start_time') }}">
+                                    @if ($errors->has('bid_start_time'))
+                                        <span class="help-block"
+                                            role="alert">{{ $errors->first('bid_start_time') }}</span>
+                                    @endif
+                                    <span
+                                        class="help-block">{{ trans('cruds.auction.fields.bid_start_time_helper') }}</span>
+                                </div>
+                                <div class="col-md-6 form-group {{ $errors->has('bid_end_time') ? 'has-error' : '' }}">
+                                    <label for="bid_end_time">বিড শেষ হওয়ার সময়</label>
+                                    <input class="form-control datetime" type="text" name="bid_end_time"
+                                        id="bid_end_time" value="{{ old('bid_end_time') }}">
+                                    @if ($errors->has('bid_end_time'))
+                                        <span class="help-block"
+                                            role="alert">{{ $errors->first('bid_end_time') }}</span>
+                                    @endif
+                                    <span
+                                        class="help-block">{{ trans('cruds.auction.fields.bid_end_time_helper') }}</span>
+                                </div>
                                 {{-- <div class="form-group {{ $errors->has('tender_sale_start_date') ? 'has-error' : '' }}">
                                 <label
                                     for="tender_sale_start_date">{{ trans('cruds.auction.fields.tender_sale_start_date') }}</label>

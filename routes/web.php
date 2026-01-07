@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AuctionController;
 use App\Http\Controllers\Admin\BidderAuctionRequestController;
 use App\Http\Controllers\Admin\BidderController;
 use App\Http\Controllers\Admin\EmployeeController;
+use App\Http\Controllers\Bidder\BidController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Frontend\AuthController;
 
@@ -171,4 +172,10 @@ Route::middleware(['auth:bidder'])->group(function () {
     Route::get('bidder/interestPending', [Controller::class, 'pendingInterest'])->name('bidderInterest.pending');
     Route::get('/bidder/interest/print/{id}', [Controller::class, 'interestPrint'])
         ->name('bidder.interest.print');
+});
+
+// bid route
+Route::middleware(['auth:bidder'])->group(function () {
+    Route::get('auctions/{auction}/bid', [BidController::class, 'showBidPage'])->name('bid.page');
+    Route::post('auctions/{auction}/bid/submit', [BidController::class, 'submitBid'])->name('bid.submit');
 });

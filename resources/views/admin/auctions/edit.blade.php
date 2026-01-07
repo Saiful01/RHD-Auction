@@ -15,8 +15,7 @@
                             @csrf
                             <div class="row">
                                 <div class="col-md-4 form-group {{ $errors->has('financial_year') ? 'has-error' : '' }}">
-                                    <label class="required"
-                                        for="financial_year_id">অর্থবছর</label>
+                                    <label class="required" for="financial_year_id">অর্থবছর</label>
                                     <select class="form-control select2" name="financial_year_id" id="financial_year_id"
                                         required>
                                         @foreach ($financial_years as $id => $entry)
@@ -84,8 +83,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6 form-group {{ $errors->has('memo_no') ? 'has-error' : '' }}">
-                                    <label class="required"
-                                        for="memo_no">স্মারক নং</label>
+                                    <label class="required" for="memo_no">স্মারক নং</label>
                                     <input class="form-control" type="text" name="memo_no" id="memo_no"
                                         value="{{ old('memo_no', $auction->memo_no) }}" required>
                                     @if ($errors->has('memo_no'))
@@ -94,8 +92,7 @@
                                     <span class="help-block">{{ trans('cruds.auction.fields.memo_no_helper') }}</span>
                                 </div>
                                 <div class="col-md-6 form-group {{ $errors->has('announcement_no') ? 'has-error' : '' }}">
-                                    <label class="required"
-                                        for="announcement_no">বিজ্ঞপ্তি নং</label>
+                                    <label class="required" for="announcement_no">বিজ্ঞপ্তি নং</label>
                                     <input class="form-control" type="text" name="announcement_no" id="announcement_no"
                                         value="{{ old('announcement_no', $auction->announcement_no) }}" required>
                                     @if ($errors->has('announcement_no'))
@@ -125,8 +122,7 @@
                             <div class="row">
                                 <div
                                     class="col-md-6 form-group {{ $errors->has('auction_start_time') ? 'has-error' : '' }}">
-                                    <label class="required"
-                                        for="auction_start_time">নিলামের শুরু সময়</label>
+                                    <label class="required" for="auction_start_time">নিলামের শুরু সময়</label>
                                     <input class="form-control datetime" type="text" name="auction_start_time"
                                         id="auction_start_time"
                                         value="{{ old('auction_start_time', $auction->auction_start_time) }}" required>
@@ -139,8 +135,7 @@
                                 </div>
                                 <div
                                     class="col-md-6 form-group {{ $errors->has('auction_end_time') ? 'has-error' : '' }}">
-                                    <label class="required"
-                                        for="auction_end_time">নিলামের শেষ সময়</label>
+                                    <label class="required" for="auction_end_time">নিলামের শেষ সময়</label>
                                     <input class="form-control datetime" type="text" name="auction_end_time"
                                         id="auction_end_time"
                                         value="{{ old('auction_end_time', $auction->auction_end_time) }}" required>
@@ -153,8 +148,7 @@
                                 </div>
                                 <div
                                     class="col-md-6 form-group {{ $errors->has('tender_visible_start_date') ? 'has-error' : '' }}">
-                                    <label
-                                        for="tender_visible_start_date">নিলাম প্রদর্শনের শুরু তারিখ</label>
+                                    <label for="tender_visible_start_date">নিলাম প্রদর্শনের শুরু তারিখ</label>
                                     <input class="form-control datetime" type="text" name="tender_visible_start_date"
                                         id="tender_visible_start_date"
                                         value="{{ old('tender_visible_start_date', $auction->tender_visible_start_date) }}">
@@ -167,8 +161,7 @@
                                 </div>
                                 <div
                                     class="col-md-6 form-group {{ $errors->has('tender_visible_end_date') ? 'has-error' : '' }}">
-                                    <label
-                                        for="tender_visible_end_date">নিলাম প্রদর্শনের শেষ তারিখ</label>
+                                    <label for="tender_visible_end_date">নিলাম প্রদর্শনের শেষ তারিখ</label>
                                     <input class="form-control datetime" type="text" name="tender_visible_end_date"
                                         id="tender_visible_end_date"
                                         value="{{ old('tender_visible_end_date', $auction->tender_visible_end_date) }}">
@@ -178,6 +171,33 @@
                                     @endif
                                     <span
                                         class="help-block">{{ trans('cruds.auction.fields.tender_visible_end_date_helper') }}</span>
+                                </div>
+
+                                <div class="col-md-6 form-group {{ $errors->has('bid_start_time') ? 'has-error' : '' }}">
+                                    <label for="bid_start_time">বিড শুরু হওয়ার সময়</label>
+                                    <input class="form-control datetime" type="text" name="bid_start_time"
+                                        id="bid_start_time"
+                                        value="{{ old('bid_start_time', $auction->bid_start_time ? $auction->bid_start_time->format(config('panel.date_format') . ' ' . config('panel.time_format')) : '') }}">
+
+                                    @if ($errors->has('bid_start_time'))
+                                        <span class="help-block"
+                                            role="alert">{{ $errors->first('bid_start_time') }}</span>
+                                    @endif
+                                    <span
+                                        class="help-block">{{ trans('cruds.auction.fields.bid_start_time_helper') }}</span>
+                                </div>
+
+                                <div class="col-md-6 form-group {{ $errors->has('bid_end_time') ? 'has-error' : '' }}">
+                                    <label for="bid_end_time">বিড শেষ হওয়ার সময়</label>
+                                    <input class="form-control datetime" type="text" name="bid_end_time"
+                                        id="bid_end_time"
+                                        value="{{ old('bid_end_time', $auction->bid_end_time ? $auction->bid_end_time->format(config('panel.date_format') . ' ' . config('panel.time_format')) : '') }}">
+                                    @if ($errors->has('bid_end_time'))
+                                        <span class="help-block"
+                                            role="alert">{{ $errors->first('bid_end_time') }}</span>
+                                    @endif
+                                    <span
+                                        class="help-block">{{ trans('cruds.auction.fields.bid_end_time_helper') }}</span>
                                 </div>
                                 {{-- <div class="form-group {{ $errors->has('tender_sale_start_date') ? 'has-error' : '' }}">
                                 <label
@@ -207,8 +227,7 @@
                             </div> --}}
                             </div>
                             <div class="form-group {{ $errors->has('deadline_for_tree_removal') ? 'has-error' : '' }}">
-                                <label
-                                    for="deadline_for_tree_removal">গাছ অপসারণের শেষ সময়সীমা</label>
+                                <label for="deadline_for_tree_removal">গাছ অপসারণের শেষ সময়সীমা</label>
                                 <input class="form-control" type="text" name="deadline_for_tree_removal"
                                     id="deadline_for_tree_removal"
                                     value="{{ old('deadline_for_tree_removal', $auction->deadline_for_tree_removal) }}">
@@ -229,8 +248,7 @@
                                 <span class="help-block">{{ trans('cruds.auction.fields.bidder_criteria_helper') }}</span>
                             </div>
                             <div class="form-group {{ $errors->has('required_document') ? 'has-error' : '' }}">
-                                <label
-                                    for="required_document">লট অনুযায়ী জমার শর্তাবলি</label>
+                                <label for="required_document">লট অনুযায়ী জমার শর্তাবলি</label>
                                 <textarea class="form-control ckeditor" name="required_document" id="required_document">{!! old('required_document', $auction->required_document) !!}</textarea>
                                 @if ($errors->has('required_document'))
                                     <span class="help-block"
@@ -250,8 +268,7 @@
                             <div class="row">
                                 <div
                                     class="col-md-3 form-group {{ $errors->has('estimate_value_percentage') ? 'has-error' : '' }}">
-                                    <label
-                                        for="estimate_value_percentage">অনুমানমূল্য শতাংশ (%)</label>
+                                    <label for="estimate_value_percentage">অনুমানমূল্য শতাংশ (%)</label>
                                     <input class="form-control" type="number" name="estimate_value_percentage"
                                         id="estimate_value_percentage"
                                         value="{{ old('estimate_value_percentage', $auction->estimate_value_percentage) }}"
@@ -265,8 +282,7 @@
                                 </div>
                                 <div
                                     class="col-md-3 form-group {{ $errors->has('base_value_amount') ? 'has-error' : '' }}">
-                                    <label class="required"
-                                        for="base_value_amount">মূল্য ভিত্তির পরিমাণ</label>
+                                    <label class="required" for="base_value_amount">মূল্য ভিত্তির পরিমাণ</label>
                                     <input class="form-control" type="number" name="base_value_amount"
                                         id="base_value_amount"
                                         value="{{ old('base_value_amount', $auction->base_value_amount) }}"
