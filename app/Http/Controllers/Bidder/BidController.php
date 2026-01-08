@@ -16,7 +16,7 @@ class BidController extends Controller
     {
         $bidder = auth('bidder')->user();
         $now = now();
-        // 1Check bid start or end time
+        // Check bid start or end time
         if (!$auction->bid_start_time || !$auction->bid_end_time || $now->lt($auction->bid_start_time) || $now->gt($auction->bid_end_time)) {
             abort(403, 'Bidding is not active at this time.');
         }
@@ -49,10 +49,7 @@ class BidController extends Controller
     // bid sumbit function
     public function submitBid(Request $request, Auction $auction)
     {
-
-
-
-       // return $request->all();
+        // return $request->all();
         $bidder = auth('bidder')->user();
         $now = now();
 

@@ -96,8 +96,7 @@
                                                 {{ App\Models\Bid::STATUS_RADIO[$bid->status] ?? '' }}
                                             </td>
                                             <td>
-                                                <div
-                                                    style="display:inline-flex; gap:5px; align-items:center;">
+                                                <div style="display:inline-flex; gap:5px; align-items:center;">
 
                                                     {{-- View --}}
                                                     @can('bid_show')
@@ -130,7 +129,7 @@
                                                             method="POST" style="margin:0;">
                                                             @csrf
                                                             <button type="submit"
-                                                                class="btn btn-xs {{ $bid->is_winner ? 'btn-success' : 'btn-secondary' }}">
+                                                                class="btn btn-xs {{ $bid->is_winner ? 'btn-success' : 'btn-info' }}">
                                                                 {{ $bid->is_winner ? 'Winner' : 'Mark Winner' }}
                                                             </button>
                                                         </form>

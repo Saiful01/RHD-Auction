@@ -22,7 +22,7 @@
                         </div>
                         <div class="profile-content">
                             <h4>Hi, {{ $bidder->name }}</h4>
-                            <p>You Have Complete 10 Auction In Last Month. Start Your auction Today.</p>
+                            {{-- <p>You Have Complete 10 Auction In Last Month. Start Your auction Today.</p> --}}
                         </div>
                     </div>
                     <div class="row g-lg-3 gy-4">
@@ -53,7 +53,7 @@
                                     <th>Auction Name</th>
                                     <th>Lot Name</th>
                                     <th>Bid Amount</th>
-                                    <th>Total Amount (with Vat & Tax)</th>
+                                    <th>Total Amount (Vat & Tax)</th>
                                     <th>Status</th>
                                     <th>Auction Date</th>
                                 </tr>

@@ -27,7 +27,22 @@ class Controller extends BaseController
     public function auction_details(Auction $auction)
     {
         $auction->load(['financial_year', 'road', 'package', 'lots.lotLotItems', 'employees']);
-        return view('frontend.home.auction_details', compact('auction'));
+
+        // check if auction is active or not
+        $now = now();
+        $bidActive =
+            $auction->bid_start_time &&
+            $auction->bid_end_time &&
+            $now->between($auction->bid_start_time, $auction->bid_end_time);
+        // check if bidder has already submitted a bid
+        $alreadyBid = false;
+        if (auth('bidder')->check()) {
+            $alreadyBid = $auction->bids()
+                ->where('bidder_id', auth('bidder')->id())
+                ->exists();
+        }
+
+        return view('frontend.home.auction_details', compact('auction', 'alreadyBid', 'bidActive'));
     }
 
     public function auction_bid_rules()

@@ -44,7 +44,6 @@
                                 @endforeach
                             @endforeach
                         </div>
-
                         <div class="nav nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                             <div class="swiper auction-details-nav-slider">
                                 <div class="swiper-wrapper">
@@ -76,7 +75,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-xl-6">
                     <div class="auction-details-content">
                         <div class="batch">
@@ -98,7 +96,8 @@
                         </p>
                         <div class="price-area">
                             <span>বর্তমান ভিত্তিমূল্য অনুযায়ী:</span>
-                            <strong>{{bangla_number_format($auction->base_value_amount, 2) ?? $auction->base_value_amount }} ৳</strong>
+                            <strong>{{ bangla_number_format($auction->base_value_amount, 2) ?? $auction->base_value_amount }}
+                                ৳</strong>
                         </div>
                         <div class="coundown-area">
                             <h6>Auction Will Be End:</h6>
@@ -268,21 +267,16 @@
                                                             <td>{{ strip_tags($auction->note) }}</td>
                                                         </tr>
                                                     @endif
-
                                                 </tbody>
                                             </table>
                                         </div>
-
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="nav-add-info" role="tabpanel"
                                     aria-labelledby="nav-add-info-tab">
-
                                     <div class="addithonal-information">
-
                                         {{-- ================= LOT TABLE ================= --}}
                                         <h4 class="mb-3">লটের তথ্য</h4>
-
                                         @forelse($auction->lots as $lot)
                                             <table class="table total-table2 mb-4">
                                                 <tbody>
@@ -290,27 +284,23 @@
                                                         <td><span>লটের নাম</span></td>
                                                         <td>{{ $lot->name }}</td>
                                                     </tr>
-
                                                     <tr>
                                                         <td><span>গাছের বিবরণ</span></td>
                                                         <td>{{ strip_tags($lot->tree_description) }}</td>
                                                     </tr>
-
                                                     <tr>
                                                         <td><span>মন্তব্য</span></td>
                                                         <td>{{ strip_tags($lot->comment ?? 'N/A') }}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
-
                                             {{-- ================= LOT ITEM TABLE ================= --}}
                                             <h5 class="mb-2">লট আইটেমসমূহ</h5>
-
                                             <div class="table-responsive">
                                                 <table class="table table-bordered align-middle">
                                                     <thead>
                                                         <tr>
-                                                            <th>SL</th>
+                                                            <th>ক্রমিক নং</th>
                                                             <th>আইটেমের নাম</th>
                                                             <th>বেড় (৫'-৬'.১১")</th>
                                                             <th>পরিমাণ</th>
@@ -339,20 +329,15 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-
                                             <hr class="my-4">
-
                                         @empty
                                             <p>No lot information available.</p>
                                         @endforelse
-
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="nav-reviews" role="tabpanel"
                                     aria-labelledby="nav-reviews-tab">
-
                                     <div class="reviews-area">
-
                                         {{-- Warning / info for bidders --}}
                                         <div class="alert alert-warning d-flex align-items-center mb-4" role="alert">
                                             <svg class="bi flex-shrink-0 me-2" width="24" height="24"
@@ -361,7 +346,8 @@
                                             </svg>
                                             <div>
                                                 এই নিলামে অংশগ্রহণ করতে, আপনাকে <strong>৳
-                                                    {{ bangla_number_format($auction->base_value_amount, 2) }}</strong> মূল্যের
+                                                    {{ bangla_number_format($auction->base_value_amount, 2) }}</strong>
+                                                মূল্যের
                                                 বেস এমাউন্ট জমা দিতে হবে।
                                                 <span style="font-weight:700; color:#d63384;">
                                                     নিলাম প্রকাশ হওয়ার তারিখের আগে -
@@ -376,16 +362,13 @@
                                             দয়া করে নিশ্চিত করুন যে আপনার পেমেন্ট নিলামের শেষ সময়ের আগে সম্পন্ন হয়েছে।
                                         </p>
                                     </div>
-
-
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
-
+            {{-- button for all actions --}}
             <div class="text-center mt-5">
                 <div class="form-inner d-inline-block">
                     @guest('bidder')
@@ -410,13 +393,29 @@
                         @elseif($bidderRequest->status === '2')
                             {{-- Approved --}}
                             <div class="d-flex justify-content-center align-items-center gap-3 mt-3">
-                                <a href="{{ route('bid.page', $auction->id) }}" class="primary-btn btn-hover px-5"
-                                    id="bid-now-button">
-                                    Bid Now
-                                    <span></span>
-                                </a>
 
-                                {{-- Countdown --}}
+                                @if (!$bidActive)
+                                    {{-- Bid closed --}}
+                                    <button class="primary-btn px-5" disabled style="background:#999; cursor:not-allowed;"
+                                        title="Bidding time has ended">
+                                        This Bid is closed
+                                    </button>
+                                @elseif ($alreadyBid)
+                                    {{-- Already bid --}}
+                                    <button class="primary-btn px-5" disabled style="background:#ccc; cursor:not-allowed;"
+                                        title="You have already submitted a bid for this auction">
+                                        You have already bid on this auction
+                                    </button>
+                                @else
+                                    {{-- Can bid --}}
+                                    <a href="{{ route('bid.page', $auction->id) }}" class="primary-btn btn-hover px-5"
+                                        id="bid-now-button" title="You can place your bid now">
+                                        Bid Now
+                                        <span></span>
+                                    </a>
+                                @endif
+
+                                {{-- Countdown (always visible) --}}
                                 <div id="auction-countdown" class="d-flex gap-2 align-items-center">
                                     <div class="text-center p-2 bg-light border rounded">
                                         <h5 class="mb-0" id="days">0</h5>
@@ -456,7 +455,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Auction start time from backend
             const bidStart = new Date("{{ $auction->bid_start_time }}").getTime();
+            const bidEnd = new Date("{{ $auction->bid_end_time }}").getTime();
             const bidButton = document.getElementById('bid-now-button');
+            if (!bidButton) return;
             const daysEl = document.getElementById('days');
             const hoursEl = document.getElementById('hours');
             const minutesEl = document.getElementById('minutes');
@@ -464,22 +465,34 @@
 
             function updateCountdown() {
                 const now = new Date().getTime();
-                let diff = bidStart - now;
+                let diff;
 
-                if (diff < 0) {
-                    diff = 0;
-                    // Auction started
-                    bidButton.style.pointerEvents = "auto"; // click-able
-                    bidButton.textContent = "Bid Now";
-                    const hoverSpan = document.createElement('span');
-                    bidButton.appendChild(hoverSpan); // hover span thik thakbe
-                    clearInterval(countdownInterval);
-                } else {
-                    // Countdown cholche, click disabled
-                    bidButton.style.pointerEvents = "none"; // click disabled
+                if (now < bidStart) {
+                    // Bid yet to start
+                    diff = bidStart - now;
+                    bidButton.style.pointerEvents = "none";
                     bidButton.textContent = "Bid will be started";
-                    const hoverSpan = document.createElement('span');
-                    bidButton.appendChild(hoverSpan); // hover span thik thakbe
+                    bidButton.title = "Bidding has not started yet";
+
+                } else if (now >= bidStart && now <= bidEnd) {
+                    // Bid active
+                    diff = bidEnd - now;
+                    bidButton.style.pointerEvents = "auto";
+                    bidButton.textContent = "Bid Now";
+                    bidButton.title = "You can place your bid now";
+                    bidButton.style.background = "";
+
+                } else {
+                    // Bid closed
+                    diff = 0;
+                    bidButton.style.pointerEvents = "none";
+                    bidButton.textContent = "This auction is closed";
+                    bidButton.title = "Bidding time has ended";
+                    bidButton.style.background = "#999";
+                    clearInterval(countdownInterval);
+                } // hover span fix
+                if (!bidButton.querySelector('span')) {
+                    bidButton.appendChild(document.createElement('span'));
                 }
 
 

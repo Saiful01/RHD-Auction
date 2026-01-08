@@ -2,17 +2,23 @@
     <style>
         /* Footer Bottom links and social icons */
         .footer-bottom a {
-            text-decoration: none !important;  /* remove underline */
-            color: inherit;                     /* keep default color */
+            text-decoration: none !important;
+            /* remove underline */
+            color: inherit;
+            /* keep default color */
         }
+
         .footer-bottom a:hover {
-            text-decoration: none !important;  /* hover এও underline থাকবে না */
+            text-decoration: none !important;
+            /* hover underline */
         }
+
         .footer-bottom ul {
             margin: 0;
             padding: 0;
             list-style: none;
         }
+
         .footer-bottom ul li {
             margin: 0;
             padding: 0;

@@ -313,7 +313,7 @@
 
                                 <!-- Bid Entity -->
                                 <div class="form-group col-md-6">
-                                    <label class="form-label">প্রতিষ্ঠান</label>
+                                    <label class="form-label">আয়োজক</label>
                                     <select name="bid_entity" id="bid_entity" class="form-control select2">
                                         <option value="">-- Select Bid Entity --</option>
                                     </select>
@@ -324,7 +324,7 @@
 
                                 <!-- Contract Person -->
                                 <div class="form-group col-md-6">
-                                    <label class="form-label">সংযুক্ত ব্যক্তি</label>
+                                    <label class="form-label">আয়োজক</label>
                                     <select name="contract_person" id="contract_person" class="form-control select2">
                                         <option value="">-- Select Contract Person --</option>
                                     </select>

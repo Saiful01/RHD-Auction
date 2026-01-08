@@ -14,7 +14,7 @@
                                     data-cfemail="eb82858d84ab8e938a869b878ec5888486">[ecodeast@rhd.gov.bd]</span>
                             </a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="#">
                                 <svg width="20" height="20" viewBox="0 0 20 20"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -27,7 +27,7 @@
                                 </svg>
                                 Customer support
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
                 <div class="topbar-right">
