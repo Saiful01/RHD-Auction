@@ -22,6 +22,7 @@
     <link href="{{ asset('assets/css/boxicons.min.css') }}" rel="stylesheet">
     <!-- Main style CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Title & Favicon -->
     <title>RHD Auction</title>
@@ -31,6 +32,7 @@
         .company-logo {
             width: 150px;
         }
+
         .btn-success {
             background-color: #01AA85;
             border-color: #037c64;
@@ -85,10 +87,10 @@
     <script src="{{ asset('assets/js/main.js') }}"></script>
 
     <!-- Cloudflare beacon JS -->
-    <script defer
-        src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015"
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015"
         integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ=="
-        data-cf-beacon='{"version":"2024.11.0","token":"70834e4b23964a2eaf7cf4ec0e5e9a84","r":1}' crossorigin="anonymous"></script>
+        data-cf-beacon='{"version":"2024.11.0","token":"70834e4b23964a2eaf7cf4ec0e5e9a84","r":1}' crossorigin="anonymous">
+    </script>
 
     @stack('scripts')
 </body>

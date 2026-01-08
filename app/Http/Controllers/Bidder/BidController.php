@@ -32,18 +32,19 @@ class BidController extends Controller
         }
 
         // Check if bidder has already submitted a bid
-        $alreadyBid = $auction->bids()
+        $existingBid  = $auction->bids()
             ->where('bidder_id', $bidder->id)
-            ->exists();
+            ->with('bidItems')
+            ->first();
 
-        if ($alreadyBid) {
-            return redirect()->route('bidder.dashboard')
-                ->with('info', 'You have already submitted a bid for this auction.');
-        }
+        // if ($alreadyBid) {
+        //     return redirect()->route('bidder.dashboard')
+        //         ->with('info', 'You have already submitted a bid for this auction.');
+        // }
 
         $auction->load('lots.lotLotItems');
 
-        return view('frontend.bidder.bids.create', compact('auction'));
+        return view('frontend.bidder.bids.create', compact('auction', 'existingBid'));
     }
 
     // bid sumbit function
@@ -72,27 +73,45 @@ class BidController extends Controller
             return back()->withErrors('Total Bid Amount must be greater than base amount.');
         }
 
+        $bid = $auction->bids()->where('bidder_id', $bidder->id)->first();
 
-        $bid = Bid::create([
-            'bidder_id' => $bidder->id,
-            'auction_id' => $auction->id,
-            'bid_amount' => $request->bid_amount,
-            'vat' => $request->vat,
-            'tax' => $request->tax,
-            'total_amount' => $request->total_amount,
-            'is_condition_accept' => 1,
-            'status' => 1,
-            'is_winner' => 0,
-        ]);
-
-
-        foreach ($request->bids as $lotItemId => $unitPrice) {
-            BidderBidItem::create([
-                'bid_id' => $bid->id,
-                'bidder_id' => $bidder->id,
-                'lot_item_id' => $lotItemId,
-                'unit_price' => $unitPrice,
+        if ($bid) {
+            $bid->update([
+                'bid_amount' => $request->bid_amount,
+                'vat' => $request->vat,
+                'tax' => $request->tax,
+                'total_amount' => $request->total_amount,
+                'is_condition_accept' => 1,
             ]);
+            foreach ($request->bids as $lotItemId => $unitPrice) {
+                // Update each bid item or create if missing
+                BidderBidItem::updateOrCreate(
+                    ['bid_id' => $bid->id, 'lot_item_id' => $lotItemId],
+                    ['unit_price' => $unitPrice, 'bidder_id' => $bidder->id]
+                );
+            }
+        } else {
+            $bid = Bid::create([
+                'bidder_id' => $bidder->id,
+                'auction_id' => $auction->id,
+                'bid_amount' => $request->bid_amount,
+                'vat' => $request->vat,
+                'tax' => $request->tax,
+                'total_amount' => $request->total_amount,
+                'is_condition_accept' => 1,
+                'status' => 1,
+                'is_winner' => 0,
+            ]);
+
+
+            foreach ($request->bids as $lotItemId => $unitPrice) {
+                BidderBidItem::create([
+                    'bid_id' => $bid->id,
+                    'bidder_id' => $bidder->id,
+                    'lot_item_id' => $lotItemId,
+                    'unit_price' => $unitPrice,
+                ]);
+            }
         }
 
         return redirect()->route('bidder.dashboard')->with('success', 'Bid submitted successfully.');

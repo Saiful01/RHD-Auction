@@ -29,11 +29,21 @@ class Controller extends BaseController
         $auction->load(['financial_year', 'road', 'package', 'lots.lotLotItems', 'employees']);
 
         // check if auction is active or not
+
         $now = now();
+        $bidNotStarted =
+            $auction->bid_start_time &&
+            $now->lt($auction->bid_start_time);
+
         $bidActive =
             $auction->bid_start_time &&
             $auction->bid_end_time &&
             $now->between($auction->bid_start_time, $auction->bid_end_time);
+
+        $bidEnded =
+            $auction->bid_end_time &&
+            $now->gt($auction->bid_end_time);
+
         // check if bidder has already submitted a bid
         $alreadyBid = false;
         if (auth('bidder')->check()) {
@@ -42,7 +52,7 @@ class Controller extends BaseController
                 ->exists();
         }
 
-        return view('frontend.home.auction_details', compact('auction', 'alreadyBid', 'bidActive'));
+        return view('frontend.home.auction_details', compact('auction', 'alreadyBid', 'bidActive', 'bidNotStarted', 'bidEnded'));
     }
 
     public function auction_bid_rules()

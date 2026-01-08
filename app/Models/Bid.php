@@ -64,4 +64,9 @@ class Bid extends Model
     {
         return $this->belongsTo(Auction::class, 'auction_id');
     }
+
+    public function bidItems()
+    {
+        return $this->hasMany(BidderBidItem::class, 'bid_id');
+    }
 }

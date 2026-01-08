@@ -25,21 +25,40 @@
                 @csrf
                 {{-- Terms / Ongikarnama --}}
                 <div class="card mb-4 shadow-sm p-3">
-                    <h5>শর্তাবলী / Ongikarnama</h5>
-                    <ul>
-                        <li>১. সমস্ত লটের জন্য bid দিতে হবে।</li>
-                        <li>২. আপনার মোট bid বেস মানের চেয়ে কম হতে পারবে না।</li>
-                        <li>৩. VAT এবং TAX স্বয়ংক্রিয়ভাবে যোগ হবে।</li>
-                        <li>৪. একবার bid submit করলে পরিবর্তন সম্ভব নয়।</li>
-                    </ul>
-                    <div class="form-check mt-3">
-                        <input type="checkbox" class="form-check-input" id="is_condition_accept" name="is_condition_accept"
-                            value="1" required>
-                        <label class="form-check-label fw-bold" for="is_condition_accept">
-                            আমি শর্তাবলী পড়েছি এবং মেনে চলব
-                        </label>
+                    <div class="row">
+                        {{-- Left: Terms --}}
+                        <div class="col-md-8">
+                            <h5>শর্তাবলী / Ongikarnama</h5>
+                            <ul>
+                                <li>১. সমস্ত লটের জন্য bid দিতে হবে।</li>
+                                <li>২. আপনার মোট bid বেস মানের চেয়ে কম হতে পারবে না।</li>
+                                <li>৩. VAT এবং TAX স্বয়ংক্রিয়ভাবে যোগ হবে।</li>
+                                <li>৪. একবার bid submit করলে পরিবর্তন সম্ভব নয়।</li>
+                            </ul>
+
+                            <div class="form-check mt-3">
+                                <input type="checkbox" class="form-check-input" id="is_condition_accept"
+                                    name="is_condition_accept" value="1"
+                                    {{ isset($existingBid) && $existingBid->is_condition_accept ? 'checked' : '' }}
+                                    required>
+                                <label class="form-check-label fw-bold" for="is_condition_accept">
+                                    আমি শর্তাবলী পড়েছি এবং মেনে চলব
+                                </label>
+                            </div>
+                        </div>
+
+                        {{-- Right: Base Value --}}
+                        <div class="col-md-4 d-flex align-items-center">
+                            <div class="w-100 text-center border rounded p-3 bg-light">
+                                <small class="text-muted">Base Value Amount</small>
+                                <h4 class="fw-bold text-success mb-0">
+                                    ৳ {{ bangla_number_format($auction->base_value_amount, 2) }}
+                                </h4>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
 
                 {{-- Bid Form --}}
 
@@ -69,6 +88,7 @@
                                         <td>
                                             <input type="number" min="0" step="0.01"
                                                 name="bids[{{ $item->id }}]" class="form-control unit-price-input"
+                                                value="{{ optional($existingBid)->bidItems->where('lot_item_id', $item->id)->first()->unit_price ?? '' }}"
                                                 required>
                                         </td>
                                         <td class="estimated_total">0.00</td>
@@ -107,6 +127,32 @@
 @endsection
 
 @push('scripts')
+    <script>
+        function banglaNumberFormatJS(number) {
+            if (number === null || number === undefined || isNaN(number)) {
+                return '0.00';
+            }
+
+            number = Number(number).toFixed(2);
+            let parts = number.split('.');
+            let num = parts[0];
+            let dec = parts[1];
+
+            let lastThree = num.slice(-3);
+            let otherNumbers = num.slice(0, -3);
+
+            if (otherNumbers !== '') {
+                lastThree = ',' + lastThree;
+            }
+
+            let formatted =
+                otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") +
+                lastThree;
+
+            return dec ? formatted + '.' + dec : formatted;
+        }
+    </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
@@ -165,10 +211,10 @@
                 const tax = totalBid * taxPercent / 100;
                 const totalAmount = totalBid + vat + tax;
 
-                totalBidEl.innerText = totalBid.toFixed(2);
-                vatEl.innerText = vat.toFixed(2);
-                taxEl.innerText = tax.toFixed(2);
-                totalAmountEl.innerText = totalAmount.toFixed(2);
+                totalBidEl.innerText = banglaNumberFormatJS(totalBid);
+                vatEl.innerText = banglaNumberFormatJS(vat);
+                taxEl.innerText = banglaNumberFormatJS(tax);
+                totalAmountEl.innerText = banglaNumberFormatJS(totalAmount);
 
                 hiddenBid.value = totalBid.toFixed(2);
                 hiddenVat.value = vat.toFixed(2);
@@ -191,7 +237,7 @@
 
                 if (parseFloat(hiddenBid.value) < baseAmount) {
                     e.preventDefault();
-                    alert('Total Bid Amount অবশ্যই বেস মানের সমান বা বেশি হতে হবে।');
+                    alert('Total Bid Amount অবশ্যই বেস মানের  বেশি হতে হবে।');
                 }
             });
 

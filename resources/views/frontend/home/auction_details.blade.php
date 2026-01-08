@@ -373,14 +373,14 @@
                 <div class="form-inner d-inline-block">
                     @guest('bidder')
                         <a href="{{ route('bidder.login') }}" class="primary-btn btn-hover px-5" type="button">
-                            আমি আগ্রহী – লগইন করে অংশগ্রহণ করুন
+                            অংশগ্রহণে আগ্রহী হলে লগইন করুন
                             <span></span>
                         </a>
                     @else
                         @if (!$bidderRequest)
                             <a href="{{ route('auction.interest.create', $auction->id) }}" class="primary-btn btn-hover px-5"
                                 type="button">
-                                আমি আগ্রহী – ডকুমেন্ট জমা দিন
+                                আগ্রহী হলে প্রয়োজনীয় ডকুমেন্ট জমা দিন
                                 <span></span>
                             </a>
                         @elseif($bidderRequest->status === '1')
@@ -393,23 +393,14 @@
                         @elseif($bidderRequest->status === '2')
                             {{-- Approved --}}
                             <div class="d-flex justify-content-center align-items-center gap-3 mt-3">
-
-                                @if (!$bidActive)
-                                    {{-- Bid closed --}}
-                                    <button class="primary-btn px-5" disabled style="background:#999; cursor:not-allowed;"
-                                        title="Bidding time has ended">
-                                        This Bid is closed
-                                    </button>
-                                @elseif ($alreadyBid)
-                                    {{-- Already bid --}}
-                                    <button class="primary-btn px-5" disabled style="background:#ccc; cursor:not-allowed;"
-                                        title="You have already submitted a bid for this auction">
-                                        You have already bid on this auction
+                                @if ($alreadyBid)
+                                    <button class="primary-btn px-5" disabled style="background:#ccc; cursor:not-allowed;">
+                                        আপনি ইতোমধ্যে এই নিলামে দর প্রদান করেছেন
                                     </button>
                                 @else
-                                    {{-- Can bid --}}
+                                    {{-- Single button always present for JS control --}}
                                     <a href="{{ route('bid.page', $auction->id) }}" class="primary-btn btn-hover px-5"
-                                        id="bid-now-button" title="You can place your bid now">
+                                        id="bid-now-button">
                                         Bid Now
                                         <span></span>
                                     </a>
@@ -444,72 +435,70 @@
                     @endguest
                 </div>
             </div>
+
         </div>
     </div>
     <!-- End Auction Details section -->
 @endsection
 
 @push('scripts')
-    {{-- JS Countdown --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Auction start time from backend
-            const bidStart = new Date("{{ $auction->bid_start_time }}").getTime();
-            const bidEnd = new Date("{{ $auction->bid_end_time }}").getTime();
+
+            const bidStart = new Date("{{ optional($auction->bid_start_time)->toIso8601String() }}").getTime();
+            const bidEnd = new Date("{{ optional($auction->bid_end_time)->toIso8601String() }}").getTime();
+
             const bidButton = document.getElementById('bid-now-button');
-            if (!bidButton) return;
+
             const daysEl = document.getElementById('days');
             const hoursEl = document.getElementById('hours');
             const minutesEl = document.getElementById('minutes');
             const secondsEl = document.getElementById('seconds');
 
-            function updateCountdown() {
-                const now = new Date().getTime();
-                let diff;
+            let countdownInterval = null;
 
-                if (now < bidStart) {
-                    // Bid yet to start
-                    diff = bidStart - now;
-                    bidButton.style.pointerEvents = "none";
-                    bidButton.textContent = "Bid will be started";
-                    bidButton.title = "Bidding has not started yet";
+            function setButton(text, disabled, bg = '', href = true) {
+                if (!bidButton) return;
 
-                } else if (now >= bidStart && now <= bidEnd) {
-                    // Bid active
-                    diff = bidEnd - now;
-                    bidButton.style.pointerEvents = "auto";
-                    bidButton.textContent = "Bid Now";
-                    bidButton.title = "You can place your bid now";
-                    bidButton.style.background = "";
-
-                } else {
-                    // Bid closed
-                    diff = 0;
-                    bidButton.style.pointerEvents = "none";
-                    bidButton.textContent = "This auction is closed";
-                    bidButton.title = "Bidding time has ended";
-                    bidButton.style.background = "#999";
-                    clearInterval(countdownInterval);
-                } // hover span fix
+                bidButton.childNodes[0].nodeValue = text + ' ';
                 if (!bidButton.querySelector('span')) {
                     bidButton.appendChild(document.createElement('span'));
                 }
 
+                bidButton.style.pointerEvents = disabled ? 'none' : 'auto';
+                bidButton.style.background = bg;
 
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-                daysEl.textContent = days;
-                hoursEl.textContent = hours;
-                minutesEl.textContent = minutes;
-                secondsEl.textContent = seconds;
+                if (!href) {
+                    bidButton.removeAttribute('href');
+                } else {
+                    bidButton.setAttribute('href', "{{ route('bid.page', $auction->id) }}");
+                }
             }
 
-            // Update every second
+            function updateCountdown() {
+                const now = Date.now();
+                let diff = 0;
+
+                if (now < bidStart) {
+                    diff = bidStart - now;
+                    setButton('Bid will be started', true, '#ccc', false);
+                } else if (now >= bidStart && now <= bidEnd) {
+                    diff = bidEnd - now;
+                    setButton('Bid Now', false, '', true);
+                } else {
+                    diff = 0;
+                    setButton('This auction is closed', true, '#999', false);
+                    clearInterval(countdownInterval);
+                }
+
+                daysEl.textContent = Math.floor(diff / (1000 * 60 * 60 * 24));
+                hoursEl.textContent = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                minutesEl.textContent = Math.floor((diff / (1000 * 60)) % 60);
+                secondsEl.textContent = Math.floor((diff / 1000) % 60);
+            }
+
             updateCountdown();
-            const countdownInterval = setInterval(updateCountdown, 1000);
+            countdownInterval = setInterval(updateCountdown, 1000);
         });
     </script>
 @endpush
