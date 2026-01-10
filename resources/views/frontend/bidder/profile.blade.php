@@ -56,7 +56,7 @@
                                         <div class="upload-img-area">
                                             <h6>Upload Your Image</h6>
                                             <div class="upload-filed">
-                                                <input type="file" name="photo">
+                                                <input type="file" name="profile_image">
                                             </div>
                                             <span>JPEG 100 x 100</span>
                                         </div>
