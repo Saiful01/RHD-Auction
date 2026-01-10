@@ -103,7 +103,7 @@
                 </tr>
                 <tr>
                     <th>জমাকৃত অর্থ</th>
-                    <td>{{ number_format($interest->pay_amount, 2) }} টাকা</td>
+                    <td>{{ bangla_number_format($interest->pay_amount) }} টাকা</td>
                 </tr>
                 <tr>
                     <th>ভ্যাট</th>

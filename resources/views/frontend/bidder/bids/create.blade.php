@@ -88,7 +88,7 @@
                                         <td>
                                             <input type="number" min="0" step="0.01"
                                                 name="bids[{{ $item->id }}]" class="form-control unit-price-input"
-                                                value="{{ optional($existingBid)->bidItems->where('lot_item_id', $item->id)->first()->unit_price ?? '' }}"
+                                                value="{{ $existingBid?->bidItems?->firstWhere('lot_item_id', $item->id)?->unit_price }}"
                                                 required>
                                         </td>
                                         <td class="estimated_total">0.00</td>

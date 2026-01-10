@@ -54,8 +54,8 @@
                     <div class="row">
                         {{-- Pay Amount --}}
                         <div class="col-md-6 mb-3">
-                            <label class="fw-semibold">Pay Amount (৳)</label>
-                            <input type="number" step="0.01" name="pay_amount" class="form-control"
+                            <label class="fw-semibold">Pay Amount ৳ (Auto Filled)</label>
+                            <input type="number" step="0.0000001" name="pay_amount" class="form-control"
                                 value="{{ old('pay_amount', $auction->base_value_amount) }}" readonly>
                             <div class="invalid-feedback">Please enter a valid pay amount.</div>
                         </div>

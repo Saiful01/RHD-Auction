@@ -155,16 +155,18 @@ class Controller extends BaseController
         $request->validate([
             'pay_amount' => 'required|numeric',
             'is_condition_accept' => 'required',
-            'pay_order.*' => 'required|file',
-            'auto_chalan.*' => 'required|file',
-            'nid_copy.*' => 'required|file',
-            'passport_photo.*' => 'required|file',
-            'trade_license.*' => 'required|file',
-            'tax_certificate.*' => 'required|file',
-            'wood_license.*' => 'required|file',
-            'bank_guarantee.*' => 'required|file',
-            'mobile_signature.*' => 'required|file',
+
+            'pay_order.*'        => 'required|file|mimes:pdf,jpg,jpeg,png,webp|max:5120',
+            'auto_chalan.*'      => 'required|file|mimes:pdf,jpg,jpeg,png,webp|max:5120',
+            'nid_copy.*'         => 'required|file|mimes:pdf,jpg,jpeg,png,webp|max:5120',
+            'passport_photo.*'  => 'required|file|mimes:pdf,jpg,jpeg,png,webp|max:5120',
+            'trade_license.*'   => 'required|file|mimes:pdf,jpg,jpeg,png,webp|max:5120',
+            'tax_certificate.*' => 'required|file|mimes:pdf,jpg,jpeg,png,webp|max:5120',
+            'wood_license.*'    => 'required|file|mimes:pdf,jpg,jpeg,png,webp|max:5120',
+            'bank_guarantee.*'  => 'required|file|mimes:pdf,jpg,jpeg,png,webp|max:5120',
+            'mobile_signature.*' => 'required|file|mimes:pdf,jpg,jpeg,png,webp|max:5120',
         ]);
+
 
         $bidderRequest = BidderAuctionRequest::create([
             'bidder_id' => $bidder->id,
