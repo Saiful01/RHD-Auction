@@ -108,8 +108,9 @@
                                                 <a href="{{ $auction->is_clickable ? route('auction.details', $auction->id) : 'javascript:void(0)' }}"
                                                     class="card-img">
 
-                                                    <img src="{{ asset($auction->auction_image ?? 'assets/img/home1/auction-image-default.jpg') }}"
+                                                    <img src="{{ asset('storage/' . $auction->auction_image ?? 'assets/img/home1/auction-image-default.jpg') }}"
                                                         alt="Auction Image">
+
                                                 </a>
 
                                                 <div class="batch">
