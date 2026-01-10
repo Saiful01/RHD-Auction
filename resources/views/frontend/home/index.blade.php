@@ -107,19 +107,33 @@
                                         $startTime = $auction->auction_start_time
                                             ? Carbon::parse($auction->auction_start_time)
                                             : null;
+                                        $endTime = $auction->auction_end_time
+                                            ? Carbon::parse($auction->auction_end_time)
+                                            : null;
                                         $badgeText = 'Upcoming';
                                         $badgeClass = 'upcoming';
                                         $isClickable = false;
 
-                                        if ($auction->status === 'active' && $startTime->lte($now)) {
+                                        // Closed: admin closed OR time over
+                                        if ($auction->status === 'closed' || ($endTime && $now->gte($endTime))) {
+                                            $badgeText = 'This auction is Closed';
+                                            $badgeClass = 'closed';
+                                            $isClickable = false;
+                                        }
+                                        // Live
+                                        elseif ($auction->status === 'active' && $startTime->lte($now)) {
                                             $badgeText = 'Live';
                                             $badgeClass = 'live';
                                             $isClickable = true;
-                                        } elseif ($auction->status === 'rejected') {
+                                        }
+                                        // Rejected
+                                        elseif ($auction->status === 'rejected') {
                                             $badgeText = 'Rejected';
                                             $badgeClass = 'rejected';
                                             $isClickable = false;
-                                        } elseif ($auction->status === 'under_review') {
+                                        }
+                                        // Upcoming
+                                        elseif ($auction->status === 'under_review') {
                                             $badgeText = 'Upcoming';
                                             $badgeClass = 'upcoming';
                                             $isClickable = false;

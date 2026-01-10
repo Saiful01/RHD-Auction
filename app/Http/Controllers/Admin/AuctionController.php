@@ -256,6 +256,10 @@ class AuctionController extends Controller
                 $auction->status = 'rejected';
                 break;
             case 'rejected':
+                $auction->status = 'closed';
+                break;
+
+            case 'closed':
                 $auction->status = 'under_review';
                 break;
         }

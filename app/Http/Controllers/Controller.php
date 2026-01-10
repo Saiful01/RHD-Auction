@@ -19,7 +19,7 @@ class Controller extends BaseController
     public function home()
     {
         $auctions = Auction::with(['financial_year', 'road', 'package', 'lots', 'employees'])
-            ->whereIn('status', ['active', 'under_review', 'rejected'])
+            ->whereIn('status', ['active', 'under_review', 'rejected', 'closed'])
             ->get();
         return view('frontend.home.index', compact('auctions'));
     }

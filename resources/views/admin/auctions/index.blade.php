@@ -89,8 +89,10 @@
                                                     <span class="label label-success">Active</span>
                                                 @elseif($auction->status === 'under_review')
                                                     <span class="label label-warning">Under Review</span>
-                                                @else
+                                                @elseif($auction->status === 'rejected')
                                                     <span class="label label-danger">Rejected</span>
+                                                @elseif($auction->status === 'closed')
+                                                    <span class="label label-default">Closed</span>
                                                 @endif
                                             </td>
 
