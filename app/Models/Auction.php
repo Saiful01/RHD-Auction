@@ -58,6 +58,7 @@ class Auction extends Model implements HasMedia
         'tax',
         'bid_entity',
         'contract_person',
+        'auction_image',
         'created_at',
         'updated_at',
         'deleted_at',

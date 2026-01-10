@@ -262,6 +262,17 @@
                                             @endif
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <th>নিলামের ছবি</th>
+                                        <td>
+                                            @if ($auction->auction_image)
+                                                <img src="{{ asset('storage/' . $auction->auction_image) }}"alt="Auction Image"
+                                                    style="max-height: 150px; border:1px solid #ddd; padding:2px;">
+                                            @else
+                                                <span class="text-muted">কোনো ছবি নেই</span>
+                                            @endif
+                                        </td>
+                                    </tr>
 
                                 </tbody>
                             </table>

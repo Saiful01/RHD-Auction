@@ -70,15 +70,15 @@ class Controller extends BaseController
                 }
 
                 // First lot item image
-                $auction->image = null;
-                foreach ($auction->lots as $lot) {
-                    foreach ($lot->lotLotItems as $item) {
-                        if ($item->item_image) {
-                            $auction->image = $item->item_image;
-                            break 2;
-                        }
-                    }
-                }
+                // $auction->image = null;
+                // foreach ($auction->lots as $lot) {
+                //     foreach ($lot->lotLotItems as $item) {
+                //         if ($item->item_image) {
+                //             $auction->image = $item->item_image;
+                //             break 2;
+                //         }
+                //     }
+                // }
 
                 return $auction;
             });

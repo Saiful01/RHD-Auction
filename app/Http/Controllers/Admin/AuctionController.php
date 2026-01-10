@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class AuctionController extends Controller
 {
@@ -86,10 +87,17 @@ class AuctionController extends Controller
             )->format('Y-m-d H:i:s');
         }
 
+        // Auction image
+        if ($request->hasFile('auction_image')) {
+            $data['auction_image'] = $request->file('auction_image')->store('auction-images', 'public');
+        }
+
         // ami change korechi end
         $data['status'] = auth()->user()->is_admin ? 'active' : 'under_review';
         $data['created_by'] = auth()->id();
+
         $auction = Auction::create($data);
+
         $auction->lots()->sync($request->input('lots', []));
         $auction->employees()->sync($request->input('employees', []));
         $auction->documents()->sync($request->input('documents', []));
@@ -137,6 +145,7 @@ class AuctionController extends Controller
         }
         // my changes code start
         $data = $request->all();
+
         if (!empty($request->bid_start_time)) {
             $data['bid_start_time'] = Carbon::createFromFormat(
                 config('panel.date_format') . ' ' . config('panel.time_format'),
@@ -151,6 +160,16 @@ class AuctionController extends Controller
             )->format('Y-m-d H:i:s');
         }
 
+        // Auction image
+        if ($request->hasFile('auction_image')) {
+            // Delete old image if exists
+            if ($auction->auction_image && Storage::disk('public')->exists($auction->auction_image)) {
+                Storage::disk('public')->delete($auction->auction_image);
+            }
+            // Store new image
+            $data['auction_image'] = $request->file('auction_image')->store('auction-images', 'public');
+        }
+
         $auction->update($data);
         // my changes code end
 
@@ -159,7 +178,7 @@ class AuctionController extends Controller
         $auction->employees()->sync($request->input('employees', []));
         $auction->documents()->sync($request->input('documents', []));
 
-        return redirect()->route('admin.auctions.index');
+        return redirect()->route('admin.auctions.index')->with('success', 'Auction updated successfully.');
     }
 
     public function show(Auction $auction)

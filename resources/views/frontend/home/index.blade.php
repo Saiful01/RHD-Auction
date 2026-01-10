@@ -100,27 +100,28 @@
                             <div class="swiper-wrapper">
                                 @foreach ($auctions as $auction)
                                     <div class="swiper-slide"
-                                         style="{{ $auction->is_clickable ? '' : 'pointer-events:none; opacity:0.6;' }}">
+                                        style="{{ $auction->is_clickable ? '' : 'pointer-events:none; opacity:0.6;' }}">
 
                                         <div class="auction-card">
 
                                             <div class="auction-card-img-wrap">
                                                 <a href="{{ $auction->is_clickable ? route('auction.details', $auction->id) : 'javascript:void(0)' }}"
-                                                   class="card-img">
+                                                    class="card-img">
 
-                                                    <img src="{{ asset($auction->image ?? 'assets/img/home1/auction-img1.jpg') }}"
-                                                         alt="Auction Image">
+                                                    <img src="{{ asset($auction->auction_image ?? 'assets/img/home1/auction-image-default.jpg') }}"
+                                                        alt="Auction Image">
                                                 </a>
 
                                                 <div class="batch">
-                    <span class="{{ $auction->badge_class }}">
-                        {{ $auction->badge_text }}
-                    </span>
+                                                    <span class="{{ $auction->badge_class }}">
+                                                        {{ $auction->badge_text }}
+                                                    </span>
                                                 </div>
 
                                                 @if ($auction->is_live)
                                                     <div class="countdown-timer">
-                                                        <ul data-countdown="{{ \Carbon\Carbon::parse($auction->auction_end_time)->format('Y-m-d H:i:s') }}">
+                                                        <ul
+                                                            data-countdown="{{ \Carbon\Carbon::parse($auction->auction_end_time)->format('Y-m-d H:i:s') }}">
                                                             <li class="times" data-days="00">00</li>
                                                             <li class="colon">:</li>
                                                             <li class="times" data-hours="00">00</li>
@@ -135,20 +136,23 @@
 
                                             <div class="auction-card-content">
                                                 <h6>
-                                                    <a href="{{ $auction->is_clickable ? route('auction.details', $auction->id) : 'javascript:void(0)' }}">
+                                                    <a
+                                                        href="{{ $auction->is_clickable ? route('auction.details', $auction->id) : 'javascript:void(0)' }}">
                                                         {{ strip_tags($auction->name) }}
                                                     </a>
                                                 </h6>
 
                                                 @if ($auction->is_live)
-                                                    <div class="price">
+                                                    <div class="price pb-4">
                                                         <span>বর্তমান ভিত্তিমূল্য:</span>
-                                                        <strong>{{ bangla_number_format($auction->base_value_amount, 2) }} ৳</strong>
+                                                        <strong>{{ bangla_number_format($auction->base_value_amount, 2) }}
+                                                            ৳</strong>
                                                     </div>
                                                 @endif
 
+
                                                 <a href="{{ $auction->is_clickable ? route('auction.details', $auction->id) : 'javascript:void(0)' }}"
-                                                   class="bid-btn {{ $auction->is_clickable ? '' : 'disabled' }}">
+                                                    class="bid-btn {{ $auction->is_clickable ? '' : 'disabled' }}">
                                                     View Details
                                                 </a>
                                             </div>

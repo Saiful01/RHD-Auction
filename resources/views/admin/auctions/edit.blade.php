@@ -359,44 +359,71 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group {{ $errors->has('documents') ? 'has-error' : '' }}">
-                                <label>নথি</label>
 
-                                <div class="panel panel-default"
-                                    style="max-height: 250px; overflow-y: auto; padding: 10px;">
+                            <div class="row">
+                                <div class="col-md-6 form-group {{ $errors->has('documents') ? 'has-error' : '' }}">
+                                    <label>নথি</label>
 
-                                    {{-- Select All --}}
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" id="select_all_documents">
-                                            <strong>সব নথি নির্বাচন করুন</strong>
-                                        </label>
-                                    </div>
+                                    <div class="panel panel-default"
+                                        style="max-height: 250px; overflow-y: auto; padding: 10px;">
 
-                                    <hr style="margin: 8px 0;">
-
-                                    {{-- Document List --}}
-                                    @foreach ($documents as $document)
+                                        {{-- Select All --}}
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" name="documents[]" class="document-checkbox"
-                                                    value="{{ $document->id }}"
-                                                    {{ collect(old('documents', $auction->documents->pluck('id')))->contains($document->id) ? 'checked' : '' }}>
-                                                {{ $document->name }}
+                                                <input type="checkbox" id="select_all_documents">
+                                                <strong>সব নথি নির্বাচন করুন</strong>
                                             </label>
                                         </div>
-                                    @endforeach
 
+                                        <hr style="margin: 8px 0;">
+
+                                        {{-- Document List --}}
+                                        @foreach ($documents as $document)
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="documents[]" class="document-checkbox"
+                                                        value="{{ $document->id }}"
+                                                        {{ collect(old('documents', $auction->documents->pluck('id')))->contains($document->id) ? 'checked' : '' }}>
+                                                    {{ $document->name }}
+                                                </label>
+                                            </div>
+                                        @endforeach
+
+                                    </div>
+
+                                    @if ($errors->has('documents'))
+                                        <span class="help-block" role="alert">{{ $errors->first('documents') }}</span>
+                                    @endif
+
+                                    <span class="help-block">
+                                        এই নিলামের জন্য প্রয়োজনীয় নথিগুলো নির্বাচন করুন
+                                    </span>
                                 </div>
 
-                                @if ($errors->has('documents'))
-                                    <span class="help-block" role="alert">{{ $errors->first('documents') }}</span>
-                                @endif
+                                {{-- Images --}}
+                                <div class="col-md-6 form-group {{ $errors->has('auction_image') ? 'has-error' : '' }}">
+                                    <label for="auction_image">নিলামের ছবি</label>
+                                    <input type="file" name="auction_image" id="auction_image" class="form-control">
 
-                                <span class="help-block">
-                                    এই নিলামের জন্য প্রয়োজনীয় নথিগুলো নির্বাচন করুন
-                                </span>
+                                    @if ($errors->has('auction_image'))
+                                        <span class="help-block"
+                                            role="alert">{{ $errors->first('auction_image') }}</span>
+                                    @endif
+
+                                    {{-- Existing Image Preview --}}
+                                    @if (!empty($auction->auction_image))
+                                        <div style="margin-top:10px;">
+                                            <img src="{{ asset('storage/' . $auction->auction_image) }}"
+                                                style="height:80px; border:1px solid #ddd; padding:2px;">
+                                        </div>
+                                    @endif
+
+                                    <span class="help-block">
+                                        প্রয়োজন হলে নতুন ছবি আপলোড করুন; পুরনো ছবি replace হবে
+                                    </span>
+                                </div>
                             </div>
+
 
 
                             <div class="form-group">
