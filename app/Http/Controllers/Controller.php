@@ -10,17 +10,79 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+
 
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
+
+
     public function home()
     {
-        $auctions = Auction::with(['financial_year', 'road', 'package', 'lots', 'employees'])
+        $now = Carbon::now();
+
+        $auctions = Auction::with(['financial_year', 'road', 'package', 'lots.lotLotItems', 'employees'])
             ->whereIn('status', ['active', 'under_review', 'rejected', 'closed'])
-            ->get();
+            ->get()
+            ->map(function ($auction) use ($now) {
+
+                $startTime = $auction->auction_start_time
+                    ? Carbon::parse($auction->auction_start_time)
+                    : null;
+
+                $endTime = $auction->auction_end_time
+                    ? Carbon::parse($auction->auction_end_time)
+                    : null;
+
+                // default values
+                $auction->badge_text = 'Upcoming';
+                $auction->badge_class = 'upcoming';
+                $auction->is_clickable = false;
+                $auction->is_live = false;
+
+                // Closed
+                if ($auction->status === 'closed' || ($endTime && $now->gte($endTime))) {
+                    $auction->badge_text = 'This auction is Closed';
+                    $auction->badge_class = 'closed';
+                }
+
+                // Live
+                elseif ($auction->status === 'active' && $startTime && $startTime->lte($now)) {
+                    $auction->badge_text = 'Live';
+                    $auction->badge_class = 'live';
+                    $auction->is_clickable = true;
+                    $auction->is_live = true;
+                }
+
+                // Rejected
+                elseif ($auction->status === 'rejected') {
+                    $auction->badge_text = 'Rejected';
+                    $auction->badge_class = 'rejected';
+                }
+
+                // Upcoming
+                elseif ($auction->status === 'under_review') {
+                    $auction->badge_text = 'Upcoming';
+                    $auction->badge_class = 'upcoming';
+                }
+
+                // First lot item image
+                $auction->image = null;
+                foreach ($auction->lots as $lot) {
+                    foreach ($lot->lotLotItems as $item) {
+                        if ($item->item_image) {
+                            $auction->image = $item->item_image;
+                            break 2;
+                        }
+                    }
+                }
+
+                return $auction;
+            });
+
         return view('frontend.home.index', compact('auctions'));
     }
 
@@ -135,7 +197,7 @@ class Controller extends BaseController
             }
         }
 
-        // return with pending and pdf 
+        // return with pending and pdf
         return response()->json([
             'pdf_url' => route('bidder.interest.print', $bidderRequest->id),
             'redirect_url' => route('bidderInterest.pending'),
