@@ -1,5 +1,11 @@
 @extends('layouts.admin')
 @section('content')
+    @if (isset($auction))
+        <div class="alert alert-info">
+            Showing bids for Auction:
+            <strong>{{ $auction->memo_no }}</strong>
+        </div>
+    @endif
     <div class="content">
         @can('bid_create')
             {{-- <div style="margin-bottom: 10px;" class="row">
@@ -75,16 +81,16 @@
                                                 {{ $bid->auction->memo_no ?? '' }}
                                             </td>
                                             <td>
-                                                {{ $bid->vat ?? '' }}
+                                                {{ bangla_number_format($bid->vat) ?? '' }}
                                             </td>
                                             <td>
-                                                {{ $bid->tax ?? '' }}
+                                                {{ bangla_number_format($bid->tax) ?? '' }}
                                             </td>
                                             <td>
-                                                {{ $bid->bid_amount ?? '' }}
+                                                {{ bangla_number_format($bid->bid_amount) ?? '' }}
                                             </td>
                                             <td>
-                                                {{ $bid->total_amount ?? '' }}
+                                                {{ bangla_number_format($bid->total_amount) ?? '' }}
                                             </td>
                                             <td>
                                                 {{ App\Models\Bid::IS_CONDITION_ACCEPT_RADIO[$bid->is_condition_accept] ?? '' }}
@@ -147,11 +153,8 @@
                                                                 value="{{ trans('global.delete') }}">
                                                         </form>
                                                     @endcan
-
                                                 </div>
                                             </td>
-
-
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -159,9 +162,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
             </div>
         </div>
     </div>

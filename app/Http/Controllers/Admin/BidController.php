@@ -19,9 +19,18 @@ class BidController extends Controller
     {
         abort_if(Gate::denies('bid_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $bids = Bid::with(['bidder', 'auction'])->get();
+        $auctions = Auction::withCount('bids')->get();
 
-        return view('admin.bids.index', compact('bids'));
+        return view('admin.bids.auctions', compact('auctions'));
+    }
+
+    public function auctionBids(Auction $auction)
+    {
+        abort_if(Gate::denies('bid_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $bids = Bid::where('auction_id', $auction->id)->with(['bidder', 'auction'])->get();
+
+        return view('admin.bids.index', compact('bids', 'auction'));
     }
 
     public function create()

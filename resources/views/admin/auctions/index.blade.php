@@ -34,6 +34,9 @@
                                         <th>ভিত্তি
                                             মূল্য({{ optional($auctions->first())->estimate_value_percentage ?? '0' }} %)
                                         </th>
+                                        @can('auction_bid_details')
+                                            <th>দরসমূহ দেখুন</th>
+                                        @endcan
                                         <th>অবস্থা</th>
                                         <th>&nbsp;</th>
                                     </tr>
@@ -81,7 +84,15 @@
 
 
 
-                                            <td>{{ $auction->base_value_amount }}</td>
+                                            <td>{{ bangla_number_format($auction->base_value_amount) }}</td>
+                                            @can('auction_bid_details')
+                                                <td>
+                                                    <a href="{{ route('admin.auctions.bids', $auction->id) }}"
+                                                        class="btn btn-sm btn-primary">
+                                                        view bid
+                                                    </a>
+                                                </td>
+                                            @endcan
 
                                             {{-- STATUS BADGE --}}
                                             <td>

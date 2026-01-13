@@ -14,7 +14,7 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                       ডকুমেন্টের তালিকা
+                        ডকুমেন্টের তালিকা
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
@@ -36,29 +36,31 @@
                                             <td>{{ $document->name ?? '' }}</td>
                                             <td>{{ $document->created_at ?? '' }}</td>
                                             <td>
-                                                @can('document_show')
-                                                    <a class="btn btn-xs btn-primary"
-                                                        href="{{ route('admin.documents.show', $document->id) }}">
-                                                        View
-                                                    </a>
-                                                @endcan
+                                                <div style="display: inline-flex; gap: 5px; align-items: center;">
+                                                    @can('document_show')
+                                                        <a class="btn btn-xs btn-primary"
+                                                            href="{{ route('admin.documents.show', $document->id) }}">
+                                                            View
+                                                        </a>
+                                                    @endcan
 
-                                                @can('document_edit')
-                                                    <a class="btn btn-xs btn-info"
-                                                        href="{{ route('admin.documents.edit', $document->id) }}">
-                                                        Edit
-                                                    </a>
-                                                @endcan
+                                                    @can('document_edit')
+                                                        <a class="btn btn-xs btn-info"
+                                                            href="{{ route('admin.documents.edit', $document->id) }}">
+                                                            Edit
+                                                        </a>
+                                                    @endcan
 
-                                                @can('document_delete')
-                                                    <form action="{{ route('admin.documents.destroy', $document->id) }}"
-                                                        method="POST" onsubmit="return confirm('Are you sure?');"
-                                                        style="display: inline-block;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <input type="submit" class="btn btn-xs btn-danger" value="Delete">
-                                                    </form>
-                                                @endcan
+                                                    @can('document_delete')
+                                                        <form action="{{ route('admin.documents.destroy', $document->id) }}"
+                                                            method="POST" onsubmit="return confirm('Are you sure?');"
+                                                            style="display: inline-block;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <input type="submit" class="btn btn-xs btn-danger" value="Delete">
+                                                        </form>
+                                                    @endcan
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach

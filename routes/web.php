@@ -107,12 +107,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('auctions/media', 'AuctionController@storeMedia')->name('auctions.storeMedia');
     Route::post('auctions/ckmedia', 'AuctionController@storeCKEditorImages')->name('auctions.storeCKEditorImages');
     Route::resource('auctions', 'AuctionController');
-
-
     // Add  this route for admin approved auction
     Route::get('auctions/approve/{auction}', [AuctionController::class, 'approve'])->name('auctions.approve');
     Route::get('auctions/reject/{auction}', [AuctionController::class, 'reject'])->name('auctions.reject');
     Route::post('auctions/{auction}/toggle-status', [AuctionController::class, 'toggleStatus'])->name('auctions.toggleStatus');
+    // Auction show the bids
+    Route::get('auctions/{auction}/bids', [AuctionController::class, 'bids'])->name('auctions.bids');
 
     // Bidder approve for email notification
     Route::get('bidders/approve/{bidder}', [BidderController::class, 'approve'])->name('bidders.approve');
@@ -137,6 +137,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('bids', 'BidController');
     Route::post('bids/{bid}/toggle-status', [App\Http\Controllers\Admin\BidController::class, 'toggleStatus'])->name('bids.toggleStatus');
     Route::post('bids/{bid}/toggle-winner', [App\Http\Controllers\Admin\BidController::class, 'toggleWinner'])->name('bids.toggleWinner');
+    Route::get('bids/auction/{auction}', [App\Http\Controllers\Admin\BidController::class, 'auctionBids'])->name('bids.auction');
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
     // Change password

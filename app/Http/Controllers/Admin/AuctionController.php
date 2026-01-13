@@ -287,4 +287,11 @@ class AuctionController extends Controller
 
         return redirect()->back()->with('success', 'Auction status updated.');
     }
+
+    public function bids(Auction $auction)
+    {
+        $bids = $auction->bids()->with('bidder')->get();
+
+        return view('admin.auctions.bids', compact('bids', 'auction'));
+    }
 }

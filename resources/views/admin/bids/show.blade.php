@@ -11,7 +11,7 @@
                 <div class="panel-body">
                     <div class="form-group">
                         <div class="form-group text-right">
-                            <a class="btn btn-default" href="{{ route('admin.bids.index') }}">
+                            <a class="btn btn-default" href="{{ route('admin.bids.auction', $bid->auction->id) }}">
                                 {{ trans('global.back_to_list') }}
                             </a>
                         </div>
